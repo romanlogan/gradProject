@@ -401,9 +401,6 @@
 
 
         });
-
-
-
     </script>
 </head>
 <body>
@@ -411,8 +408,13 @@
 <div id="game-interface-title">
     <span id="currentStage">Stage: 1</span>
     Game Interface
-    <input type="hidden" id="gameId" value="">
-    <input type="hidden" id="userEmail">
+    <input type="hidden" id="gameId">
+    <input type="hidden" id="savedUserEmail">
+    <input type="hidden" id="savedHeroHp">
+    <input type="hidden" id="savedCardIds">
+    <input type="hidden" id="savedRoute">
+
+
     <button id="menuButton" class="button" onclick="Menu.menu()">Menu</button>
     <div id="menuBox">
         <div id="menu">
@@ -554,28 +556,38 @@
     document.addEventListener("DOMContentLoaded", async function() {
 
 
-        let deck = [[${basicDeck}]];
+        // let deck = [[${basicDeck}]];
 
         // 여기와 battle system의 userEmail 부분을 오픈하면 select Reward 가 안됨
-        // let userEmail = [[${userEmail}]];
-        // let userEmailTag = document.getElementById('userEmail');
-        // userEmailTag.value = userEmail;
+        let userEmail = document.getElementById('savedUserEmail');
+        userEmail.value = `[[${lastSavedHistory.getUserEmail()}]]`;
+
+        let heroHp = document.getElementById('savedHeroHp');
+        heroHp.value = [[${lastSavedHistory.getHp()}]];
+
+        let cardIDs = document.getElementById('savedCardIds');
+        cardIDs.value = `[[${lastSavedHistory.getCards()}]]`;
+
+        let route = document.getElementById('savedRoute');
+        route.value = [[${lastSavedHistory.getRoute()}]];
+
+
         //
         // console.log(document.getElementById('userEmail').value);
 
         // 오른쪽이 string 이 아니므로 에러가 발생
         // let history = [[${lastSavedHistory}]];
 
-        if (deck !== null || deck !== "null") {
-            console.log("basicDeck : " + deck);
-            console.log("basicDeck : " + deck[0]);
-        }
-        else if (history !== null || history !== "null") {
-            // console.log("lastSavedHistory"+history);
-            console.log("lastSavedHistory.getUserEmail()"+[[${lastSavedHistory.getUserEmail()}]]);
-            console.log("lastSavedHistory.getGameId()"+[[${lastSavedHistory.getGameId()}]]);
-            console.log("lastSavedHistory.getEndTime()"+[[${lastSavedHistory.getEndTime()}]]);
-        }
+        // if (deck !== null || deck !== "null") {
+        //     console.log("basicDeck : " + deck);
+        //     console.log("basicDeck : " + deck[0]);
+        // }
+        // else if (history !== null || history !== "null") {
+        //     // console.log("lastSavedHistory"+history);
+        //     console.log("lastSavedHistory.getUserEmail()"+[[${lastSavedHistory.getUserEmail()}]]);
+        //     console.log("lastSavedHistory.getGameId()"+[[${lastSavedHistory.getGameId()}]]);
+        //     console.log("lastSavedHistory.getEndTime()"+[[${lastSavedHistory.getEndTime()}]]);
+
 
 
         await Initialization.Initialization();
