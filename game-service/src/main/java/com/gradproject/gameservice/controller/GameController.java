@@ -109,23 +109,23 @@ public class GameController {
 
 //          basic deck 을 가져온다
             List<Integer> basicDeck = List.of(31, 32, 33, 46, 49, 52, 55, 60);
-            model.addAttribute("basicDeck",basicDeck);
-            model.addAttribute("lastSavedHistory", "null");
 
+            LastSavedHistory lastSavedHistory = new LastSavedHistory();
+            lastSavedHistory.setUserEmail(userEmail);
+
+            model.addAttribute("basicDeck",basicDeck);
+            model.addAttribute("lastSavedHistory", lastSavedHistory);
 
         } else if (playType.equals("continue")) {
-
-//            history-service 에서 그 user email 의 마지막 플레이 기록과 마지막 플레이 정보들()을 가져온다
-//
-//            resilience4j 필요
 
             ResponseEntity<LastSavedHistory> response =
                     circuitbreaker.run(() -> historyServiceClient.getLastSavedHistory(1, userEmail),
                             throwable -> ResponseEntity.ok(LastSavedHistory.error()));
 
-//            ResponseEntity<LastSavedHistory> response = historyServiceClient.getLastSavedHistory(1, userEmail);
-
             LastSavedHistory lastSavedHistory = response.getBody();
+
+
+
             model.addAttribute("basicDeck","null");
             model.addAttribute("lastSavedHistory", lastSavedHistory);
         }

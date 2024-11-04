@@ -542,7 +542,8 @@ async function saveData() {
     let stringCardIds = cards.join(',');
     console.log("stringCardIds : " + stringCardIds);
 
-
+    //get user
+    let userEmail = document.getElementById('savedUserEmail').value;
 
     try {
         // 模擬 API 請求並返回 Promise
@@ -554,7 +555,7 @@ async function saveData() {
                 contentType: "application/json",
                 data: JSON.stringify({
                     gameId: 1,
-                    playerEmail: "asdf@asdf.com",
+                    playerEmail: userEmail,
                     hp: heroHp,
                     cards: stringCardIds,
                     route: stage

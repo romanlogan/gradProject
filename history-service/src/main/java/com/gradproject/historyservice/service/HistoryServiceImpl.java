@@ -108,7 +108,7 @@ public class HistoryServiceImpl implements HistoryService{
         CardGameHistory history = historyRepository.getLastSavedHistory(gameId, email);
 
         if(history == null){
-            throw new LastSaveHistoryNotExistException( "최근 플레이한 기록이 없습니다.");
+            throw new LastSaveHistoryNotExistException("최근 플레이한 기록이 없습니다.");
         }
 
         return LastSavedHistory.create(history);

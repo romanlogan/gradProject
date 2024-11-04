@@ -4,6 +4,7 @@ import com.gradproject.historyservice.constant.ExitType;
 import com.gradproject.historyservice.dto.ResponseHistory;
 import com.gradproject.historyservice.dto.LastSavedHistory;
 import com.gradproject.historyservice.dto.SaveCardGameRequest;
+import com.gradproject.historyservice.exception.LastSaveHistoryNotExistException;
 import com.gradproject.historyservice.service.HistoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +58,14 @@ public class HistoryController {
             @RequestParam Integer gameId,
             @RequestParam String email) {
 
-        LastSavedHistory lastSavedHistory = historyService.getLastSavedHistory(gameId, email);
+        LastSavedHistory lastSavedHistory = new LastSavedHistory();
+
+        try {
+            lastSavedHistory = historyService.getLastSavedHistory(gameId, email);
+        } catch (LastSaveHistoryNotExistException e) {
+
+            lastSavedHistory.setErrorMessage(e.getMessage());
+        }
 
         return ResponseEntity.status(HttpStatus.OK).body(lastSavedHistory);
     }

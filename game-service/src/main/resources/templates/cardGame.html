@@ -555,21 +555,29 @@
     // 開始時運作
     document.addEventListener("DOMContentLoaded", async function() {
 
+        const token = localStorage.getItem('token');
+
+        let historyErrorMessage = `[[${lastSavedHistory.getErrorMessage()}]]`;
+
+        if(historyErrorMessage === "최근 플레이한 기록이 없습니다."){
+
+            alert('최근 플레이한 기록이 없습니다.')
+            location.href = "/game-service/cardGame?token=" + token + "&playType=new";
+        }
 
         // let deck = [[${basicDeck}]];
-
         // 여기와 battle system의 userEmail 부분을 오픈하면 select Reward 가 안됨
         let userEmail = document.getElementById('savedUserEmail');
         userEmail.value = `[[${lastSavedHistory.getUserEmail()}]]`;
 
         let heroHp = document.getElementById('savedHeroHp');
-        heroHp.value = [[${lastSavedHistory.getHp()}]];
+        heroHp.value = `[[${lastSavedHistory.getHp()}]]`;
 
         let cardIDs = document.getElementById('savedCardIds');
         cardIDs.value = `[[${lastSavedHistory.getCards()}]]`;
 
         let route = document.getElementById('savedRoute');
-        route.value = [[${lastSavedHistory.getRoute()}]];
+        route.value = `[[${lastSavedHistory.getRoute()}]]`;
 
 
         //
@@ -587,7 +595,6 @@
         //     console.log("lastSavedHistory.getUserEmail()"+[[${lastSavedHistory.getUserEmail()}]]);
         //     console.log("lastSavedHistory.getGameId()"+[[${lastSavedHistory.getGameId()}]]);
         //     console.log("lastSavedHistory.getEndTime()"+[[${lastSavedHistory.getEndTime()}]]);
-
 
 
         await Initialization.Initialization();

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gradproject.historyservice.constant.ExitType;
 import com.gradproject.historyservice.dto.LastSavedHistory;
 import com.gradproject.historyservice.dto.SaveCardGameRequest;
+import com.gradproject.historyservice.exception.LastSaveHistoryNotExistException;
 import com.gradproject.historyservice.service.HistoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,23 @@ class HistoryControllerTest {
         LastSavedHistory response = new LastSavedHistory();
 
         Mockito.when(historyService.getLastSavedHistory(1,"asdf@asdf.com")).thenReturn(response);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/lastSavedHistory")
+                        .param("gameId", "1")
+                        .param("email", "asdf@asdf.com")
+
+                )
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
+    }
+
+    @Test
+    @DisplayName("return 200 with errorMessage, when try to get the most recently saved game history but it doesn't exist")
+    void getLastSavedHistoryWithNotExistHistory() throws Exception {
+
+        LastSavedHistory response = new LastSavedHistory();
+
+        Mockito.when(historyService.getLastSavedHistory(1, "asdf@asdf.com")).thenThrow(new LastSaveHistoryNotExistException("최근 플레이한 기록이 없습니다."));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/lastSavedHistory")
                         .param("gameId", "1")
