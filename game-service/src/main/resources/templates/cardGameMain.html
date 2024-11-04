@@ -17,8 +17,59 @@
 
     <script>
 
-<!--        reply modal-->
         $(document).ready(function() {
+
+            const textarea = document.getElementById('commentContent');
+            const charCount = document.getElementById('charCount');
+
+            console.log(textarea)
+
+            textarea.addEventListener('input', () => {
+                charCount.textContent = textarea.value.length;
+            });
+
+            // carousel
+            const track = document.querySelector('.carousel-track');
+            const slides = Array.from(track.children);
+            const nextButton = document.querySelector('.carousel-button.right');
+            const prevButton = document.querySelector('.carousel-button.left');
+
+            const slideWidth = slides[0].getBoundingClientRect().width;
+
+            // 각 슬라이드를 옆으로 배치
+            slides.forEach((slide, index) => {
+                slide.style.left = `${slideWidth * index}px`;
+            });
+
+            // 슬라이드를 이동하는 함수
+            const moveToSlide = (track, currentSlide, targetSlide) => {
+                track.style.transform = `translateX(-${targetSlide.style.left})`;
+                currentSlide.classList.remove('current-slide');
+                targetSlide.classList.add('current-slide');
+            };
+
+            // 이전 버튼 클릭 시
+            prevButton.addEventListener('click', () => {
+                const currentSlide = track.querySelector('.current-slide');
+                const prevSlide = currentSlide.previousElementSibling;
+
+                if (prevSlide) {
+                    moveToSlide(track, currentSlide, prevSlide);
+                }
+            });
+
+            // 다음 버튼 클릭 시
+            nextButton.addEventListener('click', () => {
+                const currentSlide = track.querySelector('.current-slide');
+                const nextSlide = currentSlide.nextElementSibling;
+
+                if (nextSlide) {
+                    moveToSlide(track, currentSlide, nextSlide);
+                }
+            });
+
+            //------------------------------
+
 
             var modal = document.getElementById("myModal");
 
@@ -783,6 +834,7 @@
         }
 
         #comment-container{
+            padding-bottom: 100px;
             background-color: rgba(57,41,33);
             /* height: 1000px; */
         }
@@ -905,56 +957,18 @@
             color: white;
         }
 
-
-
-
-
         /* sns 속에 img */
-        #footer .sns img{
-            border-radius: 0.75rem;
-            transition: 0.4s ease;
+        #footer{
+            background-color: black;
+            height: 200px;
         }
-
-        #footer .sns img:hover{
-            box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
-        }
-
-        #footer .footer-1 .footer-logo{
-            width: 80%;
-        }
-
-        #footer h4{
-            color: #29407b;
-        }
-
-        #footer li{
-            font-size: 1.1rem;
-        }
-
-        #footer .footer-4 i,
-        #footer .footer-4 p{
-            font-size: 1.1rem;
-        }
-
-        /* #footer .footer-4 .info-body{
-            text-indent: -0.75rem;
-            margin-left: 0.75rem;
-        } */
-
 
 
 
         .counter {
             font-size: 14px;
-            color: #333;
+            color: white;
         }
-
-
-
-
-
-
-
 
         .custom-carousel {
             position: relative;
@@ -1204,19 +1218,11 @@
             <div class="flexCenterBox">
                 <textarea type="text" id="commentContent" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
                 <div class="counter">
-                    글자 수: <span id="charCount">0</span>자
+                    <span id="charCount">0</span> words
                 </div>
             </div>
 
             <p id="commentError" class="fieldError"></p>
-
-            <select id="commentRate" name="commentRate">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
             <button onclick="saveComment()">댓글 저장</button>
         </div>
 
@@ -1358,6 +1364,15 @@
     <!--        <label class="custom-file-label" text="댓글이미지"></label>-->
     <!--      </div>-->
     <!--    </div>-->
+
+    <footer id="footer">
+        <div class="section-content">
+            <div id="footer-container">
+
+
+            </div>
+        </div>
+    </footer>
 
 
 
