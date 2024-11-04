@@ -27,13 +27,13 @@ public class LastSavedHistory {
     private String route;
     private Map<String,Integer> enemies = new HashMap<>();
 
+    private String errorMessage;
+
     public LastSavedHistory() {
     }
 
-//    @QueryProjection
     @Builder
-    public LastSavedHistory(Long id, LocalDateTime startTime, LocalDateTime endTime, ExitType exitType, Integer gameId, String userEmail, Integer hp, String cards, String route, Map<String, Integer> enemies) {
-
+    public LastSavedHistory(Long id, LocalDateTime startTime, LocalDateTime endTime, ExitType exitType, Integer gameId, String userEmail, Integer hp, String cards, String route, Map<String, Integer> enemies, String errorMessage) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -44,6 +44,7 @@ public class LastSavedHistory {
         this.cards = cards;
         this.route = route;
         this.enemies = enemies;
+        this.errorMessage = errorMessage;
     }
 
     public static LastSavedHistory create(CardGameHistory cardGameHistory) {
