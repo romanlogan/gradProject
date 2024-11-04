@@ -1,0 +1,50 @@
+[
+  {
+    "CardID": 1,
+    "CardName": "Attack",
+    "Cost": 1,
+    "imageUrl": "../texture/Attack.png",
+    "Description": "Deal damage",
+    "DefaultValue": 5
+  },
+  {
+    "CardID": 2,
+    "CardName": "Defend",
+    "Cost": 1,
+    "imageUrl": "../texture/Defense.png",
+    "Description": "Increase defense until attacked",
+    "DefaultValue": 5
+  },
+  {
+    "CardID": 3,
+    "CardName": "Heal",
+    "Cost": 2,
+    "imageUrl": "../texture/Heal.png",
+    "Description": "Heal the character",
+    "DefaultValue": 8
+  },
+  {
+    "CardID": 4,
+    "CardName": "Sweep",
+    "Cost": 2,
+    "imageUrl": "../texture/Sweep.png",
+    "Description": "Deal damage to all enemies",
+    "DefaultValue": 4
+  },
+  {
+    "CardID": 5,
+    "CardName": "Break",
+    "Cost": 1,
+    "imageUrl": "../texture/Break.png",
+    "Description": "Deal damage,if target has shroud,get extra damage",
+    "DefaultValue":4
+  },
+  {
+    "CardID": 99,
+    "CardName": "test_Defend",
+    "Cost": 1,
+    "imageUrl": "../texture/test_Defend.webp",
+    "Description": "Increases defense",
+    "DefaultValue": 5
+  }
+]

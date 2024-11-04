@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+            const token = localStorage.getItem('token');
+            if (token) {
+                console.log(token);
+            }
+
+
+
+        });
+
+    </script>
+
+    <style>
+
+        #container{
+            margin-left: 200px;
+            margin-right: 200px;
+        }
+
+        .imgBox{
+            height: 100px;
+            float: left;
+            width: 40%;
+        }
+
+        .gameInfoBox{
+            float: right;
+            width: 60%;
+        }
+
+        .gameImg{
+            width: 100%;
+            height: 100%;
+        }
+
+        .gameInfoInput{
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    MyInfo 입니다
+    <label th:for="name">이름</label>
+    <input id="name" type="text" th:value="${response.getName()}">
+
+    <label th:for="email">이메일</label>
+    <input tid="email" type="text" th:value="${response.getEmail()}">
+    
+    <h4>[[${response.getEmail()}]]</h4>
+
+    <div id="container">
+        <div class="gameBox" th:each="history, status: ${response.getHistory().playedGameInfoMap[1]}">
+            <div class="imgBox">
+                <img class="gameImg" src="/static/img/cardGameMain.png" alt="">
+            </div>
+
+            <div class="gameInfoBox">
+                <input id="gameName" class="gameInfoInput" type="text"
+                       th:value="${history.getGameName()}">
+                <br>
+                <label th:for="lastPlayedDate">lastPlayedDate</label>
+                <input id="lastPlayedDate"class="gameInfoInput" type="text"
+                       th:value="${history.getLastPlayedDate()}">
+                <br>
+                <label th:for="totalPlayedTimeByMin">totalPlayedTimeByMin</label>
+                <input id="totalPlayedTimeByMin" class="gameInfoInput" type="text"
+                       th:value="${history.getTotalPlayedTimeByMin()}">
+
+            </div>
+        </div>
+
+    </div>
+
+
+</body>
+</html>

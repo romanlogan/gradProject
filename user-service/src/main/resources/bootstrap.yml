@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888
+      #      local 컴퓨터에서 git 으로 저장된 yml 구성 파일 이름 (git-local-repo)
+      name: user-service
+#  profiles:
+#    active: dev

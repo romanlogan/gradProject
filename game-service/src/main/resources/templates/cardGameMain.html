@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- font-awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- slick-carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script>
+
+<!--        reply modal-->
+        $(document).ready(function() {
+
+            var modal = document.getElementById("myModal");
+
+            // Close modal when clicking outside the modal content
+            window.onclick = function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+
+            //
+            const token = localStorage.getItem('token');
+            if (token) {
+                console.log(token);
+            }
+
+            const loginBtn = document.getElementById('loginFormBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const myInfoBtn = document.getElementById('myInfoBtn');
+            const registerFormBtn = document.getElementById('registerFormBtn');
+
+            $.ajax({
+                url      : "/user-service/validateJwt",
+                type     : "GET",
+                contentType : "application/json",
+                beforeSend: function(xhr) {
+                    // 헤더에 토큰 추가
+                    xhr.setRequestHeader("Authorization", "Bearer"+token);
+                },
+                success  : function(result, status, data){
+
+                    //여기서 로그인 된 유저의 UUID 를 받기 ? or email 을 받아서
+                    // 이것이 존재하면 로그인된 유저
+                    //존재하지 않으면 로그인 안된 유저
+
+                    console.log("token is valid");
+                    logoutBtn.style.display = 'block';
+                    myInfoBtn.style.display = 'block';
+                    loginBtn.style.display = 'none';
+                    registerFormBtn.style.display = 'none';
+
+                //    Comment 아래에 요소들을 돌면서 응답으로 온 email 과 요소에 이미 바인딩 되어있는 email 이 같으면 수정 , 삭제 버튼을 표시하기
+                    console.log("userID: " + result.loggedInUserId);
+
+                    let commentBox = document.getElementsByClassName('savedCommentBox');
+
+                    // add comment to update and delete btn
+                    for (let i = 0; i < commentBox.length; i++) {
+
+                        // result.loggedInUserId 와 savedCommentBox 의 value 를 비교 해서 같으면 버튼 추가
+                        const commentId = commentBox[i].querySelector('#savedCommentId').value;
+                        const commentUserEmail = commentBox[i].querySelector('#savedCommentUserEmail').value;
+
+                        console.log(commentId);
+                        console.log(commentUserEmail);
+
+                        if(commentUserEmail === result.loggedInUserId){
+
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.className = 'deleteCommentBtn';
+                            deleteBtn.innerText = '댓글 삭제'; // 버튼에 표시될 텍스트
+                            deleteBtn.value = commentId;
+                            deleteBtn.onclick = () => deleteComment(commentId);
+                            commentBox[i].appendChild(deleteBtn);
+
+
+                            const updateBtn = document.createElement('button');
+                            updateBtn.id = 'updateCommentBtn';
+                            updateBtn.innerText = '댓글 수정'; // 버튼에 표시될 텍스트
+                            updateBtn.setAttribute('data-toggle', 'modal');
+                            updateBtn.setAttribute('data-target', '#updateCommentModal');
+
+                            updateBtn.value = commentId;
+                            // updateBtn.onclick = () => updateComment(commentId);
+                            commentBox[i].appendChild(updateBtn);
+                        }
+                    }
+
+                    // add reply to update and delete btn
+
+                    let replyBox = document.getElementsByClassName('savedReplyBox');
+
+                    for (let i = 0; i < replyBox.length; i++) {
+
+                        const replyId = replyBox[i].querySelector('#savedReplyId').value;
+                        const replyUserEmail = replyBox[i].querySelector('#savedReplyEmail').value;
+
+                        if(replyUserEmail === result.loggedInUserId){
+
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.className = 'deleteReplyBtn';
+                            deleteBtn.innerText = '대댓글 삭제'; // 버튼에 표시될 텍스트
+                            deleteBtn.value = replyId;
+                            deleteBtn.onclick = () => deleteReply(replyId);
+                            replyBox[i].appendChild(deleteBtn);
+
+
+                            const updateBtn = document.createElement('button');
+                            updateBtn.id = 'updateReplyBtn';
+                            updateBtn.innerText = '대댓글 수정'; // 버튼에 표시될 텍스트
+                            updateBtn.setAttribute('data-toggle', 'modal');
+                            updateBtn.setAttribute('data-target', '#updateReplyModal');
+
+                            updateBtn.value = replyId;
+                            // updateBtn.onclick = () => updateComment(commentId);
+                            replyBox[i].appendChild(updateBtn);
+                        }
+                    }
+
+
+
+
+
+                },
+                error : function(jqXHR, status, error, result){
+                    // alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+                    console.log("token is not valid");
+                    console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+
+                    logoutBtn.style.display = 'none';
+                    myInfoBtn.style.display = 'none';
+                    loginBtn.style.display = 'block';
+                    registerFormBtn.style.display = 'block';
+
+                }
+            });
+
+        });
+
+
+
+        function deleteComment(commentId) {
+
+            console.log('try delete');
+
+            const token = localStorage.getItem('token');
+
+            var paramData = {
+                commentId : commentId
+
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : "/comment-service/delete",
+                type     : "DELETE",
+                contentType : "application/json",
+                data     : param,
+                beforeSend : function(xhr){
+                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                    xhr.setRequestHeader("Authorization", "Bearer" + token);
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status,data){
+                    alert("확인되었습니다.");
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                },
+                error : function(jqXHR, status, error, result){
+                    alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                }
+            });
+
+        }
+
+        function updateComment() {
+
+            const token = localStorage.getItem('token');
+
+            const commentId = document.getElementById("updateCommentBtn").value;
+            const content = document.getElementById("updateCommentContentRequest").value;
+
+            var paramData = {
+                commentId : commentId,
+                content : content
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : "/comment-service/update",
+                type     : "PUT",
+                contentType : "application/json",
+                data     : param,
+                beforeSend : function(xhr){
+                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                    xhr.setRequestHeader("Authorization", "Bearer" + token);
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status,data){
+                    alert("확인되었습니다.");
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                },
+                error : function(jqXHR, status, error, result){
+                    alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                }
+            });
+
+        }
+
+
+        function logout() {
+
+            localStorage.removeItem('token');
+            location.href = "/game-service/main";
+
+
+        }
+
+
+        function loginForm(){
+            location.href = "/user-service/loginForm";
+        }
+
+        function registerForm(){
+            location.href = "/user-service/registration";
+        }
+
+        function getMyInfo(){
+
+            const token = localStorage.getItem('token');
+            location.href = "/user-service/myInfo/" + token;
+
+            // var paramData = {
+            //     commentId : commentId
+            //
+            // };
+            //
+            // var param = JSON.stringify(paramData);
+            //
+            // $.ajax({
+            //     url      : "/user-service/myInfo",
+            //     type     : "GET",
+            //     contentType : "application/json",
+            //     data     : param,
+            //     beforeSend : function(xhr){
+            //         /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            //         xhr.setRequestHeader("Authorization", "Bearer" + token);
+            //     },
+            //     dataType : "json",
+            //     cache   : false,
+            //     success  : function(result, status,data){
+            //         alert("확인되었습니다.");
+            //         location.href = "http://127.0.0.1:8000/game-service/main"
+            //     },
+            //     error : function(jqXHR, status, error, result){
+            //         alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+            //
+            //         location.href = "http://127.0.0.1:8000/game-service/main"
+            //     }
+            // });
+
+        }
+
+        // $("#addCommentBtn").on("click", function () {
+
+        function saveComment(){
+
+            const token = localStorage.getItem('token');
+
+            var paramData = {
+                gameId : 1,
+                content : $("#commentContent").val()
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : "/comment-service/save",
+                type     : "POST",
+                contentType : "application/json",
+                data     : param,
+                dataType : "json",
+                beforeSend: function(xhr) {
+                    // 헤더에 토큰 추가
+                    xhr.setRequestHeader("Authorization", "Bearer"+token);
+                },
+                cache   : false,
+                success  : function(result, status,data){
+
+                    console.log("result.code : "+result.code);
+                    console.log("result.status : "+result.status);
+
+                    console.log('status :' + status);
+
+                    if (result.code == '400') {
+                        console.log('---------400--------')
+
+                        if (result.errorMap.content !== undefined) {
+                            console.log("result.errorMap.content.message: "+result.errorMap.content.message);
+                            alert(result.errorMap.content.message);
+                        }
+
+                        // 2~3 개 필드가 동시에 에러가 나면 0번째를 가져오면 안됨
+                        // 그러면 message 를 list 가 아니라 map 으로 가져와야 하나 ?
+                        // var commentError = document.getElementById("commentError");
+                        // commentError.innerText = result.messageList[0];
+                    }
+
+
+                    if(result.status === undefined){
+
+                        alert("댓글이 성공적으로 등록되었습니다.");
+                        location.href='/game-service/main';
+                    }
+                    // alert("확인되었습니다.");
+                    // location.href = "http://127.0.0.1:8000/game-service/main"
+
+                },
+                error : function(jqXHR, status, error, result){
+
+                    if(jqXHR.status == 503){
+                        alert("서비스 이용에 불편을 드려 죄송합니다. 현재 댓글 서비스에 문제가 발생하였습니다.")
+                        location.href = "http://127.0.0.1:8000/game-service/main"
+                    }else if(jqXHR.status == 401){
+                        alert("Please use after logging in.");
+                        location.href = "http://127.0.0.1:8000/user-service/loginForm"
+                    }
+                    else if(jqXHR.status == 400){
+                        alert(jqXHR.responseText);
+                        location.href = "http://127.0.0.1:8000/game-service/main"
+                    }
+                    else{
+                        alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+                        location.href = "http://127.0.0.1:8000/game-service/main"
+                    }
+
+                    // location.href = "http://127.0.0.1:8000/user-service/loginForm"
+                    // location.href = "http://127.0.0.1:8000/game-service/main"
+
+                }
+            });
+        }
+
+        function openReplyModalBox(commentId){
+
+            var modal = document.getElementById("myModal");
+
+            const addReplyBtn = document.createElement('button');
+            addReplyBtn.className = 'sendBtn';
+            addReplyBtn.innerText = '대댓글 작성'; // 버튼에 표시될 텍스트
+            addReplyBtn.value = commentId;
+            addReplyBtn.onclick = () => addReply(commentId);
+            modal.appendChild(addReplyBtn);
+
+
+            modal.style.display = "block";
+
+            // const replyContentBox = document.getElementById('replyContentBox');
+            //
+            // if(replyContentBox.style.display === 'none'){
+            //     replyContentBox.style.display = 'block';
+            // }else{
+            //     replyContentBox.style.display = 'none';
+            // }
+        }
+
+        function addReply(commentId) {
+
+            console.log('add reply');
+
+            const token = localStorage.getItem('token');
+
+            var paramData = {
+                commentId : commentId,
+                content : document.getElementById("replyContent").value
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : "/reply-service/save",
+                type     : "POST",
+                contentType : "application/json",
+                data     : param,
+                beforeSend : function(xhr){
+                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                    xhr.setRequestHeader("Authorization", "Bearer" + token);
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status,data){
+                    alert("확인되었습니다.");
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                },
+                error : function(jqXHR, status, error, result){
+
+                    if(jqXHR.status == 503){
+                        alert("서비스 이용에 불편을 드려 죄송합니다. 현재 대댓글 서비스에 문제가 발생하였습니다.")
+                        location.href = "http://127.0.0.1:8000/game-service/main"
+                    }
+                    else if(jqXHR.status == 401){
+                        alert("Please use after logging in.");
+                        location.href = "http://127.0.0.1:8000/user-service/loginForm"
+                    }
+                    else{
+                        alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+                        location.href = "http://127.0.0.1:8000/game-service/main"
+                    }
+
+
+                }
+            });
+
+        }
+
+        function closeModal() {
+
+            var modal = document.getElementById("myModal");
+            modal.style.display = "none";
+
+        }
+
+
+        function deleteReply(replyId) {
+
+            console.log('try delete reply');
+
+            const token = localStorage.getItem('token');
+
+            var paramData = {
+                replyId : replyId
+
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : "/reply-service/delete",
+                type     : "DELETE",
+                contentType : "application/json",
+                data     : param,
+                beforeSend : function(xhr){
+                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                    xhr.setRequestHeader("Authorization", "Bearer" + token);
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status,data){
+                    alert("확인되었습니다.");
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                },
+                error : function(jqXHR, status, error, result){
+                    alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                }
+            });
+
+        }
+
+        function updateReply() {
+
+            const token = localStorage.getItem('token');
+
+            const replyId = document.getElementById("updateReplyBtn").value;
+            const content = document.getElementById("updateReplyContentRequest").value;
+
+            var paramData = {
+                replyId : replyId,
+                content : content,
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : "/reply-service/update",
+                type     : "PUT",
+                contentType : "application/json",
+                data     : param,
+                beforeSend : function(xhr){
+                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+                    xhr.setRequestHeader("Authorization", "Bearer" + token);
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status,data){
+                    alert("확인되었습니다.");
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                },
+                error : function(jqXHR, status, error, result){
+                    alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+                    location.href = "http://127.0.0.1:8000/game-service/main"
+                }
+            });
+        }
+
+        function playNewGame(){
+
+            const token = localStorage.getItem('token');
+
+            $.ajax({
+                url      : "/user-service/validateJwt",
+                type     : "GET",
+                contentType : "application/json",
+                beforeSend: function(xhr) {
+                    // 헤더에 토큰 추가
+                    xhr.setRequestHeader("Authorization", "Bearer"+token);
+                },
+                success  : function(result, status, data){
+
+                    console.log("token is valid");
+                    location.href = "/game-service/cardGame?token=" + token + "&playType=new";
+
+                },
+                error : function(jqXHR, status, error, result){
+
+                    alert('로그인 해주시기 바랍니다.');
+                    console.log("token is not valid");
+                    console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+                }
+            });
+        }
+
+        function playContinue(){
+
+            const token = localStorage.getItem('token');
+
+            $.ajax({
+                url      : "/user-service/validateJwt",
+                type     : "GET",
+                contentType : "application/json",
+                beforeSend: function(xhr) {
+                    // 헤더에 토큰 추가
+                    xhr.setRequestHeader("Authorization", "Bearer"+token);
+                },
+                success  : function(result, status, data){
+
+                    console.log("token is valid");
+                    location.href = "/game-service/cardGame?token=" + token + "&playType=continue";
+
+                },
+                error : function(jqXHR, status, error, result){
+
+                    alert('로그인 해주시기 바랍니다.');
+                    console.log("token is not valid");
+                    console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+                }
+            });
+        }
+
+
+
+    </script>
+
+    <style>
+        /* Global */
+        .section-content{
+            padding : 4rem 0;
+        }
+
+        .left-half {
+            float: left;
+            width: 50%;
+            display: flex;               /* Flexbox를 사용합니다 */
+            justify-content: center;      /* 가로 중앙 정렬 */
+            align-items: center;          /* 세로 중앙 정렬 */
+            height: 100%;
+        }
+
+        .right-half {
+            float: right;
+            width: 50%;
+            display: flex;               /* Flexbox를 사용합니다 */
+            justify-content: center;      /* 가로 중앙 정렬 */
+            align-items: center;          /* 세로 중앙 정렬 */
+            height: 100%;
+        }
+
+        .clear{
+            clear: both;
+        }
+
+        .divide-line{
+            margin-left: 250px;
+            margin-right: 250px;
+            height: 5px;
+            background-color: rgba(95, 56, 39);
+        }
+
+        /* navbar */
+        #navbar{
+            z-index: 100;
+            margin-left: 300px;
+            width: 800px;
+        }
+
+        /* Top */
+        #top{
+            background-image: url('/img/cardGameMain.jpg');
+            /* background-position: center; */
+            background-repeat: no-repeat;
+            background-size:cover;
+            height: 50vh;
+            position:relative;
+        }
+
+        /* #top .overlay{
+            position:absolute;
+            height: 100%;
+            width: 100%;
+            left: 0;
+            top: 300px;
+            background-color: rgba(0,0,0,0.65);
+        } */
+
+        #top .divider{
+            width: 10%;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            border-top: 2px solid #fff;
+        }
+
+        #title-card{
+            position: absolute;
+            top: 300px;
+            left: 330px;
+            width: 800px;
+            height: 300px;
+            z-index: 2;
+        }
+
+        #top-img{
+            position: absolute;
+        }
+
+        /* 767px 이하의 범위에서 */
+        @media screen and (max-width: 767px){
+            #top .welcome {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+
+
+
+        /* 인트로  */
+        #intro{
+            background-color: rgba(95, 56, 39);
+
+        }
+
+        #intro-container{
+            margin-left: 200px;
+            margin-right: 200px;
+        }
+
+        #emptyBox{
+            background-color: rgba(245, 238, 225);
+            height: 400px;
+        }
+
+        #game-info{
+            background-color: rgba(245, 238, 225);
+            /* background-color: blue; */
+            height: 600px;
+        }
+
+        #game-info-img{
+            background-image: url('/img/cardGameMain.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size:cover;
+            width: 350px;
+            height: 350px;
+        }
+
+        #game-info-content{
+            width: 350;
+            height: 350px;
+        }
+
+        #play-info{
+            background-color: rgba(245, 238, 225);
+            height: 600px;
+        }
+
+        #play-info-img{
+            background-image: url('/img/cardGameInGame.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size:cover;
+            width: 350px;
+            height: 350px;
+        }
+
+        #play-info-content{
+            width: 350px;
+            height: 350px;
+        }
+
+        #screenshot-title-box{
+            background-color: rgba(245, 238, 225);
+        }
+
+        #game-screenshot{
+            background-color: rgba(245, 238, 225);
+            width: 100%;
+            height: 800px;
+            display: flex;               /* Flexbox를 사용합니다 */
+            justify-content: center;      /* 가로 중앙 정렬 */
+            align-items: center;          /* 세로 중앙 정렬 */
+            /* height: 100%; */
+        }
+
+        #screenshot-title{
+            background-color: rgba(245, 238, 225);
+            margin-bottom: 0;
+            display: flex;               /* Flexbox를 사용합니다 */
+            justify-content: center;      /* 가로 중앙 정렬 */
+            align-items: center;          /* 세로 중앙 정렬 */
+        }
+
+        #screenshot-box{
+            /* margin-left: 300px; */
+            /* margin-right: 100px; */
+        }
+
+        #intro-last-empty{
+            background-color: rgba(95, 56, 39);
+            height: 200px;
+        }
+        /*
+        .carousel-inner{
+            display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 500px; /* 원하는 높이 */
+
+        /* }  */
+
+        /* .carousel-item{
+            margin-left: 100px;
+            margin-right: 100px;
+        } */
+
+
+
+
+
+
+
+        #writeContentBox{
+            background-color: rgba(57,41,33);
+
+            /* width: 100%; */
+            height: 200px;
+            /* display: flex;             */
+            /* justify-content: center;      */
+            /* align-items: center;           */
+
+        }
+
+        #comment-container{
+            background-color: rgba(57,41,33);
+            /* height: 1000px; */
+        }
+
+        #commentBox{
+            margin-top: 100px;
+            margin-bottom: 100px;
+        }
+
+        #commentContent{
+            border-radius: 3px;
+            width: 500px;
+            height: 100px;
+        }
+
+        .flexCenterBox{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .savedCommentBox{
+            margin-left: 200px;
+            margin-right: 200px;
+            border: 3px solid white ;
+            position: relative;
+        }
+
+        #savedCommentMemberName{
+            display: inline;
+            margin-left: 10px;
+            font-size: 30px;
+            color: white;
+        }
+
+        #savedCommentCreatedAt{
+            margin-left: 20px;
+            display: inline;
+            font-size: 15px;
+            color: white;
+        }
+
+        .white-divider{
+            margin-left: 10px;
+            margin-right: 10px;
+            height: 3px;
+            background-color: white;
+        }
+
+        #savedCommentContent{
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+
+        #replyModalBtn{
+            margin-left: 10px;
+            margin-bottom: 10px;
+            background-color: rgba(57,41,33);
+            border: none;
+            /* position: absolute;
+            left: 1000px; */
+        }
+
+
+        .reply-box{
+            margin-left: 200px;
+            margin-right: 200px;
+            margin-top: 50px;
+        }
+
+        .reply-arrow{
+            font-size: 100px;
+        }
+
+        .savedReplyBox{
+
+        }
+
+
+        .reply-left {
+            float: left;
+            width: 15%;
+            display: flex;               /* Flexbox를 사용합니다 */
+            justify-content: center;      /* 가로 중앙 정렬 */
+            align-items: center;          /* 세로 중앙 정렬 */
+            height: 100%;
+        }
+
+        .reply-right {
+            float: right;
+            width: 80%;
+            border: 3px solid white ;
+
+            /* height: 100%; */
+        }
+
+        #savedReplyUserEmail{
+            display: inline;
+            margin-left: 10px;
+            font-size: 30px;
+            color: white;
+        }
+
+        #savedReplyLastCreatedOrModifiedAt{
+            margin-left: 20px;
+            display: inline;
+            font-size: 15px;
+            color: white;
+        }
+
+        #savedReplyContent{
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+
+
+
+
+        /* sns 속에 img */
+        #footer .sns img{
+            border-radius: 0.75rem;
+            transition: 0.4s ease;
+        }
+
+        #footer .sns img:hover{
+            box-shadow:0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+        }
+
+        #footer .footer-1 .footer-logo{
+            width: 80%;
+        }
+
+        #footer h4{
+            color: #29407b;
+        }
+
+        #footer li{
+            font-size: 1.1rem;
+        }
+
+        #footer .footer-4 i,
+        #footer .footer-4 p{
+            font-size: 1.1rem;
+        }
+
+        /* #footer .footer-4 .info-body{
+            text-indent: -0.75rem;
+            margin-left: 0.75rem;
+        } */
+
+
+
+
+        .counter {
+            font-size: 14px;
+            color: #333;
+        }
+
+
+
+
+
+
+
+
+        .custom-carousel {
+            position: relative;
+            width: 900px;
+            overflow: hidden;
+        }
+
+        .carousel-track-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+        }
+
+        .carousel-button {
+            font-size: 30px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.0);
+            /* color: rgba(95, 56, 39); */
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .carousel-button.left {
+            left: 10px;
+        }
+
+        .carousel-button.right {
+            right: 10px;
+        }
+
+        .carousel-img{
+            width: 700px;
+            height: 500px;
+            margin-left: 70px;
+        }
+
+
+
+
+        /*    replyModal  */
+        /* Modal Background */
+        .replyModal {
+            display: none; /* Initially hidden */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        }
+
+        /* Modal Content Box */
+        .replyModal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Adjust modal width */
+            max-width: 500px;
+        }
+
+        /* Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light py-3 shadow-lg sticky-top">
+        <div class="container">
+            <!--내브바 브랜드-->
+            <a href="index.html" class="navbar-brand align-middle">
+                <h3 class="m-0">
+                    <img src="/img/asterion_logo1.jpg" alt="Logo" height="36px">
+                    ASTERION BATTLE
+                </h3>
+            </a>
+
+            <!--(반응형) lg 보다 작은 화면에서 동작-->
+            <!--부트스트랩에서는 드롭다운을 컬랩스라고 함-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!--세줄아이콘 나옴-->
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!--id="navbarSupportedContent" 로 위의 버튼 설정을 연결 (세줄아이콘 누르면 아래의 아이템들이 드롭다운으로 나옴)-->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a href="#top" class="nav-link">
+                            Home
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <button id="myInfoBtn" class="navbarBtn" onclick="getMyInfo()">myInfo</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="logoutBtn" class="navbarBtn" onclick="logout()">logout</button>
+                    </li>
+
+                    <!--  로그인이 안되어 있으면 -->
+                    <li class="nav-item">
+                        <button id="registerFormBtn" class="navbarBtn" onclick="registerForm()">registerForm</button>
+                    </li>
+                    <li class="nav-item">
+                        <button id="loginFormBtn" class="navbarBtn" onclick="loginForm()">loginForm</button>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <section id="top">
+        <div id="title-card" class="card card-body">
+
+            <div id="top-img">
+                <!-- <h3 class="m-0">
+                    <img src="./assets/images/asterion_logo1.jpg" alt="Logo" height="100px">
+                </h3> -->
+            </div>
+
+            <div id="top-content">
+                <div class="my-3">
+                    <h1 class="card-title text-dark mb-3">ASTERION BATTLE</h1>
+                    <p class="card-text text-secondary">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid, maiores!</p>
+
+<!--                    play button-->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#playGameModal">
+                        플레이 게임
+                    </button>
+
+
+
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </section>
+
+    <section id="intro">
+        <div id="intro-container">
+            <div id="emptyBox">
+
+
+            </div>
+
+            <div id="game-info">
+                <div class="divide-line"></div>
+
+                <div class="left-half">
+                    <div id="game-info-img"></div>
+                </div>
+                <div class="right-half d-flex justify-content-center align-items-center">
+
+                    <div id="game-info-content">
+                        <h1>what is game's name?</h1>
+                        <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div id="play-info">
+                <div class="divide-line"></div>
+                <div class="left-half">
+                    <div id="play-info-content">
+                        <h1>what is game's name?</h1>
+                        <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
+                    </div>
+
+                </div>
+                <div class="right-half">
+                    <div id="play-info-img"></div>
+
+                </div>
+                <div class="clear"></div>
+            </div>
+
+
+
+            <div id="screenshot-title-box">
+                <div class="divide-line"></div>
+                <h1 id="screenshot-title">Screenshots</h1>
+            </div>
+            <div id="game-screenshot">
+                <div id="screenshot-box">
+
+                    <div class="custom-carousel">
+                        <div class="carousel-track-container">
+                            <ul class="carousel-track">
+                                <li class="carousel-slide current-slide">
+                                    <img class="carousel-img" src="/img/ingame1.jpg" alt="Slide 1">
+                                </li>
+                                <li class="carousel-slide">
+                                    <img class="carousel-img" src="/img/ingame2.jpg" alt="Slide 2">
+                                </li>
+                                <li class="carousel-slide">
+                                    <img class="carousel-img" src="/img/ingame3.jpg" alt="Slide 3">
+                                </li>
+                            </ul>
+                        </div>
+
+                        <button class="carousel-button left"><i class="fa-solid fa-chevron-left fa-2xl" style="color: #5f3827;"></i></button>
+                        <button class="carousel-button right"><i class="fa-solid fa-chevron-left fa-rotate-180 fa-2xl" style="color: #5f3827;"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div id="intro-last-empty">
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <div id="comment-container">
+        <div id="writeContentBox">
+            <div class="flexCenterBox">
+                <h4>댓글 작성</h4>
+            </div>
+            <div class="flexCenterBox">
+                <textarea type="text" id="commentContent" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                <div class="counter">
+                    글자 수: <span id="charCount">0</span>자
+                </div>
+            </div>
+
+            <p id="commentError" class="fieldError"></p>
+
+            <select id="commentRate" name="commentRate">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <button onclick="saveComment()">댓글 저장</button>
+        </div>
+
+        <th:block th:each="comment, status: ${response.getCommentDtoList()}">
+            <div id="commentBox">
+                <div class="savedCommentBox">
+                    <input id="savedCommentId" type="hidden" th:value="${comment.id}">
+                    <input id="savedCommentUserEmail" type="hidden" th:value="${comment.userEmail}">
+                    <p id="savedCommentMemberName">[[${comment.userEmail}]]</p>
+                    <p id="savedCommentCreatedAt">[[${comment.createdAt}]]</p>
+                    <div class="white-divider"></div>
+                    <p id="savedCommentContent">[[${comment.content}]]</p>
+                    <!-- reply button -->
+                    <button type="button" id="replyModalBtn" th:value="${comment.id}" onclick="openReplyModalBox(this.value)" ><i class="fa-solid fa-reply fa-2xl" style="color: #ffffff;"></i></button>
+                </div>
+
+                 <th:block th:each="reply, status: ${comment.getReplyDtoList()}">
+                    <div class="reply-box">
+                        <div class="reply-left">
+                            <i class="reply-arrow fa-solid fa-arrow-turn-up fa-rotate-90" style="color: #ffffff;"></i>
+                        </div>
+
+                        <div class="savedReplyBox reply-right">
+                            <input id="savedReplyId" type="hidden" th:value="${reply.id}">
+                            <input id="savedReplyEmail" type="hidden" th:value="${reply.userEmail}">
+                            <p id="savedReplyUserEmail">[[${reply.userEmail}]]</p>
+                            <p id="savedReplyLastCreatedOrModifiedAt">[[${reply.lastCreatedOrModifiedAt}]]</p>
+                            <div class="white-divider"></div>
+                            <p id="savedReplyContent">[[${reply.content}]]</p>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="divider"></div>
+
+                    </div>
+                 </th:block>
+            </div>
+        </th:block>
+    </div>
+
+
+<!--modal-->
+
+    <div id="myModal" class="replyModal">
+        <div class="replyModal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <textarea type="text" id="replyContent" name="replyContent"></textarea>
+        </div>
+        <div class="replyModal-footer">
+        </div>
+    </div>
+
+
+    <!--      부트스트랩 모달     -->
+    <!--    <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">-->
+    <!--        <div class="modal-dialog">-->
+    <!--            <div class="modal-content">-->
+    <!--                <div class="modal-header">-->
+    <!--                    <h4 class="modal-title" id="replyModalLabel">대댓글 작성</h4>-->
+    <!--                </div>-->
+    <!--                <div class="modal-body">-->
+    <!--                    &lt;!&ndash; 모달 창 내의 데이터 입력 폼 &ndash;&gt;-->
+    <!--                    <div class="form-group">-->
+    <!--                        <label for="replyContentRequest"></label>-->
+    <!--                        <textarea type="text" id="replyContentRequest" name="replyContentRequest"></textarea>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="modal-footer">-->
+    <!--                    <button id="addReplyBtn" type="button" onclick="addReply()">대댓글 추가</button>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+
+    <div class="modal fade" id="playGameModal" tabindex="-1" role="dialog" aria-labelledby="playGameModalLabel">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <!-- 모달 창 내의 데이터 입력 폼 -->
+                    <button id="beginningPlayBtn" onclick="playNewGame()">처음부터 하기</button>
+                    <button id="continuePlayBtn" onclick="playContinue()">이어서 하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    댓글 수정 모달-->
+    <div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="updateCommentModalLabel">댓글 수정</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- 모달 창 내의 데이터 입력 폼 -->
+                    <div class="form-group">
+
+                        <label for="updateCommentContentRequest"></label>
+                        <textarea type="text" id="updateCommentContentRequest" name="updateCommentContentRequest"></textarea>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="sendUpdateRequestCommentBtn" type="button" onclick="updateComment()">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 대댓글 수정 모달-->
+    <div class="modal fade" id="updateReplyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="updateReplyModalLabel">대댓글 수정</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- 모달 창 내의 데이터 입력 폼 -->
+                    <div class="form-group">
+
+                        <label for="updateCommentContentRequest"></label>
+                        <textarea type="text" id="updateReplyContentRequest" name="updateReplyContentRequest"></textarea>
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="sendUpdateReplyRequestBtn" type="button" onclick="updateReply()">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!--    <div class="form-group">-->
+    <!--      <div class="custom-file img-div">-->
+    <!--        <input type="file" name="photoFile" class="custom-file-input">-->
+    <!--        <label class="custom-file-label" text="댓글이미지"></label>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+            const token = localStorage.getItem('token');
+            if (token) {
+                console.log(token);
+            }
+
+        });
+
+        function loginForm(){
+            location.href = "/user-service/loginForm";
+        }
+
+        function registerForm(){
+            location.href = "/user-service/registration";
+        }
+
+        function getAllUsers() {
+
+            location.href = "/user-service/users";
+        }
+        function getMyInfo(){
+
+            const token = localStorage.getItem('token');
+            location.href = "/user-service/myInfo/" + token;
+
+
+            // fetch('http://127.0.0.1:8000/user-service/myInfo', {
+            //     method: 'GET', // 혹은 'POST', 'PUT' 등 필요한 HTTP 메서드 사용
+            //     headers: {
+            //         'Authorization': `Bearer` + token,
+            //         'Content-Type': 'application/json',
+            //     },
+            //     // body: JSON.stringify(data), // POST 또는 PUT 요청 시 필요
+            // })
+            //     // .then(response => response.json())
+            //     // .then(data => console.log(data))
+            //     .then(
+            //         // 비동기 방식으로 요청하니까 페이지 이동이 안되고 결과만 가져와 버리네
+            //         // location.href = "/user-service/myInfo"
+            //     )
+            //     .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+    <style>
+        .btn{
+
+        }
+    </style>
+</head>
+<body>
+    Main 입니다
+    <button id="registerFormBtn" class="btn" onclick="registerForm()">go to registerForm</button>
+    <button id="loginFormBtn" class="btn" onclick="loginForm()">go to loginForm</button>
+    <button id="getAllUsersBtn" class="btn" onclick="getAllUsers()">go to allUser</button>
+    <button id="myInfoBtn" class="btn" onclick="getMyInfo()">go to myInfo</button>
+</body>
+</html>

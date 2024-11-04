@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    config:
+      uri: http://127.0.0.1:8888      #config 서버로 연결
+      #      local 컴퓨터에서 git 으로 저장된 yml 구성 파일 이름 (git-local-repo)
+      name: ecommerce       #config 서버의 정해진 경로에서 파일을 찾아준다
+#  profiles:
+#    active: dev     #여기를 다른 마이크로 서비스들과 같게 맞춰야 jwt 토큰 인증에 문제가 없다 , 다르게 맞추면 jwtValid 에서 Unauthorization 에러 발생
