@@ -7,9 +7,13 @@
 </head>
 
 <link rel="stylesheet" href="style.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"/>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 <script>
 
@@ -77,147 +81,232 @@
 </script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-    *{
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins',sans-serif;
-    }
-    body{
-        background: #1abc9c;
-        overflow: hidden;
-    }
-    ::selection{
-        background: rgba(26,188,156,0.3);
-    }
-    .container{
-        max-width: 440px;
-        padding: 0 20px;
-        margin: 170px auto;
-    }
-    .wrapper{
+    /*@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');*/
+    /**{*/
+    /*    margin: 0;*/
+    /*    padding: 0;*/
+    /*    box-sizing: border-box;*/
+    /*    font-family: 'Poppins',sans-serif;*/
+    /*}*/
+    #main-container{
+        background-color: rgb(36, 29, 24);
         width: 100%;
-        background: #fff;
-        border-radius: 5px;
-        box-shadow: 0px 4px 10px 1px rgba(0,0,0,0.1);
+        height: 100vh;
+        padding: 200px;
     }
-    .wrapper .title{
-        height: 90px;
-        background: #16a085;
-        border-radius: 5px 5px 0 0;
-        color: #fff;
-        font-size: 30px;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .wrapper .row{
 
-        margin: 10px;
+    #navbar{
+        position: fixed;
+        z-index: 100;
+        width: 450px;
+        background-color: rgba(95, 56, 39);
+        right:0;
+        height: 80px;
+    }
 
-        height: 45px;
-        position: relative;
+    #SignInBtnBox{
+        width: 200px;
     }
-    .wrapper .row input{
-        height: 100%;
-        width: 100%;
-        outline: none;
-        padding-left: 60px;
-        border-radius: 5px;
-        border: 1px solid lightgrey;
-        font-size: 16px;
-        transition: all 0.3s ease;
+
+    #navTextBox{
+        width: 300px;
     }
-    .row input:focus{
-        border-color: #16a085;
-        box-shadow: inset 0px 0px 2px 2px rgba(26,188,156,0.25);
-    }
-    .row input::placeholder{
-        color: #999;
-    }
-    .wrapper .row i{
-        position: absolute;
-        width: 47px;
-        height: 100%;
-        color: #fff;
-        font-size: 18px;
-        background: #16a085;
-        border: 1px solid #16a085;
-        border-radius: 5px 0 0 5px;
+
+    .navbar-container{
         display: flex;
-        align-items: center;
-        justify-content: center;
     }
-    .wrapper .pass{
-        margin: -8px 0 20px 0;
-    }
-    .wrapper .pass a{
-        color: #16a085;
-        font-size: 17px;
-        text-decoration: none;
-    }
-    .wrapper .pass a:hover{
-        text-decoration: underline;
-    }
-    .wrapper .button input{
-        color: #fff;
+
+    .nav-text{
+        margin-top: 13px;
+        margin-left: 20px;
         font-size: 20px;
-        font-weight: 500;
-        padding-left: 0px;
-        background: #16a085;
-        border: 1px solid #16a085;
-        cursor: pointer;
+        color: rgb(249, 238, 222);
     }
-    .button input:hover{
-        background: #12876f;
+
+    .navBtn-text{
+        margin-top: 4px;
+        color: rgb(249, 238, 222);
+        font-size: 30px;
+
     }
-    .wrapper .signup-link{
-        text-align: center;
+
+    .nav-item{
+        margin-top: 10px;
+        margin-right: 10px;
+
+        width: 400px;
+    }
+
+
+    .navbarBtn{
+        border: none;              /* 모든 테두리를 초기화 */
+        background: none;           /* 배경 없애기 */
+        padding-left: 10px;                 /* 기본 여백 없애기 (선택 사항) */
+        outline: none;              /* 클릭 시 외곽선 없애기 (선택 사항) */
+        cursor: pointer;            /* 클릭 가능한 느낌 유지 */
+        margin-left: 20px;
+        margin-right: 20px;
+        width: 150px;
+        height: 50px;
+        color: white;
+    }
+
+
+    .navbar-divider{
+
+        border-left: 4px solid rgb(249, 238, 222); /* 왼쪽 테두리만 설정 */
+    }
+    .navbar-text{
+        padding:0;
+        color: white;
+        font-size: 30px;
+    }
+
+    #login-container{
+        margin-top: 50px;
+        margin-left: 200px;
+        margin-right: 200px;
+    }
+
+    .center-box{
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #userIconBox{
+        width: 130px; /* 원의 가로 크기 */
+        height: 130px; /* 원의 세로 크기 */
+        border-radius: 50%; /* 원형으로 만들기 */
+        overflow: hidden; /* 원 밖으로 튀어나오는 것 숨기기 */
+        background-color: rgb(36, 29, 24); /* 배경색 */
+
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: 5px solid rgb(249, 238, 222);
+    }
+
+    #userIcon{
         margin-top: 20px;
-        font-size: 17px;
+        font-size: 100px;
+        color: rgb(249, 238, 222);
     }
-    .wrapper .signup-link a{
-        color: #16a085;
-        text-decoration: none;
+
+    .input-container {
+        position: relative;
+        display: inline-block;
     }
-     .signup-link a:hover{
-        text-decoration: underline;
+
+    .input-container i {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
+        color: rgb(56, 54, 50);
+        margin-left: 30px;
+    }
+
+    .input-container input {
+        padding-left: 70px; /* 아이콘 공간 확보 */
+        background-color: rgb(159, 152, 142);
+        color: rgb(56, 54, 50);
+        border-radius: 50px;
+        border: 3px solid rgba(95, 56, 39); /* 테두리 두께는 4px, 색상은 갈색 */
+        width: 100%;
+        height: 60px;
+
+        font-size: 15px;
+    }
+
+    input::placeholder {
+        color: rgb(56, 54, 50); /* 원하는 색상 코드 */
+        opacity: 1; /* 일부 브라우저에서 투명도를 조정할 수 있습니다 */
+    }
+
+    .input-icon{
+        font-size: 30px;
+    }
+
+    #email{
+        color: rgb(56, 54, 50);
     }
 
     #submitBtn{
+        background-color: rgba(95, 56, 39);
+        color: rgb(249, 238, 222);
+        border-radius: 50px;
+        border: 3px solid rgba(95, 56, 39); /* 테두리 두께는 4px, 색상은 갈색 */
         width: 100%;
-        height: 50px;
-        background-color: #16a085;
-        border: none;
-        color: white;
-        font-size: 20px;
+        height: 60px;
 
+        font-size: 30px;
+
+        margin-bottom: 20px;
+    }
+
+    #forgotBtn{
+        font-weight: 200; /* 또는 font-weight: lighter; */
+        font-size: 20px;
+        color: rgb(249, 238, 222);
+        text-decoration: none;
     }
 </style>
 <body>
 
-    <div class="container">
-        <div class="wrapper">
-            <div class="title"><span>Login Form</span></div>
-                <div class="row">
-                    <i class="fas fa-user"></i>
-                    <input id="email" type="text" placeholder="Email or Phone" required>
-                </div>
-                <div class="row">
-                    <i class="fas fa-lock"></i>
-                    <input id="password" type="password" placeholder="Password" required>
-                </div>
-                <div class="pass"><a href="#">Forgot password?</a></div>
-                <button id="submitBtn" onclick="sendLoginForm()">전송</button>
-<!--                <div class="row button">-->
-<!--                    <input type="submit" value="Login">-->
-<!--                </div>-->
-                <div class="signup-link">Not a member? <a href="#">Signup now</a></div>
-                <button id="registerFormBtn" class="btn" onclick="registerForm()">go to registerForm</button>
+    <div id="navbar">
+        <div class="navbar-container">
+            <div id="navTextBox" class="nav-item">
+                <p class="nav-text">Create a Free Account</p>
+            </div>
+            <div id="SignInBtnBox" class="nav-item navbar-divider">
+                <button id="registerFormBtn" class="navbarBtn" onclick="registerForm()"><p class="navBtn-text">SIGN IN</p></button>
+            </div>
         </div>
     </div>
+    <div id="main-container">
+
+        <div id="login-container">
+
+            <div class="row mb-3">
+                <div class="center-box">
+                    <div id="userIconBox">
+                        <i id="userIcon" class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="input-container">
+                    <i class="fas fa-user input-icon"></i>
+                    <input id="email" type="text" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="input-container">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input id="password" type="password" placeholder="password" required>
+                </div>
+            </div>
+            <button id="submitBtn" onclick="sendLoginForm()">LOGIN</button>
+
+            <div class="pass"><a id="forgotBtn" href="#">Forgot email or password</a></div>
+        </div>
+
+    </div>
+
+    <footer id="footer">
+        <div class="section-content">
+            <div id="footer-container">
+
+
+            </div>
+        </div>
+    </footer>
+
 
 </body>
 </html>
