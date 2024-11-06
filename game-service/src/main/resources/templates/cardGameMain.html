@@ -626,6 +626,41 @@
 
     <style>
         /* Global */
+
+        #play-modal{
+            height: 1000px;
+            width: 1000px;
+        }
+
+        #playBtn{
+            position: absolute;
+            left: 470px;
+            top: 670px;
+            width: 500px;
+            height: 70px;
+            background-color: rgba(95, 56, 39);
+            color: white;
+            font-size: 30px;
+            border: none;        /* 테두리를 없앱니다 */
+            border-radius: 10px; /* 모서리를 둥글게 */
+            padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+            outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+            cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+        }
+
+        .playModalBtn{
+            width: 400px;
+            height: 400px;
+            background-color: rgba(95, 56, 39);
+            color: white;
+            font-size: 30px;
+            border: none;        /* 테두리를 없앱니다 */
+            border-radius: 10px; /* 모서리를 둥글게 */
+            padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+            outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+            cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+        }
+
         .section-content{
             padding : 4rem 0;
         }
@@ -660,12 +695,47 @@
         }
 
         /* navbar */
-        #navbar{
-            z-index: 100;
-            margin-left: 300px;
-            width: 800px;
+
+        #main-container{
+            position: relative;
         }
 
+        /* navbar */
+        #navbar{
+            position: fixed;
+            z-index: 100;
+            width: 600px;
+            background-color: rgba(95, 56, 39);
+            left: 420px;
+            height: 80px;
+        }
+
+        #navbar-title{
+            color: white;
+        }
+
+        .navbarBtn{
+            border: none;              /* 모든 테두리를 초기화 */
+            background: none;           /* 배경 없애기 */
+            padding-left: 10px;                 /* 기본 여백 없애기 (선택 사항) */
+            outline: none;              /* 클릭 시 외곽선 없애기 (선택 사항) */
+            cursor: pointer;            /* 클릭 가능한 느낌 유지 */
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 150px;
+            height: 50px;
+        }
+
+
+        .navbar-divider{
+
+            border-left: 4px solid white; /* 왼쪽 테두리만 설정 */
+        }
+        .navbar-text{
+            padding:0;
+            color: white;
+            font-size: 30px;
+        }
         /* Top */
         #top{
             background-image: url('/img/cardGameMain.jpg');
@@ -692,18 +762,71 @@
             border-top: 2px solid #fff;
         }
 
-        #title-card{
+        #top-card{
             position: absolute;
-            top: 300px;
+            top: 200px;
             left: 330px;
             width: 800px;
-            height: 300px;
+            height: 450px;
             z-index: 2;
+            display: flex;
+            justify-content: center;      /* 가로 중앙 정렬 */
+            align-items: center;          /* 세로 중앙 정렬 */
         }
 
-        #top-img{
+        /* #top-logo{
+
             position: absolute;
+            background-image: url('../images/logo2.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size:cover;
+            width: 300px;
+            height: 100px;
+        } */
+
+        #boss-icon-1{
+            position: absolute;
+            /* background-image: url('../images/boss.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size:cover; */
+            left: 670px;
+            top: 150px;
+            z-index: 3;
+            width: 100px;
+            height: 100px;
         }
+
+        #hero-icon-1{
+            position: absolute;
+            left: 920px;
+            top: 300px;
+            z-index: 3;
+            width: 100px;
+            height: 100px;
+        }
+
+        #hero-icon-2{
+            transform: scaleX(-1);
+            position: absolute;
+            left: 440px;
+            top: 300px;
+            z-index: 3;
+            width: 100px;
+            height: 100px;
+        }
+        #top-img{
+
+            background-image: url('/img/background.jpg');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size:cover;
+            border: 8px solid rgba(95, 56, 39); /* 테두리 두께는 4px, 색상은 갈색 */
+            width: 350px;
+            height: 350px;
+        }
+
 
         /* 767px 이하의 범위에서 */
         @media screen and (max-width: 767px){
@@ -748,7 +871,7 @@
         }
 
         #game-info-content{
-            width: 350;
+            width: 350px;
             height: 350px;
         }
 
@@ -1057,324 +1180,514 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        #saveCommentBtn{
+            border: none;        /* 테두리를 없앱니다 */
+            background: none;    /* 배경을 없앱니다 */
+            padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+            outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+            cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+            font-size: 20px;
+        }
+
+
+        #broken-icon-left-1{
+            position: absolute;
+            left: 200px;
+            top: 500px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(90deg);  /* 45도 회전 */
+        }
+
+        #broken-icon-left-2{
+            position: absolute;
+            left: 200px;
+            top: 1050px;
+
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(90deg);  /* 45도 회전 */
+        }
+
+        #broken-icon-left-3{
+            position: absolute;
+            left: 200px;
+            top: 1430px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(90deg);  /* 45도 회전 */
+        }
+
+        #broken-icon-left-4{
+            position: absolute;
+            left: 200px;
+            top: 2500px;
+
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(90deg);  /* 45도 회전 */
+        }
+
+
+        #broken-icon-left-5{
+            position: absolute;
+            left: 200px;
+            top: 2000px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 180px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(90deg);  /* 45도 회전 */
+        }
+
+        #broken-icon-left-6{
+            position: absolute;
+            left: 150px;
+            top: 1000px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(90deg);  /* 45도 회전 */
+        }
+
+
+
+
+        #broken-icon-right-1{
+            position: absolute;
+            right: 200px;
+            top: 1000px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(270deg);  /* 45도 회전 */
+        }
+
+
+        #broken-icon-right-2{
+            position: absolute;
+            right: 200px;
+            top: 1500px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(270deg);  /* 45도 회전 */
+        }
+
+
+        #broken-icon-right-3{
+            position: absolute;
+            right: 200px;
+            top: 2200px;
+
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 100px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(270deg);  /* 45도 회전 */
+        }
+
+
+
+        #broken-icon-right-4{
+            position: absolute;
+            right: 200px;
+            top: 700px;
+
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 100px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(270deg);  /* 45도 회전 */
+        }
+
+
+
+        #broken-icon-right-5{
+            position: absolute;
+            right: 200px;
+            top: 400px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(270deg);  /* 45도 회전 */
+        }
+
+        #broken-icon-right-6{
+            position: absolute;
+            right: 150px;
+            top: 450px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(270deg);  /* 45도 회전 */
+        }
+
+
+        #broken-icon-right-7{
+            position: absolute;
+            right: 150px;
+            top: 2400px;
+
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+            border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+            border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+            transform: rotate(270deg);  /* 45도 회전 */
+        }
+
+
     </style>
 </head>
 <body>
 
-    <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light py-3 shadow-lg sticky-top">
-        <div class="container">
-            <!--내브바 브랜드-->
-            <a href="index.html" class="navbar-brand align-middle">
-                <h3 class="m-0">
-                    <img src="/img/asterion_logo1.jpg" alt="Logo" height="36px">
-                    ASTERION BATTLE
-                </h3>
-            </a>
+    <div id="main-container">
 
-            <!--(반응형) lg 보다 작은 화면에서 동작-->
-            <!--부트스트랩에서는 드롭다운을 컬랩스라고 함-->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <!--세줄아이콘 나옴-->
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <div id="broken-icon-left-1"></div>
+        <div id="broken-icon-left-2"></div>
+        <div id="broken-icon-left-3"></div>
+        <div id="broken-icon-left-4"></div>
+        <div id="broken-icon-left-5"></div>
+        <div id="broken-icon-left-6"></div>
+        <div id="broken-icon-right-1"></div>
+        <div id="broken-icon-right-2"></div>
+        <div id="broken-icon-right-3"></div>
+        <div id="broken-icon-right-4"></div>
+        <div id="broken-icon-right-5"></div>
+        <div id="broken-icon-right-6"></div>
+        <div id="broken-icon-right-7"></div>
+        <img id="boss-icon-1" src="/img/boss.png" alt="">
+        <img id="hero-icon-1" src="/img/hero.png" alt="">
+        <img id="hero-icon-2" src="/img/hero.png" alt="">
 
-            <!--id="navbarSupportedContent" 로 위의 버튼 설정을 연결 (세줄아이콘 누르면 아래의 아이템들이 드롭다운으로 나옴)-->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a href="#top" class="nav-link">
-                            Home
-                        </a>
-                    </li>
+        <nav id="navbar" class="navbar navbar-expand-lg py-3 shadow-lg sticky-top">
+            <div class="container">
+                <!--(반응형) lg 보다 작은 화면에서 동작-->
+                <!--부트스트랩에서는 드롭다운을 컬랩스라고 함-->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <!--세줄아이콘 나옴-->
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <li class="nav-item">
-                        <button id="myInfoBtn" class="navbarBtn" onclick="getMyInfo()">myInfo</button>
-                    </li>
-                    <li class="nav-item">
-                        <button id="logoutBtn" class="navbarBtn" onclick="logout()">logout</button>
-                    </li>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <button id="homeBtn" class="navbarBtn"><i class="fa-solid fa-house-chimney fa-2xl" style="color: #ffffff;"></i></button>
+                        </li>
 
-                    <!--  로그인이 안되어 있으면 -->
-                    <li class="nav-item">
-                        <button id="registerFormBtn" class="navbarBtn" onclick="registerForm()">registerForm</button>
-                    </li>
-                    <li class="nav-item">
-                        <button id="loginFormBtn" class="navbarBtn" onclick="loginForm()">loginForm</button>
-                    </li>
+                        <li class="nav-item navbar-divider">
+                            <button id="registerFormBtn" class="navbarBtn" onclick="registerForm()"><p class="navbar-text">SIGN IN</p></button>
+                        </li>
+                        <li class="nav-item navbar-divider">
+                            <button id="loginFormBtn" class="navbarBtn" onclick="loginForm()"><p class="navbar-text">LOG IN</p></button>
+                        </li>
 
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <section id="top">
-        <div id="title-card" class="card card-body">
+                        <li class="nav-item navbar-divider">
+                            <button id="myInfoBtn" class="navbarBtn" onclick="getMyInfo()"><p class="navbar-text">MY INFO</p></button>
+                        </li>
+                        <li class="nav-item navbar-divider">
+                            <button id="logoutBtn" class="navbarBtn" onclick="logout()"><p class="navbar-text">LOGOUT</p></button>
+                        </li>
 
-            <div id="top-img">
-                <!-- <h3 class="m-0">
-                    <img src="./assets/images/asterion_logo1.jpg" alt="Logo" height="100px">
-                </h3> -->
-            </div>
-
-            <div id="top-content">
-                <div class="my-3">
-                    <h1 class="card-title text-dark mb-3">ASTERION BATTLE</h1>
-                    <p class="card-text text-secondary">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aliquid, maiores!</p>
-
-<!--                    play button-->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#playGameModal">
-                        플레이 게임
-                    </button>
-
-
-
+                    </ul>
                 </div>
             </div>
-
-            <div class="clear"></div>
-        </div>
-    </section>
-
-    <section id="intro">
-        <div id="intro-container">
-            <div id="emptyBox">
+        </nav>
 
 
-            </div>
 
-            <div id="game-info">
-                <div class="divide-line"></div>
+        <button type="button" id="playBtn" data-toggle="modal" data-target="#playGameModal">
+            플레이 게임
+        </button>
 
-                <div class="left-half">
-                    <div id="game-info-img"></div>
-                </div>
-                <div class="right-half d-flex justify-content-center align-items-center">
+        <section id="top">
+            <div id="top-card" class="">
 
-                    <div id="game-info-content">
-                        <h1>what is game's name?</h1>
-                        <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
-                    </div>
-                </div>
+                <div id="top-logo"></div>
+                <div id="top-img"></div>
+
+
                 <div class="clear"></div>
             </div>
+        </section>
 
-            <div id="play-info">
-                <div class="divide-line"></div>
-                <div class="left-half">
-                    <div id="play-info-content">
-                        <h1>what is game's name?</h1>
-                        <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
+        <section id="intro">
+            <div id="intro-container">
+                <div id="emptyBox">
+
+
+                </div>
+
+                <div id="game-info">
+                    <div class="divide-line"></div>
+
+                    <div class="left-half">
+                        <div id="game-info-img"></div>
                     </div>
+                    <div class="right-half d-flex justify-content-center align-items-center">
 
+                        <div id="game-info-content">
+                            <h1>what is game's name?</h1>
+                            <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <div class="right-half">
-                    <div id="play-info-img"></div>
 
-                </div>
-                <div class="clear"></div>
-            </div>
-
-
-
-            <div id="screenshot-title-box">
-                <div class="divide-line"></div>
-                <h1 id="screenshot-title">Screenshots</h1>
-            </div>
-            <div id="game-screenshot">
-                <div id="screenshot-box">
-
-                    <div class="custom-carousel">
-                        <div class="carousel-track-container">
-                            <ul class="carousel-track">
-                                <li class="carousel-slide current-slide">
-                                    <img class="carousel-img" src="/img/ingame1.jpg" alt="Slide 1">
-                                </li>
-                                <li class="carousel-slide">
-                                    <img class="carousel-img" src="/img/ingame2.jpg" alt="Slide 2">
-                                </li>
-                                <li class="carousel-slide">
-                                    <img class="carousel-img" src="/img/ingame3.jpg" alt="Slide 3">
-                                </li>
-                            </ul>
+                <div id="play-info">
+                    <div class="divide-line"></div>
+                    <div class="left-half">
+                        <div id="play-info-content">
+                            <h1>what is game's name?</h1>
+                            <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
                         </div>
 
-                        <button class="carousel-button left"><i class="fa-solid fa-chevron-left fa-2xl" style="color: #5f3827;"></i></button>
-                        <button class="carousel-button right"><i class="fa-solid fa-chevron-left fa-rotate-180 fa-2xl" style="color: #5f3827;"></i></button>
                     </div>
-                </div>
-            </div>
-            <div id="intro-last-empty">
+                    <div class="right-half">
+                        <div id="play-info-img"></div>
 
-            </div>
-        </div>
-    </section>
-
-
-
-    <div id="comment-container">
-        <div id="writeContentBox">
-            <div class="flexCenterBox">
-                <h4>댓글 작성</h4>
-            </div>
-            <div class="flexCenterBox">
-                <textarea type="text" id="commentContent" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
-                <div class="counter">
-                    <span id="charCount">0</span> words
-                </div>
-            </div>
-
-            <p id="commentError" class="fieldError"></p>
-            <button onclick="saveComment()">댓글 저장</button>
-        </div>
-
-        <th:block th:each="comment, status: ${response.getCommentDtoList()}">
-            <div id="commentBox">
-                <div class="savedCommentBox">
-                    <input id="savedCommentId" type="hidden" th:value="${comment.id}">
-                    <input id="savedCommentUserEmail" type="hidden" th:value="${comment.userEmail}">
-                    <p id="savedCommentMemberName">[[${comment.userEmail}]]</p>
-                    <p id="savedCommentCreatedAt">[[${comment.createdAt}]]</p>
-                    <div class="white-divider"></div>
-                    <p id="savedCommentContent">[[${comment.content}]]</p>
-                    <!-- reply button -->
-                    <button type="button" id="replyModalBtn" th:value="${comment.id}" onclick="openReplyModalBox(this.value)" ><i class="fa-solid fa-reply fa-2xl" style="color: #ffffff;"></i></button>
+                    </div>
+                    <div class="clear"></div>
                 </div>
 
-                 <th:block th:each="reply, status: ${comment.getReplyDtoList()}">
-                    <div class="reply-box">
-                        <div class="reply-left">
-                            <i class="reply-arrow fa-solid fa-arrow-turn-up fa-rotate-90" style="color: #ffffff;"></i>
+
+
+                <div id="screenshot-title-box">
+                    <div class="divide-line"></div>
+                    <h1 id="screenshot-title">Screenshots</h1>
+                </div>
+                <div id="game-screenshot">
+                    <div id="screenshot-box">
+
+                        <div class="custom-carousel">
+                            <div class="carousel-track-container">
+                                <ul class="carousel-track">
+                                    <li class="carousel-slide current-slide">
+                                        <img class="carousel-img" src="/img/ingame1.jpg" alt="Slide 1">
+                                    </li>
+                                    <li class="carousel-slide">
+                                        <img class="carousel-img" src="/img/ingame2.jpg" alt="Slide 2">
+                                    </li>
+                                    <li class="carousel-slide">
+                                        <img class="carousel-img" src="/img/ingame3.jpg" alt="Slide 3">
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button class="carousel-button left"><i class="fa-solid fa-chevron-left fa-2xl" style="color: #5f3827;"></i></button>
+                            <button class="carousel-button right"><i class="fa-solid fa-chevron-left fa-rotate-180 fa-2xl" style="color: #5f3827;"></i></button>
                         </div>
+                    </div>
+                </div>
+                <div id="intro-last-empty">
 
-                        <div class="savedReplyBox reply-right">
-                            <input id="savedReplyId" type="hidden" th:value="${reply.id}">
-                            <input id="savedReplyEmail" type="hidden" th:value="${reply.userEmail}">
-                            <p id="savedReplyUserEmail">[[${reply.userEmail}]]</p>
-                            <p id="savedReplyLastCreatedOrModifiedAt">[[${reply.lastCreatedOrModifiedAt}]]</p>
-                            <div class="white-divider"></div>
-                            <p id="savedReplyContent">[[${reply.content}]]</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <div id="comment-container">
+            <div id="writeContentBox">
+                <div class="flexCenterBox">
+                    <button id="saveCommentBtn" onclick="saveComment()"><i class="fa-solid fa-share-from-square fa-2xl" style="color: #ffffff;"></i></button>
+                    <textarea type="text" id="commentContent" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                    <div class="counter">
+                        <span id="charCount">0</span> words
+                    </div>
+                </div>
+
+                <p id="commentError" class="fieldError"></p>
+            </div>
+
+            <th:block th:each="comment, status: ${response.getCommentDtoList()}">
+                <div id="commentBox">
+                    <div class="savedCommentBox">
+                        <input id="savedCommentId" type="hidden" th:value="${comment.id}">
+                        <input id="savedCommentUserEmail" type="hidden" th:value="${comment.userEmail}">
+                        <p id="savedCommentMemberName">[[${comment.userEmail}]]</p>
+                        <p id="savedCommentCreatedAt">[[${comment.createdAt}]]</p>
+                        <div class="white-divider"></div>
+                        <p id="savedCommentContent">[[${comment.content}]]</p>
+                        <!-- reply button -->
+                        <button type="button" id="replyModalBtn" th:value="${comment.id}" onclick="openReplyModalBox(this.value)" ><i class="fa-solid fa-reply fa-2xl" style="color: #ffffff;"></i></button>
+                    </div>
+
+                     <th:block th:each="reply, status: ${comment.getReplyDtoList()}">
+                        <div class="reply-box">
+                            <div class="reply-left">
+                                <i class="reply-arrow fa-solid fa-arrow-turn-up fa-rotate-90" style="color: #ffffff;"></i>
+                            </div>
+
+                            <div class="savedReplyBox reply-right">
+                                <input id="savedReplyId" type="hidden" th:value="${reply.id}">
+                                <input id="savedReplyEmail" type="hidden" th:value="${reply.userEmail}">
+                                <p id="savedReplyUserEmail">[[${reply.userEmail}]]</p>
+                                <p id="savedReplyLastCreatedOrModifiedAt">[[${reply.lastCreatedOrModifiedAt}]]</p>
+                                <div class="white-divider"></div>
+                                <p id="savedReplyContent">[[${reply.content}]]</p>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="divider"></div>
+
                         </div>
-                        <div class="clear"></div>
-                        <div class="divider"></div>
-
-                    </div>
-                 </th:block>
-            </div>
-        </th:block>
-    </div>
-
-
-<!--modal-->
-
-    <div id="myModal" class="replyModal">
-        <div class="replyModal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <textarea type="text" id="replyContent" name="replyContent"></textarea>
-        </div>
-        <div class="replyModal-footer">
-        </div>
-    </div>
-
-
-    <!--      부트스트랩 모달     -->
-    <!--    <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">-->
-    <!--        <div class="modal-dialog">-->
-    <!--            <div class="modal-content">-->
-    <!--                <div class="modal-header">-->
-    <!--                    <h4 class="modal-title" id="replyModalLabel">대댓글 작성</h4>-->
-    <!--                </div>-->
-    <!--                <div class="modal-body">-->
-    <!--                    &lt;!&ndash; 모달 창 내의 데이터 입력 폼 &ndash;&gt;-->
-    <!--                    <div class="form-group">-->
-    <!--                        <label for="replyContentRequest"></label>-->
-    <!--                        <textarea type="text" id="replyContentRequest" name="replyContentRequest"></textarea>-->
-    <!--                    </div>-->
-    <!--                </div>-->
-    <!--                <div class="modal-footer">-->
-    <!--                    <button id="addReplyBtn" type="button" onclick="addReply()">대댓글 추가</button>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-
-
-    <div class="modal fade" id="playGameModal" tabindex="-1" role="dialog" aria-labelledby="playGameModalLabel">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <!-- 모달 창 내의 데이터 입력 폼 -->
-                    <button id="beginningPlayBtn" onclick="playNewGame()">처음부터 하기</button>
-                    <button id="continuePlayBtn" onclick="playContinue()">이어서 하기</button>
+                     </th:block>
                 </div>
+            </th:block>
+        </div>
+
+
+    <!--modal-->
+
+        <div id="myModal" class="replyModal">
+            <div class="replyModal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <textarea type="text" id="replyContent" name="replyContent"></textarea>
+            </div>
+            <div class="replyModal-footer">
             </div>
         </div>
-    </div>
 
-    <!--    댓글 수정 모달-->
-    <div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="updateCommentModalLabel">댓글 수정</h4>
-                </div>
-                <div class="modal-body">
-                    <!-- 모달 창 내의 데이터 입력 폼 -->
-                    <div class="form-group">
 
-                        <label for="updateCommentContentRequest"></label>
-                        <textarea type="text" id="updateCommentContentRequest" name="updateCommentContentRequest"></textarea>
+        <!--      부트스트랩 모달     -->
+        <!--    <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">-->
+        <!--        <div class="modal-dialog">-->
+        <!--            <div class="modal-content">-->
+        <!--                <div class="modal-header">-->
+        <!--                    <h4 class="modal-title" id="replyModalLabel">대댓글 작성</h4>-->
+        <!--                </div>-->
+        <!--                <div class="modal-body">-->
+        <!--                    &lt;!&ndash; 모달 창 내의 데이터 입력 폼 &ndash;&gt;-->
+        <!--                    <div class="form-group">-->
+        <!--                        <label for="replyContentRequest"></label>-->
+        <!--                        <textarea type="text" id="replyContentRequest" name="replyContentRequest"></textarea>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--                <div class="modal-footer">-->
+        <!--                    <button id="addReplyBtn" type="button" onclick="addReply()">대댓글 추가</button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <!--    </div>-->
 
+
+        <div class="modal fade" id="playGameModal" tabindex="-1" role="dialog" aria-labelledby="playGameModalLabel">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div id="play-modal" class="modal-body">
+                        <!-- 모달 창 내의 데이터 입력 폼 -->
+                        <div class="row">
+                            <div class="col-6 justify-content-center align-items-center">
+                                <button id="beginningPlayBtn" class="playModalBtn" onclick="playNewGame()">처음부터 하기</button>
+                            </div>
+                            <div class="col-6">
+                                <button id="continuePlayBtn" class="playModalBtn" onclick="playContinue()">이어서 하기</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button id="sendUpdateRequestCommentBtn" type="button" onclick="updateComment()">수정</button>
-                </div>
             </div>
         </div>
-    </div>
 
-    <!-- 대댓글 수정 모달-->
-    <div class="modal fade" id="updateReplyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="updateReplyModalLabel">대댓글 수정</h4>
-                </div>
-                <div class="modal-body">
-                    <!-- 모달 창 내의 데이터 입력 폼 -->
-                    <div class="form-group">
+        <!--    댓글 수정 모달-->
+        <div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="updateCommentModalLabel">댓글 수정</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 모달 창 내의 데이터 입력 폼 -->
+                        <div class="form-group">
 
-                        <label for="updateCommentContentRequest"></label>
-                        <textarea type="text" id="updateReplyContentRequest" name="updateReplyContentRequest"></textarea>
+                            <label for="updateCommentContentRequest"></label>
+                            <textarea type="text" id="updateCommentContentRequest" name="updateCommentContentRequest"></textarea>
 
-
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="sendUpdateRequestCommentBtn" type="button" onclick="updateComment()">수정</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button id="sendUpdateReplyRequestBtn" type="button" onclick="updateReply()">수정</button>
+            </div>
+        </div>
+
+        <!-- 대댓글 수정 모달-->
+        <div class="modal fade" id="updateReplyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="updateReplyModalLabel">대댓글 수정</h4>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 모달 창 내의 데이터 입력 폼 -->
+                        <div class="form-group">
+
+                            <label for="updateCommentContentRequest"></label>
+                            <textarea type="text" id="updateReplyContentRequest" name="updateReplyContentRequest"></textarea>
+
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="sendUpdateReplyRequestBtn" type="button" onclick="updateReply()">수정</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
 
-    <!--    <div class="form-group">-->
-    <!--      <div class="custom-file img-div">-->
-    <!--        <input type="file" name="photoFile" class="custom-file-input">-->
-    <!--        <label class="custom-file-label" text="댓글이미지"></label>-->
-    <!--      </div>-->
-    <!--    </div>-->
+        <!--    <div class="form-group">-->
+        <!--      <div class="custom-file img-div">-->
+        <!--        <input type="file" name="photoFile" class="custom-file-input">-->
+        <!--        <label class="custom-file-label" text="댓글이미지"></label>-->
+        <!--      </div>-->
+        <!--    </div>-->
 
-    <footer id="footer">
-        <div class="section-content">
-            <div id="footer-container">
+        <footer id="footer">
+            <div class="section-content">
+                <div id="footer-container">
 
 
+                </div>
             </div>
-        </div>
-    </footer>
-
-
-
+        </footer>
+    </div>
 </body>
 </html>
