@@ -1,0 +1,609 @@
+$(document).ready(function() {
+
+    const textarea = document.getElementById('commentContent');
+    const charCount = document.getElementById('charCount');
+
+    console.log(textarea)
+
+    textarea.addEventListener('input', () => {
+        charCount.textContent = textarea.value.length;
+    });
+
+    // carousel
+    const track = document.querySelector('.carousel-track');
+    const slides = Array.from(track.children);
+    const nextButton = document.querySelector('.carousel-button.right');
+    const prevButton = document.querySelector('.carousel-button.left');
+
+    const slideWidth = slides[0].getBoundingClientRect().width;
+
+    // 각 슬라이드를 옆으로 배치
+    slides.forEach((slide, index) => {
+        slide.style.left = `${slideWidth * index}px`;
+    });
+
+    // 슬라이드를 이동하는 함수
+    const moveToSlide = (track, currentSlide, targetSlide) => {
+        track.style.transform = `translateX(-${targetSlide.style.left})`;
+        currentSlide.classList.remove('current-slide');
+        targetSlide.classList.add('current-slide');
+    };
+
+    // 이전 버튼 클릭 시
+    prevButton.addEventListener('click', () => {
+        const currentSlide = track.querySelector('.current-slide');
+        const prevSlide = currentSlide.previousElementSibling;
+
+        if (prevSlide) {
+            moveToSlide(track, currentSlide, prevSlide);
+        }
+    });
+
+    // 다음 버튼 클릭 시
+    nextButton.addEventListener('click', () => {
+        const currentSlide = track.querySelector('.current-slide');
+        const nextSlide = currentSlide.nextElementSibling;
+
+        if (nextSlide) {
+            moveToSlide(track, currentSlide, nextSlide);
+        }
+    });
+
+    //------------------------------
+
+
+    var modal = document.getElementById("myModal");
+
+    // Close modal when clicking outside the modal content
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+    //
+    const token = localStorage.getItem('token');
+    if (token) {
+        console.log(token);
+    }
+
+    const loginBtn = document.getElementById('loginFormBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const myInfoBtn = document.getElementById('myInfoBtn');
+    const registerFormBtn = document.getElementById('registerFormBtn');
+
+    $.ajax({
+        url      : "/user-service/validateJwt",
+        type     : "GET",
+        contentType : "application/json",
+        beforeSend: function(xhr) {
+            // 헤더에 토큰 추가
+            xhr.setRequestHeader("Authorization", "Bearer"+token);
+        },
+        success  : function(result, status, data){
+
+            //여기서 로그인 된 유저의 UUID 를 받기 ? or email 을 받아서
+            // 이것이 존재하면 로그인된 유저
+            //존재하지 않으면 로그인 안된 유저
+
+            console.log("token is valid");
+            logoutBtn.style.display = 'block';
+            myInfoBtn.style.display = 'block';
+            loginBtn.style.display = 'none';
+            registerFormBtn.style.display = 'none';
+
+            //    Comment 아래에 요소들을 돌면서 응답으로 온 email 과 요소에 이미 바인딩 되어있는 email 이 같으면 수정 , 삭제 버튼을 표시하기
+            console.log("userID: " + result.loggedInUserId);
+
+            let commentBox = document.getElementsByClassName('savedCommentBox');
+
+            // add comment to update and delete btn
+            for (let i = 0; i < commentBox.length; i++) {
+
+                // result.loggedInUserId 와 savedCommentBox 의 value 를 비교 해서 같으면 버튼 추가
+                const commentId = commentBox[i].querySelector('#savedCommentId').value;
+                const commentUserEmail = commentBox[i].querySelector('#savedCommentUserEmail').value;
+
+                console.log(commentId);
+                console.log(commentUserEmail);
+
+                if(commentUserEmail === result.loggedInUserId){
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'deleteCommentBtn';
+                    deleteBtn.innerHTML = `<i class="fa-solid fa-trash-can fa-2xl" style="color: #ffffff;"></i>`;
+                    deleteBtn.value = commentId;
+                    deleteBtn.onclick = () => deleteComment(commentId);
+                    commentBox[i].appendChild(deleteBtn);
+
+
+                    const updateBtn = document.createElement('button');
+                    updateBtn.id = 'updateCommentBtn';
+                    updateBtn.innerHTML = `<i class="fa-solid fa-pen-to-square fa-2xl" style="color: #ffffff;"></i>`;
+                    updateBtn.setAttribute('data-toggle', 'modal');
+                    updateBtn.setAttribute('data-target', '#updateCommentModal');
+
+                    updateBtn.value = commentId;
+                    // updateBtn.onclick = () => updateComment(commentId);
+                    commentBox[i].appendChild(updateBtn);
+                }
+            }
+
+            // add reply to update and delete btn
+
+            let replyBox = document.getElementsByClassName('savedReplyBox');
+
+            for (let i = 0; i < replyBox.length; i++) {
+
+                const replyId = replyBox[i].querySelector('#savedReplyId').value;
+                const replyUserEmail = replyBox[i].querySelector('#savedReplyEmail').value;
+
+                if(replyUserEmail === result.loggedInUserId){
+
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'deleteReplyBtn';
+                    deleteBtn.innerHTML = `<i class="fa-solid fa-trash-can fa-2xl" style="color: #ffffff;"></i>`;
+                    deleteBtn.value = replyId;
+                    deleteBtn.onclick = () => deleteReply(replyId);
+                    replyBox[i].appendChild(deleteBtn);
+
+
+                    const updateBtn = document.createElement('button');
+                    updateBtn.id = 'updateReplyBtn';
+                    updateBtn.innerHTML = `<i class="fa-solid fa-pen-to-square fa-2xl" style="color: #ffffff;"></i>`;
+                    updateBtn.setAttribute('data-toggle', 'modal');
+                    updateBtn.setAttribute('data-target', '#updateReplyModal');
+
+                    updateBtn.value = replyId;
+                    // updateBtn.onclick = () => updateComment(commentId);
+                    replyBox[i].appendChild(updateBtn);
+                }
+            }
+
+
+
+
+
+        },
+        error : function(jqXHR, status, error, result){
+            // alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+            console.log("token is not valid");
+            console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+
+            logoutBtn.style.display = 'none';
+            myInfoBtn.style.display = 'none';
+            loginBtn.style.display = 'block';
+            registerFormBtn.style.display = 'block';
+
+        }
+    });
+
+});
+
+
+
+function deleteComment(commentId) {
+
+    console.log('try delete');
+
+    const token = localStorage.getItem('token');
+
+    var paramData = {
+        commentId : commentId
+
+    };
+
+    var param = JSON.stringify(paramData);
+
+    $.ajax({
+        url      : "/comment-service/delete",
+        type     : "DELETE",
+        contentType : "application/json",
+        data     : param,
+        beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader("Authorization", "Bearer" + token);
+        },
+        dataType : "json",
+        cache   : false,
+        success  : function(result, status,data){
+            alert("확인되었습니다.");
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        },
+        error : function(jqXHR, status, error, result){
+            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        }
+    });
+
+}
+
+function updateComment() {
+
+    const token = localStorage.getItem('token');
+
+    const commentId = document.getElementById("updateCommentBtn").value;
+    const content = document.getElementById("updateCommentContentRequest").value;
+
+    var paramData = {
+        commentId : commentId,
+        content : content
+    };
+
+    var param = JSON.stringify(paramData);
+
+    $.ajax({
+        url      : "/comment-service/update",
+        type     : "PUT",
+        contentType : "application/json",
+        data     : param,
+        beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader("Authorization", "Bearer" + token);
+        },
+        dataType : "json",
+        cache   : false,
+        success  : function(result, status,data){
+            alert("확인되었습니다.");
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        },
+        error : function(jqXHR, status, error, result){
+            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        }
+    });
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem('token');
+    location.href = "/game-service/main";
+
+
+}
+
+
+function loginForm(){
+    location.href = "/user-service/loginForm";
+}
+
+function registerForm(){
+    location.href = "/user-service/registration";
+}
+
+function getMyInfo(){
+
+    const token = localStorage.getItem('token');
+    location.href = "/user-service/myInfo/" + token;
+
+    // var paramData = {
+    //     commentId : commentId
+    //
+    // };
+    //
+    // var param = JSON.stringify(paramData);
+    //
+    // $.ajax({
+    //     url      : "/user-service/myInfo",
+    //     type     : "GET",
+    //     contentType : "application/json",
+    //     data     : param,
+    //     beforeSend : function(xhr){
+    //         /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+    //         xhr.setRequestHeader("Authorization", "Bearer" + token);
+    //     },
+    //     dataType : "json",
+    //     cache   : false,
+    //     success  : function(result, status,data){
+    //         alert("확인되었습니다.");
+    //         location.href = "http://127.0.0.1:8000/game-service/main"
+    //     },
+    //     error : function(jqXHR, status, error, result){
+    //         alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+    //
+    //         location.href = "http://127.0.0.1:8000/game-service/main"
+    //     }
+    // });
+
+}
+
+// $("#addCommentBtn").on("click", function () {
+
+function saveComment(){
+
+    const token = localStorage.getItem('token');
+
+    var paramData = {
+        gameId : 1,
+        content : $("#commentContent").val()
+    };
+
+    var param = JSON.stringify(paramData);
+
+    $.ajax({
+        url      : "/comment-service/save",
+        type     : "POST",
+        contentType : "application/json",
+        data     : param,
+        dataType : "json",
+        beforeSend: function(xhr) {
+            // 헤더에 토큰 추가
+            xhr.setRequestHeader("Authorization", "Bearer"+token);
+        },
+        cache   : false,
+        success  : function(result, status,data){
+
+            console.log("result.code : "+result.code);
+            console.log("result.status : "+result.status);
+
+            console.log('status :' + status);
+
+            if (result.code == '400') {
+                console.log('---------400--------')
+
+                if (result.errorMap.content !== undefined) {
+                    console.log("result.errorMap.content.message: "+result.errorMap.content.message);
+                    alert(result.errorMap.content.message);
+                }
+
+                // 2~3 개 필드가 동시에 에러가 나면 0번째를 가져오면 안됨
+                // 그러면 message 를 list 가 아니라 map 으로 가져와야 하나 ?
+                // var commentError = document.getElementById("commentError");
+                // commentError.innerText = result.messageList[0];
+            }
+
+
+            if(result.status === undefined){
+
+                alert("댓글이 성공적으로 등록되었습니다.");
+                location.href='/game-service/main';
+            }
+            // alert("확인되었습니다.");
+            // location.href = "http://127.0.0.1:8000/game-service/main"
+
+        },
+        error : function(jqXHR, status, error, result){
+
+            if(jqXHR.status == 503){
+                alert("서비스 이용에 불편을 드려 죄송합니다. 현재 댓글 서비스에 문제가 발생하였습니다.")
+                location.href = "http://127.0.0.1:8000/game-service/main"
+            }else if(jqXHR.status == 401){
+                alert("Please use after logging in.");
+                location.href = "http://127.0.0.1:8000/user-service/loginForm"
+            }
+            else if(jqXHR.status == 400){
+                alert(jqXHR.responseText);
+                location.href = "http://127.0.0.1:8000/game-service/main"
+            }
+            else{
+                alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+                location.href = "http://127.0.0.1:8000/game-service/main"
+            }
+
+            // location.href = "http://127.0.0.1:8000/user-service/loginForm"
+            // location.href = "http://127.0.0.1:8000/game-service/main"
+
+        }
+    });
+}
+
+function openReplyModalBox(commentId){
+
+    var modal = document.getElementById("myModal");
+    var replyModalBox = document.getElementById("replyModal-content");
+
+    // 이미 추가된 addReplyBtn이 있는지 확인하고 제거
+    var existingBtn = replyModalBox.querySelector('.sendBtn');
+    if (existingBtn) {
+        replyModalBox.removeChild(existingBtn);
+    }
+
+    const addReplyBtn = document.createElement('button');
+    addReplyBtn.className = 'sendBtn';
+    addReplyBtn.innerHTML = `<i class="fa-solid fa-paper-plane fa-2xl" style="color: #ffffff;"></i>`;
+    addReplyBtn.value = commentId;
+    addReplyBtn.onclick = () => addReply(commentId);
+    replyModalBox.appendChild(addReplyBtn);
+
+
+    modal.style.display = "block";
+
+    // const replyContentBox = document.getElementById('replyContentBox');
+    //
+    // if(replyContentBox.style.display === 'none'){
+    //     replyContentBox.style.display = 'block';
+    // }else{
+    //     replyContentBox.style.display = 'none';
+    // }
+}
+
+function addReply(commentId) {
+
+    console.log('add reply');
+
+    const token = localStorage.getItem('token');
+
+    var paramData = {
+        commentId : commentId,
+        content : document.getElementById("replyContent").value
+    };
+
+    var param = JSON.stringify(paramData);
+
+    $.ajax({
+        url      : "/reply-service/save",
+        type     : "POST",
+        contentType : "application/json",
+        data     : param,
+        beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader("Authorization", "Bearer" + token);
+        },
+        dataType : "json",
+        cache   : false,
+        success  : function(result, status,data){
+            alert("확인되었습니다.");
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        },
+        error : function(jqXHR, status, error, result){
+
+            if(jqXHR.status == 503){
+                alert("서비스 이용에 불편을 드려 죄송합니다. 현재 대댓글 서비스에 문제가 발생하였습니다.")
+                location.href = "http://127.0.0.1:8000/game-service/main"
+            }
+            else if(jqXHR.status == 401){
+                alert("Please use after logging in.");
+                location.href = "http://127.0.0.1:8000/user-service/loginForm"
+            }
+            else{
+                alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+                location.href = "http://127.0.0.1:8000/game-service/main"
+            }
+
+
+        }
+    });
+
+}
+
+function closeModal() {
+
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+}
+
+
+function deleteReply(replyId) {
+
+    console.log('try delete reply');
+
+    const token = localStorage.getItem('token');
+
+    var paramData = {
+        replyId : replyId
+
+    };
+
+    var param = JSON.stringify(paramData);
+
+    $.ajax({
+        url      : "/reply-service/delete",
+        type     : "DELETE",
+        contentType : "application/json",
+        data     : param,
+        beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader("Authorization", "Bearer" + token);
+        },
+        dataType : "json",
+        cache   : false,
+        success  : function(result, status,data){
+            alert("확인되었습니다.");
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        },
+        error : function(jqXHR, status, error, result){
+            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        }
+    });
+
+}
+
+function updateReply() {
+
+    const token = localStorage.getItem('token');
+
+    const replyId = document.getElementById("updateReplyBtn").value;
+    const content = document.getElementById("updateReplyContentRequest").value;
+
+    var paramData = {
+        replyId : replyId,
+        content : content,
+    };
+
+    var param = JSON.stringify(paramData);
+
+    $.ajax({
+        url      : "/reply-service/update",
+        type     : "PUT",
+        contentType : "application/json",
+        data     : param,
+        beforeSend : function(xhr){
+            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
+            xhr.setRequestHeader("Authorization", "Bearer" + token);
+        },
+        dataType : "json",
+        cache   : false,
+        success  : function(result, status,data){
+            alert("확인되었습니다.");
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        },
+        error : function(jqXHR, status, error, result){
+            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+
+            location.href = "http://127.0.0.1:8000/game-service/main"
+        }
+    });
+}
+
+function playNewGame(){
+
+    const token = localStorage.getItem('token');
+
+    $.ajax({
+        url      : "/user-service/validateJwt",
+        type     : "GET",
+        contentType : "application/json",
+        beforeSend: function(xhr) {
+            // 헤더에 토큰 추가
+            xhr.setRequestHeader("Authorization", "Bearer"+token);
+        },
+        success  : function(result, status, data){
+
+            console.log("token is valid");
+            location.href = "/game-service/cardGame?token=" + token + "&playType=new";
+
+        },
+        error : function(jqXHR, status, error, result){
+
+            alert('로그인 해주시기 바랍니다.');
+            console.log("token is not valid");
+            console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+        }
+    });
+}
+
+function playContinue(){
+
+    const token = localStorage.getItem('token');
+
+    $.ajax({
+        url      : "/user-service/validateJwt",
+        type     : "GET",
+        contentType : "application/json",
+        beforeSend: function(xhr) {
+            // 헤더에 토큰 추가
+            xhr.setRequestHeader("Authorization", "Bearer"+token);
+        },
+        success  : function(result, status, data){
+
+            console.log("token is valid");
+            location.href = "/game-service/cardGame?token=" + token + "&playType=continue";
+
+        },
+        error : function(jqXHR, status, error, result){
+
+            alert('로그인 해주시기 바랍니다.');
+            console.log("token is not valid");
+            console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+        }
+    });
+}
