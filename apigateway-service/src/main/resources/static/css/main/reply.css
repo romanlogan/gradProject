@@ -1,0 +1,174 @@
+
+
+
+#replyModalBtn{
+    margin-left: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(57,41,33);
+    border: none;
+    /* position: absolute;
+    left: 1000px; */
+}
+
+
+.reply-box{
+    margin-left: 200px;
+    margin-right: 200px;
+    margin-top: 50px;
+}
+
+.reply-arrow{
+    font-size: 100px;
+}
+
+.savedReplyBox{
+
+}
+
+
+.reply-left {
+    float: left;
+    width: 15%;
+    display: flex;               /* Flexbox를 사용합니다 */
+    justify-content: center;      /* 가로 중앙 정렬 */
+    align-items: center;          /* 세로 중앙 정렬 */
+    height: 100%;
+}
+
+.reply-right {
+    float: right;
+    width: 80%;
+    border: 3px solid white ;
+
+    /* height: 100%; */
+}
+
+/*    replyModal  */
+/* Modal Background */
+.replyModal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+#replyModalBox{
+    margin-top: 100px;
+    margin-left: 420px;
+    width: 600px;
+    height: 600px;
+    background-color: #fff;
+
+}
+
+/* Modal Content Box */
+#replyModal-content {
+    /*background-color: #fff;*/
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 20px;
+
+    padding: 10px;
+    border: 1px solid #888;
+    width: 80%; /* Adjust modal width */
+    max-width: 500px;
+    height: 250px;
+
+    background-color: rgb(159, 152, 142);
+}
+
+
+
+.replyContentText{
+    width: 100%;
+    height: 150px;
+
+}
+
+#replyModalTitle{
+    margin-left: 110px;
+    font-size: 60px;
+    color: rgba(95, 56, 39);
+}
+
+
+
+#hero-icon-modal-box{
+    margin-left: 200px;
+
+}
+
+
+.deleteReplyBtn{
+    border: none;        /* 테두리를 없앱니다 */
+    background: none;    /* 배경을 없앱니다 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+}
+
+#updateReplyBtn{
+    border: none;        /* 테두리를 없앱니다 */
+    background: none;    /* 배경을 없앱니다 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+}
+
+.sendBtn{
+    margin-left: 200px;
+    /*width: 50px;*/
+    /*height: 50px;*/
+    font-size: 30px;
+
+    border: none;        /* 테두리를 없앱니다 */
+    background: none;    /* 배경을 없앱니다 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+
+}
+
+
+/* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+
+#savedReplyUserEmail{
+    display: inline;
+    margin-left: 10px;
+    font-size: 30px;
+    color: white;
+}
+
+#savedReplyLastCreatedOrModifiedAt{
+    margin-left: 20px;
+    display: inline;
+    font-size: 15px;
+    color: white;
+}
+
+#savedReplyContent{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    color: white;
+}

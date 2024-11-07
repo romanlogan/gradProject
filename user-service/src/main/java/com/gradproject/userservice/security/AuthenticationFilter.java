@@ -65,17 +65,12 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             String pwd = creds.getPassword();
 
             UserEntity user = userRepository.findByEmail(email);
-            if(user == null){
 
-//                이 에러를 던지면 403 포비던이 뜨는데 화면에 더 명확한 이유를 알려주는 로직이 필요
-                throw new NoMatchEmailException("일치하는 이메일이 없습니다");
-//                throw new UsernameNotFoundException("일치하는 이메일이 없습니다");
-            } else if (
-                    !passwordEncoder.matches(pwd, user.getEncryptedPwd())
-//                    !user.getEncryptedPwd().equals(pwd)
-                    ) {
-                // response 를 조정해서 에러를 보내기
-                throw new NoMatchPasswordException("일치하는 비밀번호가 없습니다.");
+            if(user == null){
+                throw new NoMatchEmailException("No matching emails found.");
+            }
+            else if (!passwordEncoder.matches(pwd, user.getEncryptedPwd())) {
+                throw new NoMatchPasswordException("No matching password found.");
             }
 
             //

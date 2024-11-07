@@ -1,0 +1,198 @@
+
+
+#broken-icon-left-1{
+    position: absolute;
+    left: 200px;
+    top: 500px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(90deg);  /* 45도 회전 */
+}
+
+#broken-icon-left-2{
+    position: absolute;
+    left: 200px;
+    top: 1050px;
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(90deg);  /* 45도 회전 */
+}
+
+#broken-icon-left-3{
+    position: absolute;
+    left: 200px;
+    top: 1430px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(90deg);  /* 45도 회전 */
+}
+
+#broken-icon-left-4{
+    position: absolute;
+    left: 200px;
+    top: 2500px;
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(90deg);  /* 45도 회전 */
+}
+
+
+#broken-icon-left-5{
+    position: absolute;
+    left: 200px;
+    top: 2000px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 180px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(90deg);  /* 45도 회전 */
+}
+
+#broken-icon-left-6{
+    position: absolute;
+    left: 150px;
+    top: 1000px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(90deg);  /* 45도 회전 */
+}
+
+
+
+
+#broken-icon-right-1{
+    position: absolute;
+    right: 200px;
+    top: 1000px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(270deg);  /* 45도 회전 */
+}
+
+
+#broken-icon-right-2{
+    position: absolute;
+    right: 200px;
+    top: 1500px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(270deg);  /* 45도 회전 */
+}
+
+
+#broken-icon-right-3{
+    position: absolute;
+    right: 200px;
+    top: 2200px;
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 100px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(270deg);  /* 45도 회전 */
+}
+
+
+
+#broken-icon-right-4{
+    position: absolute;
+    right: 200px;
+    top: 700px;
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 5px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 100px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(270deg);  /* 45도 회전 */
+}
+
+
+
+#broken-icon-right-5{
+    position: absolute;
+    right: 200px;
+    top: 400px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(270deg);  /* 45도 회전 */
+}
+
+#broken-icon-right-6{
+    position: absolute;
+    right: 150px;
+    top: 450px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(270deg);  /* 45도 회전 */
+}
+
+
+#broken-icon-right-7{
+    position: absolute;
+    right: 150px;
+    top: 2400px;
+
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* 삼각형의 왼쪽 */
+    border-right: 10px solid transparent; /* 삼각형의 오른쪽 */
+    border-bottom: 130px solid rgba(95, 56, 39); /* 삼각형의 밑변과 색상 */
+    transform: rotate(270deg);  /* 45도 회전 */
+}
+
+#userIconBox{
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 70px; /* 원의 가로 크기 */
+    height: 70px; /* 원의 세로 크기 */
+    border-radius: 50%; /* 원형으로 만들기 */
+    overflow: hidden; /* 원 밖으로 튀어나오는 것 숨기기 */
+    background-color: rgba(95, 56, 39); /* 배경색 */
+
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 5px solid rgb(249, 238, 222);
+}

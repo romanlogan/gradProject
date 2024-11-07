@@ -1,0 +1,105 @@
+
+#writeContentBox{
+    margin-left: 300px;
+    margin-right: 300px;
+    background-color: rgba(57,41,33);
+    border-radius: 5px;
+    border: 3px solid white;
+    padding-top: 30px;
+
+    /* width: 100%; */
+    height: 200px;
+    /* display: flex;             */
+    /* justify-content: center;      */
+    /* align-items: center;           */
+}
+
+
+#comment-container{
+    padding-bottom: 100px;
+    padding-top: 100px;
+    background-color: rgba(57,41,33);
+    /* height: 1000px; */
+}
+
+#commentBox{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+#commentContent{
+    margin-left: 20px;
+    margin-right: 20px;
+    border-radius: 3px;
+    width: 500px;
+    height: 100px;
+}
+
+
+.savedCommentBox{
+    margin-left: 200px;
+    margin-right: 200px;
+    border: 3px solid white ;
+    position: relative;
+}
+
+#savedCommentMemberName{
+    display: inline;
+    margin-left: 10px;
+    font-size: 30px;
+    color: white;
+}
+
+#savedCommentCreatedAt{
+    margin-left: 20px;
+    display: inline;
+    font-size: 15px;
+    color: white;
+}
+
+
+#savedCommentContent{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+
+
+
+
+
+
+
+/*button*/
+
+
+.deleteCommentBtn{
+    border: none;        /* 테두리를 없앱니다 */
+    background: none;    /* 배경을 없앱니다 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+}
+
+#updateCommentBtn{
+    border: none;        /* 테두리를 없앱니다 */
+    background: none;    /* 배경을 없앱니다 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+}
+
+#saveCommentBtn{
+    margin-left: 20px;
+    margin-right: 20px;
+    border: none;        /* 테두리를 없앱니다 */
+    background: none;    /* 배경을 없앱니다 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+    font-size: 70px;
+}
+

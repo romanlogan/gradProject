@@ -1,0 +1,140 @@
+
+/* 인트로  */
+#intro{
+    background-color: rgba(95, 56, 39);
+
+}
+
+#intro-container{
+    margin-left: 200px;
+    margin-right: 200px;
+}
+
+#emptyBox{
+    background-color: rgba(245, 238, 225);
+    height: 400px;
+}
+
+#game-info{
+    background-color: rgba(245, 238, 225);
+    /* background-color: blue; */
+    height: 600px;
+}
+
+#game-info-img{
+    background-image: url('/img/cardGameMain.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    width: 350px;
+    height: 350px;
+}
+
+#game-info-content{
+    width: 350px;
+    height: 350px;
+}
+
+#play-info{
+    background-color: rgba(245, 238, 225);
+    height: 600px;
+}
+
+#play-info-img{
+    background-image: url('/img/cardGameInGame.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:cover;
+    width: 350px;
+    height: 350px;
+}
+
+#play-info-content{
+    width: 350px;
+    height: 350px;
+}
+
+#screenshot-title-box{
+    background-color: rgba(245, 238, 225);
+}
+
+#game-screenshot{
+    background-color: rgba(245, 238, 225);
+    width: 100%;
+    height: 800px;
+    display: flex;               /* Flexbox를 사용합니다 */
+    justify-content: center;      /* 가로 중앙 정렬 */
+    align-items: center;          /* 세로 중앙 정렬 */
+    /* height: 100%; */
+}
+
+#screenshot-title{
+    background-color: rgba(245, 238, 225);
+    margin-bottom: 0;
+    display: flex;               /* Flexbox를 사용합니다 */
+    justify-content: center;      /* 가로 중앙 정렬 */
+    align-items: center;          /* 세로 중앙 정렬 */
+}
+
+#screenshot-box{
+    /* margin-left: 300px; */
+    /* margin-right: 100px; */
+}
+
+#intro-last-empty{
+    background-color: rgba(95, 56, 39);
+    height: 200px;
+}
+
+
+
+
+
+
+
+.custom-carousel {
+    position: relative;
+    width: 900px;
+    overflow: hidden;
+}
+
+.carousel-track-container {
+    position: relative;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+    min-width: 100%;
+}
+
+.carousel-button {
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.0);
+    /* color: rgba(95, 56, 39); */
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.carousel-button.left {
+    left: 10px;
+}
+
+.carousel-button.right {
+    right: 10px;
+}
+
+.carousel-img{
+    width: 700px;
+    height: 500px;
+    margin-left: 70px;
+}
