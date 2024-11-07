@@ -1,5 +1,6 @@
 package com.gardproject.replyservice.controller;
 
+import com.gardproject.replyservice.binding.CheckBindingResult;
 import com.gardproject.replyservice.dto.RequestDelete;
 import com.gardproject.replyservice.dto.RequestSave;
 import com.gardproject.replyservice.dto.RequestUpdate;
@@ -16,9 +17,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
 @Controller
@@ -36,7 +39,12 @@ public class ReplyController {
 
     @PostMapping("/save")
     public ResponseEntity save(HttpServletRequest httpServletRequest,
-                               @RequestBody RequestSave requestSave) {
+                               @RequestBody @Valid RequestSave requestSave,
+                               BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return CheckBindingResult.induceSuccessInAjax(bindingResult);
+        }
 
         String userEmail;
         String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
@@ -48,7 +56,7 @@ public class ReplyController {
             return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
-        Long id = replyService.save(requestSave,userEmail);
+        Long id = replyService.save(requestSave, userEmail);
 
         return new ResponseEntity(id, HttpStatus.OK);
     }
@@ -85,7 +93,12 @@ public class ReplyController {
 
     @DeleteMapping("/delete")
     public ResponseEntity delete(HttpServletRequest httpServletRequest,
-                                 @RequestBody RequestDelete requestDelete) {
+                                 @RequestBody @Valid RequestDelete requestDelete,
+                                    BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return CheckBindingResult.induceSuccessInAjax(bindingResult);
+        }
 
         String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -103,7 +116,12 @@ public class ReplyController {
 
     @PutMapping("/update")
     public ResponseEntity update(HttpServletRequest httpServletRequest,
-                                 @RequestBody RequestUpdate requestUpdate) {
+                                 @RequestBody @Valid RequestUpdate requestUpdate,
+                                 BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return CheckBindingResult.induceSuccessInAjax(bindingResult);
+        }
 
         String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 

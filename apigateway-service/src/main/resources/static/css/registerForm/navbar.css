@@ -1,0 +1,67 @@
+#navbar{
+    position: fixed;
+    z-index: 100;
+    width: 200px;
+    background-color: rgba(95, 56, 39);
+    right:0;
+    height: 80px;
+}
+
+#SignInBtnBox{
+    width: 100px;
+}
+
+#navTextBox{
+    width: 300px;
+}
+
+.navbar-container{
+    display: flex;
+}
+
+.nav-text{
+    margin-top: 10px;
+    margin-left: 20px;
+    font-size: 20px;
+    color: rgb(249, 238, 222);
+}
+
+.navBtn-text{
+    margin-top: 4px;
+    color: rgb(249, 238, 222);
+    font-size: 30px;
+
+}
+
+.nav-item{
+    margin-top: 10px;
+    margin-right: 10px;
+
+    width: 400px;
+}
+
+
+.navbarBtn{
+    border: none;              /* 모든 테두리를 초기화 */
+    background: none;           /* 배경 없애기 */
+    padding-left: 10px;                 /* 기본 여백 없애기 (선택 사항) */
+    outline: none;              /* 클릭 시 외곽선 없애기 (선택 사항) */
+    cursor: pointer;            /* 클릭 가능한 느낌 유지 */
+    margin-left: 20px;
+    margin-right: 20px;
+    width: 150px;
+    height: 50px;
+    color: white;
+}
+
+
+.navbar-divider{
+
+    border-left: 4px solid rgb(249, 238, 222); /* 왼쪽 테두리만 설정 */
+}
+.navbar-text{
+    padding:0;
+    color: white;
+    font-size: 30px;
+}
+

@@ -1,13 +1,13 @@
 $(document).ready(function() {
 
-    const textarea = document.getElementById('commentContent');
-    const charCount = document.getElementById('charCount');
-
-    console.log(textarea)
-
-    textarea.addEventListener('input', () => {
-        charCount.textContent = textarea.value.length;
-    });
+    // const textarea = document.getElementById('commentContent');
+    // const charCount = document.getElementById('charCount');
+    //
+    // console.log(textarea)
+    //
+    // textarea.addEventListener('input', () => {
+    //     charCount.textContent = textarea.value.length;
+    // });
 
     // carousel
     const track = document.querySelector('.carousel-track');
@@ -183,89 +183,10 @@ $(document).ready(function() {
 });
 
 
-
-function deleteComment(commentId) {
-
-    console.log('try delete');
-
-    const token = localStorage.getItem('token');
-
-    var paramData = {
-        commentId : commentId
-
-    };
-
-    var param = JSON.stringify(paramData);
-
-    $.ajax({
-        url      : "/comment-service/delete",
-        type     : "DELETE",
-        contentType : "application/json",
-        data     : param,
-        beforeSend : function(xhr){
-            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-            xhr.setRequestHeader("Authorization", "Bearer" + token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status,data){
-            alert("확인되었습니다.");
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        },
-        error : function(jqXHR, status, error, result){
-            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
-
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        }
-    });
-
-}
-
-function updateComment() {
-
-    const token = localStorage.getItem('token');
-
-    const commentId = document.getElementById("updateCommentBtn").value;
-    const content = document.getElementById("updateCommentContentRequest").value;
-
-    var paramData = {
-        commentId : commentId,
-        content : content
-    };
-
-    var param = JSON.stringify(paramData);
-
-    $.ajax({
-        url      : "/comment-service/update",
-        type     : "PUT",
-        contentType : "application/json",
-        data     : param,
-        beforeSend : function(xhr){
-            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-            xhr.setRequestHeader("Authorization", "Bearer" + token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status,data){
-            alert("확인되었습니다.");
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        },
-        error : function(jqXHR, status, error, result){
-            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
-
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        }
-    });
-
-}
-
-
 function logout() {
 
     localStorage.removeItem('token');
     location.href = "/game-service/main";
-
-
 }
 
 
@@ -315,244 +236,6 @@ function getMyInfo(){
 
 // $("#addCommentBtn").on("click", function () {
 
-function saveComment(){
-
-    const token = localStorage.getItem('token');
-
-    var paramData = {
-        gameId : 1,
-        content : $("#commentContent").val()
-    };
-
-    var param = JSON.stringify(paramData);
-
-    $.ajax({
-        url      : "/comment-service/save",
-        type     : "POST",
-        contentType : "application/json",
-        data     : param,
-        dataType : "json",
-        beforeSend: function(xhr) {
-            // 헤더에 토큰 추가
-            xhr.setRequestHeader("Authorization", "Bearer"+token);
-        },
-        cache   : false,
-        success  : function(result, status,data){
-
-            console.log("result.code : "+result.code);
-            console.log("result.status : "+result.status);
-
-            console.log('status :' + status);
-
-            if (result.code == '400') {
-                console.log('---------400--------')
-
-                if (result.errorMap.content !== undefined) {
-                    console.log("result.errorMap.content.message: "+result.errorMap.content.message);
-                    alert(result.errorMap.content.message);
-                }
-
-                // 2~3 개 필드가 동시에 에러가 나면 0번째를 가져오면 안됨
-                // 그러면 message 를 list 가 아니라 map 으로 가져와야 하나 ?
-                // var commentError = document.getElementById("commentError");
-                // commentError.innerText = result.messageList[0];
-            }
-
-
-            if(result.status === undefined){
-
-                alert("댓글이 성공적으로 등록되었습니다.");
-                location.href='/game-service/main';
-            }
-            // alert("확인되었습니다.");
-            // location.href = "http://127.0.0.1:8000/game-service/main"
-
-        },
-        error : function(jqXHR, status, error, result){
-
-            if(jqXHR.status == 503){
-                alert("서비스 이용에 불편을 드려 죄송합니다. 현재 댓글 서비스에 문제가 발생하였습니다.")
-                location.href = "http://127.0.0.1:8000/game-service/main"
-            }else if(jqXHR.status == 401){
-                alert("Please use after logging in.");
-                location.href = "http://127.0.0.1:8000/user-service/loginForm"
-            }
-            else if(jqXHR.status == 400){
-                alert(jqXHR.responseText);
-                location.href = "http://127.0.0.1:8000/game-service/main"
-            }
-            else{
-                alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
-                location.href = "http://127.0.0.1:8000/game-service/main"
-            }
-
-            // location.href = "http://127.0.0.1:8000/user-service/loginForm"
-            // location.href = "http://127.0.0.1:8000/game-service/main"
-
-        }
-    });
-}
-
-function openReplyModalBox(commentId){
-
-    var modal = document.getElementById("myModal");
-    var replyModalBox = document.getElementById("replyModal-content");
-
-    // 이미 추가된 addReplyBtn이 있는지 확인하고 제거
-    var existingBtn = replyModalBox.querySelector('.sendBtn');
-    if (existingBtn) {
-        replyModalBox.removeChild(existingBtn);
-    }
-
-    const addReplyBtn = document.createElement('button');
-    addReplyBtn.className = 'sendBtn';
-    addReplyBtn.innerHTML = `<i class="fa-solid fa-paper-plane fa-2xl" style="color: #ffffff;"></i>`;
-    addReplyBtn.value = commentId;
-    addReplyBtn.onclick = () => addReply(commentId);
-    replyModalBox.appendChild(addReplyBtn);
-
-
-    modal.style.display = "block";
-
-    // const replyContentBox = document.getElementById('replyContentBox');
-    //
-    // if(replyContentBox.style.display === 'none'){
-    //     replyContentBox.style.display = 'block';
-    // }else{
-    //     replyContentBox.style.display = 'none';
-    // }
-}
-
-function addReply(commentId) {
-
-    console.log('add reply');
-
-    const token = localStorage.getItem('token');
-
-    var paramData = {
-        commentId : commentId,
-        content : document.getElementById("replyContent").value
-    };
-
-    var param = JSON.stringify(paramData);
-
-    $.ajax({
-        url      : "/reply-service/save",
-        type     : "POST",
-        contentType : "application/json",
-        data     : param,
-        beforeSend : function(xhr){
-            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-            xhr.setRequestHeader("Authorization", "Bearer" + token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status,data){
-            alert("확인되었습니다.");
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        },
-        error : function(jqXHR, status, error, result){
-
-            if(jqXHR.status == 503){
-                alert("서비스 이용에 불편을 드려 죄송합니다. 현재 대댓글 서비스에 문제가 발생하였습니다.")
-                location.href = "http://127.0.0.1:8000/game-service/main"
-            }
-            else if(jqXHR.status == 401){
-                alert("Please use after logging in.");
-                location.href = "http://127.0.0.1:8000/user-service/loginForm"
-            }
-            else{
-                alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
-                location.href = "http://127.0.0.1:8000/game-service/main"
-            }
-
-
-        }
-    });
-
-}
-
-function closeModal() {
-
-    var modal = document.getElementById("myModal");
-    modal.style.display = "none";
-
-}
-
-
-function deleteReply(replyId) {
-
-    console.log('try delete reply');
-
-    const token = localStorage.getItem('token');
-
-    var paramData = {
-        replyId : replyId
-
-    };
-
-    var param = JSON.stringify(paramData);
-
-    $.ajax({
-        url      : "/reply-service/delete",
-        type     : "DELETE",
-        contentType : "application/json",
-        data     : param,
-        beforeSend : function(xhr){
-            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-            xhr.setRequestHeader("Authorization", "Bearer" + token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status,data){
-            alert("확인되었습니다.");
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        },
-        error : function(jqXHR, status, error, result){
-            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
-
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        }
-    });
-
-}
-
-function updateReply() {
-
-    const token = localStorage.getItem('token');
-
-    const replyId = document.getElementById("updateReplyBtn").value;
-    const content = document.getElementById("updateReplyContentRequest").value;
-
-    var paramData = {
-        replyId : replyId,
-        content : content,
-    };
-
-    var param = JSON.stringify(paramData);
-
-    $.ajax({
-        url      : "/reply-service/update",
-        type     : "PUT",
-        contentType : "application/json",
-        data     : param,
-        beforeSend : function(xhr){
-            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
-            xhr.setRequestHeader("Authorization", "Bearer" + token);
-        },
-        dataType : "json",
-        cache   : false,
-        success  : function(result, status,data){
-            alert("확인되었습니다.");
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        },
-        error : function(jqXHR, status, error, result){
-            alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
-
-            location.href = "http://127.0.0.1:8000/game-service/main"
-        }
-    });
-}
 
 function playNewGame(){
 
@@ -574,9 +257,10 @@ function playNewGame(){
         },
         error : function(jqXHR, status, error, result){
 
-            alert('로그인 해주시기 바랍니다.');
+            showLoginRequiredMessage();
+            // alert('로그인 해주시기 바랍니다.');
             console.log("token is not valid");
-            console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+            // console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
         }
     });
 }
@@ -595,15 +279,59 @@ function playContinue(){
         },
         success  : function(result, status, data){
 
+
             console.log("token is valid");
             location.href = "/game-service/cardGame?token=" + token + "&playType=continue";
 
         },
         error : function(jqXHR, status, error, result){
 
-            alert('로그인 해주시기 바랍니다.');
+            showLoginRequiredMessage();
+            // alert('로그인 해주시기 바랍니다.');
             console.log("token is not valid");
-            console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
+            // console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
         }
     });
 }
+
+function showSuccessMessage(message){
+    Swal.fire({
+        title: message,
+        // text: 'Email or password does not exist or is incorrect',
+        icon: 'success',
+        background: 'rgb(249, 238, 222)', // 배경색
+        color: 'rgba(95, 56, 39)',       // 글자색
+        confirmButtonText: 'OK'
+    });
+
+    setTimeout(() => {
+        location.href='/game-service/main';
+    }, 700);
+}
+
+function showErrorMessage(message)
+{
+    Swal.fire({
+        title: message,
+        icon: 'error',
+        background: 'rgb(249, 238, 222)', // 배경색
+        color: 'rgba(95, 56, 39)',       // 글자색
+        confirmButtonText: 'OK'
+    });
+}
+
+function showLoginRequiredMessage(){
+
+    Swal.fire({
+        title: 'Please use after logging in.',
+        icon: 'error',
+        background: 'rgb(249, 238, 222)', // 배경색
+        color: 'rgba(95, 56, 39)',       // 글자색
+        confirmButtonText: 'OK'
+    });
+
+    setTimeout(() => {
+        location.href='/user-service/loginForm';
+    }, 700);
+}
+
