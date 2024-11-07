@@ -1,0 +1,33 @@
+#play-modal{
+    height: 1000px;
+    width: 1000px;
+}
+
+#playBtn{
+    position: absolute;
+    left: 470px;
+    top: 670px;
+    width: 500px;
+    height: 70px;
+    background-color: rgba(95, 56, 39);
+    color: white;
+    font-size: 30px;
+    border: none;        /* 테두리를 없앱니다 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+}
+
+.playModalBtn{
+    width: 400px;
+    height: 400px;
+    background-color: rgba(95, 56, 39);
+    color: white;
+    font-size: 30px;
+    border: none;        /* 테두리를 없앱니다 */
+    border-radius: 10px; /* 모서리를 둥글게 */
+    padding: 0;          /* 기본 여백을 없애줍니다 (선택 사항) */
+    outline: none;       /* 클릭 시 나오는 외곽선도 없앱니다 (선택 사항) */
+    cursor: pointer;     /* 클릭 가능한 버튼 느낌을 유지하고 싶다면 추가 */
+}

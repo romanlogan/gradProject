@@ -123,7 +123,12 @@ public class CommentController {
 
     @DeleteMapping("/delete")
     public ResponseEntity delete(HttpServletRequest httpServletRequest,
-                                 @RequestBody RequestDelete requestDelete) {
+                                 @RequestBody @Valid RequestDelete requestDelete,
+                                BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return CheckBindingResult.induceSuccessInAjax(bindingResult);
+        }
 
         String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -140,7 +145,12 @@ public class CommentController {
 
     @PutMapping("/update")
     public ResponseEntity update(HttpServletRequest httpServletRequest,
-                                 @RequestBody RequestUpdate requestUpdate) {
+                                 @RequestBody @Valid RequestUpdate requestUpdate,
+                                 BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return CheckBindingResult.induceSuccessInAjax(bindingResult);
+        }
 
         String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
