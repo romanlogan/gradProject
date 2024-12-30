@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
     UserDto getUserDetailsByEmail(String username);
 
     ResponseMyInfo getResponseMyInfo(String userEmail);
+
+    ResponseMyInfo getResponseMyInfoByKafka(String topic, String email);
 }

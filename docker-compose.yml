@@ -1,0 +1,153 @@
+version: '3.8'
+
+networks:
+  gradProject-network:
+    name: gradProject-network
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:management
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - gradProject-network
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      - "15671:15671"
+      - "5671:5671"
+      - "4369:4369"
+
+  config-service:
+    container_name: config-service
+    image: lee798/config-service:1.0
+    environment:
+      spring.rabbitmq.host: rabbitmq
+      spring.profiles.active: default
+    networks:
+      - gradProject-network
+    ports:
+      - "8888:8888"
+
+  discovery-service:
+    container_name: discovery-service
+    image: lee798/discovery-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+    networks:
+      - gradProject-network
+    ports:
+      - "8761:8761"
+
+  apigateway-service:
+    container_name: apigateway-service
+    image: lee798/apigateway-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+    networks:
+      - gradProject-network
+    ports:
+      - "8000:8000"
+
+  mysqldb:
+    container_name: mysqldb
+    image: lee798/mysqldb:1.0
+    networks:
+      - gradProject-network
+    ports:
+      - "3306:3306"
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    networks:
+      - gradProject-network
+    ports:
+      - "9411:9411"
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - /Users/lee/Desktop/Work/prometheus-2.53.2.darwin-amd64/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - gradProject-network
+    ports:
+      - "9090:9090"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    networks:
+      - gradProject-network
+    ports:
+      - "3000:3000"
+
+  user-service:
+    container_name: user-service
+    image: lee798/user-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+      logging.file: /api-logs/users-ws.log
+    networks:
+      - gradProject-network
+
+  game-service:
+    container_name: game-service
+    image: lee798/game-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+      logging.file: /api-logs/games-ws.log
+    networks:
+      - gradProject-network
+
+  history-service:
+    container_name: history-service
+    image: lee798/history-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+      logging.file: /api-logs/history-ws.log
+    networks:
+      - gradProject-network
+
+  comment-service:
+    container_name: comment-service
+    image: lee798/comment-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+      logging.file: /api-logs/comments-ws.log
+    networks:
+      - gradProject-network
+
+  reply-service:
+    container_name: reply-service
+    image: lee798/reply-service:1.0
+    environment:
+      spring.cloud.config.uri: http://config-service:8888
+      spring.rabbitmq.host: rabbitmq
+      spring.zipkin.base-url: http://zipkin:9411
+      eureka.client.serviceUrl.defaultZone: http://discovery-service:8761/eureka/
+      logging.file: /api-logs/reply-ws.log
+    networks:
+      - gradProject-network

@@ -1,0 +1,647 @@
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .button {
+            cursor: pointer;
+            font-size: 2vh;
+            padding: 1vh 2vh;
+            border-radius: 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+            transform: scale(1.05); /* 放大效果 */
+        }
+
+        .button:active {
+            transform: scale(0.95); /* 按下縮小效果 */
+        }
+
+        .character-label {
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            padding: 2px 5px;
+            border-radius: 4px;
+            margin-top: -15px; /* Remove space between image and label */
+            display: block; /* Ensure label appears below */
+            width: 100%; /* Align with the character container width */
+            position: relative; /* Keep label positioned correctly */
+            top: -2px; /* Slightly nudge the label upward */
+        }
+
+
+        #button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 0;
+            background-color: transparent;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        #battle-area {
+            display: flex;
+            justify-content: space-around;
+            width: 100vw;
+            height: 70vh;
+            background-color: transparent;
+        }
+
+        #friendly-area {
+            display: grid;
+            grid-template-columns: 1fr; /* 保持單列佈局 */
+            grid-auto-rows: minmax(10vh, 1fr); /* 自動調整每個角色的高度 */
+            gap: 5px; /* 控制角色之間的間距 */
+            background-color:transparent;
+            text-align: center;
+            width: 35vh;
+            height: 70vh;
+            left:5vh;
+            padding: 2vh;
+            margin: 0 3vh;
+            transform: translateY(22%);
+        }
+        #enemy-area {
+            width: 35vw; /* Constrain the enemy area width */
+            height: auto; /* Adjust height automatically */
+            /*right: 5vh;*/
+            padding: 2vh;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns for a 2x2 grid */
+            grid-template-rows: repeat(2, min-content); /* Make rows only as tall as content */
+            gap: 1vh; /* Reduce spacing between rows and columns */
+            justify-content: center; /* Center grid content horizontally */
+            align-content: center; /* Center grid content vertically */
+            position: relative;
+            background-color: transparent;
+            place-items: center; /* Center each enemy both vertically and horizontally */
+        }
+
+        #enemy-area > .enemy-object {
+            grid-column: span 1; /* Default behavior for multiple enemies */
+            grid-row: span 1;
+        }
+
+        #enemy-area:only-child > .enemy-object {
+            grid-column: 1 / -1; /* Span entire grid horizontally */
+            grid-row: 1 / -1; /* Span entire grid vertically */
+        }
+
+
+
+        #all-cards, #drop-cards {
+            position: absolute;
+            width: 20vw;
+            height: 30vh;
+            overflow-y: auto;
+            background-color: #f0f0f0;
+        }
+
+        #all-cards {
+            left: 1vh;
+            bottom: 10vh;
+        }
+
+        #drop-cards {
+            right: 1vh;
+            bottom: 10vh;
+        }
+
+        #friendly-status-bar,
+        #enemy-status-bar {
+            width: 14vw; /* 調整寬度 */
+            padding: 1.5vh; /* 適當內邊距 */
+            position: absolute;
+            top: 15vh; /* 讓狀態欄更居中 */
+            z-index: 20;
+            background-color: rgba(0, 0, 0, 0.8); /* 更深的背景提升可讀性 */
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* 增強陰影效果 */
+            text-align: left; /* 左對齊內容 */
+        }
+
+        .slash-animation {
+            background: url('../texture/blue_slash.png') no-repeat center center;
+            background-size: contain;
+            z-index: 1000;
+            animation: slashEffect 0.5s ease-out;
+            pointer-events: none;
+        }
+        
+        @keyframes slashEffect {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.5) rotate(45deg);
+            }
+        }
+
+        /* Vibrate Effect for Characters */
+.vibrate {
+    animation: vibrateCharacter 0.5s ease-in-out;
+}
+
+@keyframes vibrateCharacter {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(2px, 2px); }
+    100% { transform: translate(0px, 0px); }
+}
+
+.vibrate {
+    animation: vibrateCharacter 0.5s ease-in-out; /* Adjust duration if needed */
+}
+
+.glow-effect {
+    animation: blueCircleGlow 1s ease-in-out; /* Blue glow animation */
+    border-radius: 40%; /* Make the glow circular */
+    width: auto; /* Let the image determine the aspect ratio */
+    height: auto;
+}
+
+@keyframes blueCircleGlow {
+    0% {
+        box-shadow: 0 0 10px rgba(0, 128, 255, 0.8), 0 0 20px rgba(0, 128, 255, 1);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(0, 128, 255, 1), 0 0 60px rgba(0, 128, 255, 1);
+        transform: scale(1.1);
+    }
+    100% {
+        box-shadow: 0 0 10px rgba(0, 128, 255, 0.8), 0 0 20px rgba(0, 128, 255, 1);
+        transform: scale(1);
+    }
+}
+
+
+@keyframes healingFly {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.5);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(1);
+    }
+}
+
+.healing-icon {
+    position: absolute;
+    width: 70px; /* Adjust size as needed */
+    height: 70px;
+    background: url('../texture/healing_plus.png'); /* Confirm this path is correct */
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: healingFly 1s ease-out forwards;
+    z-index: 1000;
+}
+
+
+@keyframes attackEffect {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1) rotate(45deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5) rotate(90deg);
+        opacity: 0;
+    }
+}
+
+.attack-animation {
+    position: absolute;
+    width: 100px;
+    height: 20px;
+    background: linear-gradient(to right, red, transparent);
+    border-radius: 50%;
+    z-index: 1000;
+    opacity: 0;
+    animation: attackEffect 0.5s ease-out forwards;
+}
+
+
+    
+        .enemy-object.damage-feedback {
+            animation: damageFeedback 0.5s ease-in-out;
+        }
+        
+        @keyframes damageFeedback {
+            0% { background-color: transparent; }
+            50% { background-color: rgba(255, 0, 0, 0.5); }
+            100% { background-color: transparent; }
+        }
+        
+        .attacked {
+            animation: redFlash 0.3s ease-in-out; /* Slight red flash animation */
+        }
+        
+        @keyframes redFlash {
+            0% {
+                background-color: rgba(255, 0, 0, 0.5); /* Start with red tint */
+            }
+            100% {
+                background-color: transparent; /* Fade back to transparent */
+            }
+        }
+        
+        #friendly-status-bar {
+            left: 2vw;
+        }
+
+        #enemy-status-bar {
+            right: 2vw;
+        }
+
+        .status-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent; /* 設為透明 */
+            border-radius: 8px;
+            padding: 10px;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .status-content h4 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .status-content .hp {
+            font-size: 1.2rem;
+            color: limegreen;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px black; /* 增強可讀性 */
+        }
+
+        .hp {
+            color: lime;
+            font-size: 1rem;
+            margin-top: 5px;
+        }
+
+        .health-bar {
+            width: 100%; /* 使用百分比，使其適應容器 */
+            height: 10px;
+            background-color: limegreen;
+            border-radius: 5px;
+            position: relative;
+            margin-top: 5px;
+            transition: width 0.3s ease-in-out; /* 平滑動畫效果 */
+            z-index: 10;
+        }
+
+        .health-bar-wrapper {
+            width: 80%; /* 使血條容器與角色寬度相符 */
+            margin-top: 30px; /* 與圖片保持適當距離 */
+            margin-bottom: 0px; /* 與描述保持距離 */
+            display: flex;
+            justify-content: center; /* 水平置中 */
+            align-items: center;
+            z-index: 100;
+        }
+
+
+        .hp-text {
+            font-size: 1rem;
+            color: white;
+            margin-left: 10px;
+            text-shadow: 1px 1px 2px black; /* Shadow for better readability */
+            z-index: 1;
+        }
+
+        .friendly-object {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 水平居中 */
+            justify-content: center; /* 垂直居中 */
+            width: 100%; /* 填滿父容器 */
+            height: 100%; /* 填滿父容器 */
+            margin: 0 auto; /* 移除多餘的邊距 */
+            padding: 0; /* 移除多餘的內距 */
+            box-sizing: border-box; /* 包含內距和邊框 */
+            position: relative; /* 相對定位避免與其他元素衝突 */
+            overflow: hidden; /* 避免內容溢出 */
+        }
+
+        .enemy-object {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: auto; /* Adjust width automatically */
+            height: 20vh; /* Set consistent height for enemies */
+        }
+
+        .friendly-object img {
+            width: auto;
+            height: 13vh; /* 調整圖片高度 */
+            object-fit: contain;
+            border-radius: 4px; /* 添加圓角 */
+            z-index: 10;
+        }
+
+        .enemy-object img {
+            width: auto;
+            height: 10vh; /* 調整圖片高度 */
+            object-fit: contain;
+            border-radius: 4px; /* 添加圓角 */
+
+        }
+
+        .boss-character img {
+            width: auto;
+            height: 25vh; /* Make the boss image taller */
+            object-fit: contain; /* Ensure the image fits well */
+            z-index: 10; /* Ensure the boss image is layered properly */
+        }
+
+        .selected {
+            border: 2px solid yellow; /* 或任何你想要的高亮樣式 */
+            opacity: 0.8; /* 使選擇的卡牌稍微透明 */
+        }
+
+        #game-interface-title {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 24px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        #menuBox {
+            display: none; /* 預設隱藏 */
+            position: fixed; /* 固定在視窗上，不受滾動影響 */
+            left: 50%; /* 水平居中 */
+            top: 50%; /* 垂直居中 */
+            transform: translate(-50%, -50%); /* 完全居中 */
+            width: 30vh; /* 設定浮窗寬度 */
+            height: 20vh; /* 設定浮窗高度 */
+            background-color: #f1f1f1; /* 背景顏色 */
+            border: 1px solid #ccc; /* 使用較淺的邊框顏色 */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* 增加陰影深度 */
+            z-index: 500; /* 保證浮窗位於上層 */
+            padding: 20px; /* 內邊距 */
+            overflow: auto; /* 如果內容超出，允許滾動 */
+            border-radius: 8px; /* 添加圓角 */
+        }
+        #menu {
+            display: flex; /* 使用彈性盒模型 */
+            flex-direction: column; /* 垂直排列 */
+            justify-content: center; /* 垂直居中 */
+            align-items: center; /* 水平居中 */
+            gap: 10px; /* 按鈕之間留間距 */
+            background-color: beige;
+            position: absolute; /* 相對於最近的定位祖先元素 #menuBox */
+            z-index: 500; /* 確保在 #menuBox 上層 */
+            left: 50%; /* 將 menu 放在水平中心 */
+            top: 20px; /* 使其距離 #menuBox 上方的 20px */
+            transform: translateX(-50%); /* 水平居中對齊 */
+        }
+
+        #player-area {
+            position: absolute;
+            bottom: 10vh;
+            height: 25vh;
+            width: 50vw; /* 調整 player-area 寬度 */
+            left: 50%;
+            transform: translateX(-50%); /* 將 player-area 居中 */
+            padding: 2vh 0;
+            display: flex;
+            flex-direction: column; /* 垂直排列 */
+            justify-content: center;
+            align-items: center;
+            background-color: transparent; /* 將背景顏色改為透明 */
+            overflow: visible;
+        }
+        #cost {
+            font-size: 20px; /* 設定字體大小 */
+            color: #ccc; /* 設定字體顏色 */
+            padding: 10px; /* 內邊距 */
+            border: 1px solid #ccc; /* 邊框樣式 */
+            border-radius: 5px; /* 邊框圓角 */
+            background-color: rgba(0, 0, 0, 0.5);
+            margin: 0; /* 移除所有邊距 */
+            align-self: flex-start; /* 使 cost 區域靠左對齊 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+            z-index: 500;
+
+        }
+
+        #card {
+            display: flex;
+            flex-wrap: wrap; /* 使卡牌換行 */
+            justify-content: flex-start; /* 垂直方向上方對齊 */
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+        }
+        #card img, .cards img {
+            max-width: 5vw; /* 設定最大寬度 */
+            max-height: 10vh; /* 設定最大高度 */
+            width:max-content;
+            height:max-content;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4,5vw);
+            gap: 5px;
+            align-items: flex-start;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        #next-round {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 15vh;
+            font-weight: bold;
+            color: #ff6347;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            z-index: 100;
+        }
+
+        #hover-image{
+            display: none; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            z-index: 1000;
+        }
+
+        #next-round.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        @keyframes flash {
+            0%, 50%, 100% {
+                opacity: 1;
+            }
+            25%, 75% {
+                opacity: 0;
+            }
+        }
+
+        #next-round.flash {
+            animation: flash 1s ease-in-out infinite;
+        }
+
+        .hidden {
+            display: none; /* 完全隱藏 */
+        }
+
+        #currentStage{
+            color: wheat;
+            height: 50px;
+        }
+
+        #rewardOptions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 每行 3 個卡牌 */
+            gap: 15px; /* 卡牌間距 */
+            justify-items: center; /* 卡牌水平居中 */
+            align-items: center; /* 卡牌垂直居中 */
+            padding: 20px;
+        }
+
+        .reward-card {
+            display: flex;
+            flex-direction: column; /* 垂直排列 */
+            align-items: center;
+            width: 120px;
+            height: 180px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            transition: transform 0.3s, background-color 0.3s;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 輕微陰影增加層次 */
+            overflow: hidden;
+        }
+
+        .reward-card:hover {
+            transform: scale(1.1);
+            background-color: #f1f1f1;
+        }
+
+        .reward-card img {
+            width: 80%; /* 限制圖片大小為卡牌寬度的 80% */
+            height: auto; /* 保持比例 */
+            object-fit: contain; /* 圖片自適應但不變形 */
+            margin-bottom: 10px;
+        }
+
+        .modal-title{
+            text-align: center;
+        }
+
+        #congratulations-container h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        #congratulations-container p {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+
+        #character-info{
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 1em;
+            /*user-select: none;  /* 禁止選取內容 */
+            pointer-events: none; /* 禁止滑鼠交互 */
+        }
+
+        .message-box {
+            padding: 10px;
+            margin-top: 5px;
+            background-color: #222;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+            animation: fadeInOut 5s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        #log-container {
+            position: fixed;
+            top: 10vh;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0); /* Transparent background */
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .red-tint {
+            filter: brightness(0.5) saturate(2) hue-rotate(0deg) contrast(1.5); /* Red tint effect */
+            transition: filter 0.5s ease-in-out; /* Smooth transition */
+        }
+
+        .target-description{
+            background-color: rgba(0, 0, 0, 0.6);
+                font-size: 1.3em;
+            color: #ffffff;
+            padding: 2px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+
+
+   

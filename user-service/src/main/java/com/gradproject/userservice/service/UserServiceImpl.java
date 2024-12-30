@@ -1,5 +1,7 @@
 package com.gradproject.userservice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gradproject.userservice.client.HistoryServiceClient;
 import com.gradproject.userservice.dto.*;
 
@@ -13,12 +15,16 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.RestTemplate;
+
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -33,6 +39,7 @@ public class UserServiceImpl implements UserService {
     RestTemplate restTemplate;
     HistoryServiceClient historyServiceClient;
     CircuitBreakerFactory circuitBreakerFactory;
+    KafkaTemplate<String, String> kafkaTemplate;
 
 
     @Autowired
@@ -41,7 +48,8 @@ public class UserServiceImpl implements UserService {
                            Environment environment,
                            HistoryServiceClient historyServiceClient,
                            CircuitBreakerFactory circuitBreakerFactory,
-                           RestTemplate restTemplate){
+                           RestTemplate restTemplate,
+                           KafkaTemplate<String, String> kafkaTemplate){
 
 //                           OrderServiceClient orderServiceClient) {
 
@@ -52,6 +60,7 @@ public class UserServiceImpl implements UserService {
         this.historyServiceClient = historyServiceClient;
         this.circuitBreakerFactory = circuitBreakerFactory;
 //        this.orderServiceClient = orderServiceClient;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
 
@@ -135,7 +144,40 @@ public class UserServiceImpl implements UserService {
         ResponseHistory history = historyResponse.getBody();
 
         return ResponseMyInfo.create(userEntity, history);
+    }
 
+    @Override
+    public ResponseMyInfo getResponseMyInfoByKafka(String topic, String email) {
+
+        UserEntity userEntity = userRepository.findByEmail(email);
+
+        checkUserExist(email, userEntity);
+
+//        log.info("before call history service");
+//        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+
+//        ResponseEntity<ResponseHistory> historyResponse =
+//                circuitbreaker.run(() -> historyServiceClient.getPlayedGameList(email),
+//                        throwable -> ResponseEntity.ok(ResponseHistory.createEmpty()));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonInString = "";
+        try {
+            jsonInString = mapper.writeValueAsString(email);
+        } catch(JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+
+        ListenableFuture<SendResult<String, String>> result = kafkaTemplate.send(topic, jsonInString);
+
+        log.info("Kafka Producer sent data from the user microservice: " + email);
+        log.info("result: " + result);
+
+
+//        log.info("after call history service");
+//        ResponseHistory history = historyResponse.getBody();
+
+        return ResponseMyInfo.create(userEntity, null);
     }
 
     private static void checkUserExist(String email, UserEntity userEntity) {

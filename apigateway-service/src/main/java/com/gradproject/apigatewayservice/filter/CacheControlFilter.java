@@ -13,6 +13,8 @@ public class CacheControlFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
+//        System.out.println("----------Cache Control Filter----------");
         String path = exchange.getRequest().getURI().getPath();
 
         // 특정 파일 형식에 대한 캐시 제어 적용

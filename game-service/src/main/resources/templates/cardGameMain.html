@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/css/main/navbar.css">
     <link rel="stylesheet" href="/css/main/top.css">
     <link rel="stylesheet" href="/css/main/playGame.css">
+    <link rel="stylesheet" href="/css/main/footer.css">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- font-awesome-->
@@ -83,11 +84,6 @@
         }
 
         /* sns 속에 img */
-        #footer{
-            background-color: black;
-            height: 200px;
-        }
-
         .counter {
             font-size: 14px;
             color: white;
@@ -121,9 +117,12 @@
         <div id="broken-icon-right-5"></div>
         <div id="broken-icon-right-6"></div>
         <div id="broken-icon-right-7"></div>
-        <img id="boss-icon-1" src="/img/boss.png" alt="">
-        <img id="hero-icon-1" src="/img/hero.png" alt="">
-        <img id="hero-icon-2" src="/img/hero.png" alt="">
+        <img id="logo-icon" src="/game-service/img/top-logo.png" alt="">
+        <img id="boss-icon-1" src="/game-service/img/centerBoss.png" alt="">
+        <img id="boss-icon-2" src="/game-service//img/rightBoss.png" alt="">
+        <img id="boss-icon-3" src="/game-service//img/leftBoss.png" alt="">
+        <img id="hero-icon-1" src="/game-service//img/rightHero.png" alt="">
+        <img id="hero-icon-2" src="/game-service//img/leftHero.png" alt="">
 
         <nav id="navbar" class="navbar navbar-expand-lg py-3 shadow-lg sticky-top">
             <div class="container">
@@ -148,7 +147,7 @@
                         </li>
 
                         <li class="nav-item navbar-divider">
-                            <button id="myInfoBtn" class="navbarBtn" onclick="getMyInfo()"><p class="navbar-text">MY INFO</p></button>
+                            <button id="myInfoBtn" class="navbarBtn"><p class="navbar-text"> <i class="fa-solid fa-check fa-2xl" style="color: #ffffff;"></i></p></button>
                         </li>
                         <li class="nav-item navbar-divider">
                             <button id="logoutBtn" class="navbarBtn" onclick="logout()"><p class="navbar-text">LOGOUT</p></button>
@@ -161,9 +160,21 @@
 
 
 
-        <button type="button" id="playBtn" data-toggle="modal" data-target="#playGameModal">
-            플레이 게임
+<!--        <button type="button" id="playBtn" data-toggle="modal" data-target="#playGameModal">-->
+<!--            play Game-->
+<!--        </button>-->
+
+        <button type="button" id="newPlayBtn" onclick="playNewGame()">
+            play new game
         </button>
+
+        <button type="button" id="continuePlayBtn" onclick="playContinue()">
+            play continue
+        </button>
+
+<!--        <button id="beginningPlayBtn" class="playModalBtn" onclick="playNewGame()">new</button>-->
+
+<!--        <button id="continuePlayBtn" class="playModalBtn" onclick="playContinue()">continue</button>-->
 
         <section id="top">
             <div id="top-card" class="">
@@ -192,8 +203,8 @@
                     <div class="right-half d-flex justify-content-center align-items-center">
 
                         <div id="game-info-content">
-                            <h1>what is game's name?</h1>
-                            <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
+                            <h1>WHAT’S ASTERION ?</h1>
+                            <p>Asterion Battle is an unforgettable heroic adventure. Step into the role of a fearless warrior and descend into shadowy, treacherous dungeons to face Asterion, the fearsome monster holding the princess captive. Armed with your blade and unshakable courage, you’ll confront challenges that only a true hero can conquer. Are you ready to save the princess and become a legend?</p>
                         </div>
                     </div>
                     <div class="clear"></div>
@@ -203,8 +214,8 @@
                     <div class="divide-line"></div>
                     <div class="left-half">
                         <div id="play-info-content">
-                            <h1>what is game's name?</h1>
-                            <p>A card game is any game that uses playing cards as the primary device with which the game is played, whether the cards are of a traditional design or specifically created for the game (proprietary).</p>
+                            <h1>Character introduction</h1>
+                            <p>A monstrous figure with blazing red eyes and wings like shadows of despair. Asterion is pure terror, ruling the labyrinth with brute strength and cunning. Few have faced him—and none have survived.</p>
                         </div>
 
                     </div>
@@ -228,13 +239,13 @@
                             <div class="carousel-track-container">
                                 <ul class="carousel-track">
                                     <li class="carousel-slide current-slide">
-                                        <img class="carousel-img" src="/img/ingame1.jpg" alt="Slide 1">
+                                        <img class="carousel-img" src="/img/ingame1.png" alt="Slide 1">
                                     </li>
                                     <li class="carousel-slide">
-                                        <img class="carousel-img" src="/img/ingame2.jpg" alt="Slide 2">
+                                        <img class="carousel-img" src="/img/ingame2.png" alt="Slide 2">
                                     </li>
                                     <li class="carousel-slide">
-                                        <img class="carousel-img" src="/img/ingame3.jpg" alt="Slide 3">
+                                        <img class="carousel-img" src="/img/ingame3.png" alt="Slide 3">
                                     </li>
                                 </ul>
                             </div>
@@ -263,7 +274,7 @@
                     <div id="userIconBox">
                         <i id="userIcon" class="fas fa-user"></i>
                     </div>
-                    <textarea type="text" id="commentContent" name="commentContent" placeholder="댓글을 입력하세요"></textarea>
+                    <textarea type="text" id="commentContent" name="commentContent" placeholder="please write comment"></textarea>
                     <button id="saveCommentBtn" onclick="saveComment()"><i class="fa-solid fa-location-arrow" style="color: #ffffff;"></i></button>
                 </div>
 
@@ -343,30 +354,26 @@
         <!--    </div>-->
 
 
-        <div class="modal fade" id="playGameModal" tabindex="-1" role="dialog" aria-labelledby="playGameModalLabel">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div id="play-modal" class="modal-body">
-                        <!-- 모달 창 내의 데이터 입력 폼 -->
-                        <div class="row">
-                            <div class="col-6 justify-content-center align-items-center">
-                                <button id="beginningPlayBtn" class="playModalBtn" onclick="playNewGame()">처음부터 하기</button>
-                            </div>
-                            <div class="col-6">
-                                <button id="continuePlayBtn" class="playModalBtn" onclick="playContinue()">이어서 하기</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="modal fade" id="playGameModal" tabindex="-1" role="dialog" aria-labelledby="playGameModalLabel">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div id="" class="modal-body">-->
+
+<!--                                <button id="beginningPlayBtn" class="playModalBtn" onclick="playNewGame()">new</button>-->
+
+<!--                                <button id="continuePlayBtn" class="playModalBtn" onclick="playContinue()">continue</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!--    댓글 수정 모달-->
         <div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel">
+
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="updateCommentModalLabel">댓글 수정</h4>
+                        <h4 class="modal-title" id="updateCommentModalLabel"></h4>
                     </div>
                     <div class="modal-body">
                         <!-- 모달 창 내의 데이터 입력 폼 -->
@@ -389,7 +396,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="updateReplyModalLabel">대댓글 수정</h4>
+                        <h4 class="modal-title" id="updateReplyModalLabel">update reply</h4>
                     </div>
                     <div class="modal-body">
                         <!-- 모달 창 내의 데이터 입력 폼 -->
@@ -420,7 +427,13 @@
         <footer id="footer">
             <div class="section-content">
                 <div id="footer-container">
-
+                    <img id="footer-logo" class="footer-margin" src="/game-service/img/top-logo.png" alt="logo">
+                    <img id="footer-hero-1"  src="/game-service/img/footer-hero-1.png" alt="">
+                    <img id="footer-hero-2"  src="/game-service/img/footer-hero-2.png" alt="">
+                    <img id="footer-hero-3" class="footer-margin" src="/game-service/img/footer-hero-3.png" alt="">
+                    <img id="footer-boss-3" class="footer-margin" src="/game-service/img/footer-boss-3.png" alt="">
+                    <img id="footer-boss-2"  src="/game-service/img/footer-boss-2.png" alt="">
+                    <img id="footer-boss-1"  src="/game-service/img/footer-boss-1.png" alt="">
 
                 </div>
             </div>

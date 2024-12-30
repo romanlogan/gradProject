@@ -43,7 +43,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.authorizeRequests().mvcMatchers("/","/login","/registration","/loginForm","/test","/users", "/img/**", "/css/**","/main","/myInfo/**","/validateJwt").permitAll();
         http.authorizeRequests().antMatchers("/**")
-                .hasIpAddress("127.0.0.1")
+                .permitAll()
+//                .hasIpAddress("127.0.0.1")
                 .and()
                 .addFilter(getAuthenticationFilter());
 

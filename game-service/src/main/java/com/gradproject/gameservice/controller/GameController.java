@@ -16,12 +16,19 @@ import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,90 +55,104 @@ public class GameController {
         this.circuitBreakerFactory = circuitBreakerFactory;
     }
 
+    @GetMapping("/test")
+    @ResponseBody
+    public String loadExternalHtml() throws Exception {
+        // 외부 파일 경로 설정 (예: /Users/username/external_folder/loading.html)
+
+        // 파일 내용을 읽어서 반환
+
+        String filePath = env.getProperty("asterion.path");
+        return new String(Files.readAllBytes(Paths.get(filePath)));
+    }
+
+
+    @GetMapping("/loading")
+    public  String loading(@RequestParam String type , Model model) throws Exception {
+
+//        loading 화면 경로
+//        RedirectView redirectView = new RedirectView();
+//        redirectView.setUrl("file:///Users/lee/Desktop/gradFront/WebGame_CSIE/loading/loading.html?type=new");
+
+//        Path path = Paths.get("/Users/lee/Desktop/gradFront/WebGame_CSIE/loading/loading.html");
+//
+//        String content = Files.readString(path, StandardCharsets.UTF_8);
+//
+//        content = content.replace("{{param}}", param);
+
+//        return ResponseEntity.ok()
+//                .contentType(MediaType.TEXT_HTML)
+//                .body(content);
+
+        model.addAttribute("type", type);
+
+        return "loading";
+    }
+
+
     @GetMapping("/main")
     public String main(
                        Model model,
                        HttpServletRequest request) {
 
-        log.info("called main");
-
-        Long gameId = 1L;
-        ResponseMain response = gameService.getCommentList(gameId);
-        String loggedInUserId = null;
-
+        ResponseMain response = gameService.getCommentList(1L);
 
         model.addAttribute("response", response);
-        model.addAttribute("loggedInUserId", loggedInUserId);
+        model.addAttribute("loggedInUserId", null);
 
         return "cardGameMain";
     }
 
-//    @GetMapping("/main/{token}")
-//    public String main(@PathVariable("token") String token,
-//                       Model model,
-//                       HttpServletRequest request) {
-//
-//        log.info("called main with token"+ token);
-////        jwt 를 다
-//        String loggedInUserId;
-//
-//        try {
-//            loggedInUserId = getSubjectInJwt(token);
-//        } catch (ExpiredJwtException e) {
-//
-////            expired jwt 이면 바로 로그인 ㅇ로 보내는것이 아니라 로그인이 되지 않은 유저라고 인식하면 됨
-////            return "loginForm";
-//            loggedInUserId = null;
-////            model.addAttribute("error")
-//        }
-//
-//        Long gameId = 1L;
-//        ResponseMain response = gameService.getCommentList(gameId);
-//
-//        model.addAttribute("response", response);
-//        model.addAttribute("loggedInUserId", loggedInUserId);
-//
-//        return "cardGameMain";
-//    }
-
-
     @GetMapping("/cardGame")
+//    @ResponseBody
     public String getGame1(@RequestParam(name = "playType") String playType,
-            @RequestParam(name = "token") String token,
-            Model model){
+            @RequestParam(name = "token") String token
+            ,Model model) throws IOException {
 
-        String userEmail = getSubjectInJwt(token);
+
+
+
+//        String userEmail = getSubjectInJwt(token);
         //querystring 에 play type 을 보내서
         // playType 이 new 이면 new 로직으로
         // playType 이 continue 이면 continue 로직으로
-        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
-        if (playType.equals("new")) {
+//        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
+//
+//
+//        if (playType.equals("new")) {
+//
+////          basic deck 을 가져온다
+//            List<Integer> basicDeck = List.of(31, 32, 33, 46, 49, 52, 55, 60);
+//
+//            LastSavedHistory lastSavedHistory = new LastSavedHistory();
+//            lastSavedHistory.setUserEmail(userEmail);
+//
+//            model.addAttribute("basicDeck",basicDeck);
+//            model.addAttribute("lastSavedHistory", lastSavedHistory);
+//
+//        } else if (playType.equals("continue")) {
+//
+//            ResponseEntity<LastSavedHistory> response =
+//                    circuitbreaker.run(() -> historyServiceClient.getLastSavedHistory(1, userEmail),
+//                            throwable -> ResponseEntity.ok(LastSavedHistory.error()));
+//
+//            LastSavedHistory lastSavedHistory = response.getBody();
+//
+//
+//
+//            model.addAttribute("basicDeck","null");
+//            model.addAttribute("lastSavedHistory", lastSavedHistory);
+//        }
+//
+//        model.addAttribute("userEmail", userEmail);
+//        model.addAttribute("startTime", LocalDateTime.now());
+////        return "cardGame";
 
-//          basic deck 을 가져온다
-            List<Integer> basicDeck = List.of(31, 32, 33, 46, 49, 52, 55, 60);
+//        RESPONSEBODY 를 확인할것
 
-            LastSavedHistory lastSavedHistory = new LastSavedHistory();
-            lastSavedHistory.setUserEmail(userEmail);
+//        String filePath = env.getProperty("asterion.path");
+//        return new String(Files.readAllBytes(Paths.get(filePath)));
 
-            model.addAttribute("basicDeck",basicDeck);
-            model.addAttribute("lastSavedHistory", lastSavedHistory);
-
-        } else if (playType.equals("continue")) {
-
-            ResponseEntity<LastSavedHistory> response =
-                    circuitbreaker.run(() -> historyServiceClient.getLastSavedHistory(1, userEmail),
-                            throwable -> ResponseEntity.ok(LastSavedHistory.error()));
-
-            LastSavedHistory lastSavedHistory = response.getBody();
-
-
-
-            model.addAttribute("basicDeck","null");
-            model.addAttribute("lastSavedHistory", lastSavedHistory);
-        }
-
-        model.addAttribute("userEmail", userEmail);
-        model.addAttribute("startTime", LocalDateTime.now());
         return "cardGame";
     }
 

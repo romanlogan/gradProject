@@ -1,18 +1,23 @@
 
 /* 인트로  */
+/*#emptyBox{*/
+/*    background-color: rgba(95, 56, 39);*/
+
+/*}*/
+
 #intro{
     background-color: rgba(95, 56, 39);
-
 }
 
 #intro-container{
     margin-left: 200px;
     margin-right: 200px;
+    /*background-color: rgba(95, 56, 39);*/
 }
 
 #emptyBox{
     background-color: rgba(245, 238, 225);
-    height: 400px;
+    height: 55vh;
 }
 
 #game-info{

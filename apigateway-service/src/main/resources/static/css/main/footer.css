@@ -1,0 +1,46 @@
+
+#footer{
+    background-color: black;
+    height: 35vh;
+}
+
+#footer-logo{
+    width: 30vw;
+    height: 20vh;
+}
+
+
+.footer-margin{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#footer-hero-1{
+    width: 7vw;
+    height: 15vh;
+}
+
+#footer-hero-2{
+    width: 9vw;
+    height: 15vh;
+}
+
+#footer-hero-3{
+    width: 12vw;
+    height: 20vh;
+}
+
+#footer-boss-1{
+    width: 7vw;
+    height: 15vh;
+}
+
+#footer-boss-2{
+    width: 9vw;
+    height: 16vh;
+}
+
+#footer-boss-3{
+    width: 12vw;
+    height: 20vh;
+}

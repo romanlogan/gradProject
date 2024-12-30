@@ -187,7 +187,10 @@ function deleteComment(commentId) {
 
             if(jqXHR.status == '200'){
                 showSuccessMessage('Comment successfully deleted');
-            }else{
+            }else if(jqXHR.status == 401){
+                showLoginRequiredMessage();
+
+            } else{
                 showErrorMessage('Failed to delete comment, please try again later');
             }
 
@@ -245,7 +248,12 @@ function updateComment() {
 
             if(jqXHR.status == '200'){
                 showSuccessMessage('Comment successfully updated');
-            }else{
+            }
+            else if(jqXHR.status == 401){
+                showLoginRequiredMessage();
+
+            }
+            else{
                 showErrorMessage('Failed to update comment, please try again later');
             }
 

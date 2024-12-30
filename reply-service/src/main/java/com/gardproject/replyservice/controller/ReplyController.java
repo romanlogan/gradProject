@@ -46,39 +46,12 @@ public class ReplyController {
             return CheckBindingResult.induceSuccessInAjax(bindingResult);
         }
 
-        String userEmail;
-        String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
+        String userEmail = httpServletRequest.getHeader("X-User-Email");
+
         requestSave.setCreatedAt(LocalDateTime.now());
-
-        try {
-            userEmail = getSubjectInJwt(token);
-        } catch (JwtNullTokenException | ExpiredJwtException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
-        }
-
         Long id = replyService.save(requestSave, userEmail);
 
         return new ResponseEntity(id, HttpStatus.OK);
-    }
-
-    private String getSubjectInJwt(String token) {
-
-        if (token == null) {
-            throw new JwtNullTokenException("유효하지 않은 token 입니다. (null)");
-        }
-
-        String replacedToken = token.replace("Bearer", "");
-
-        if (replacedToken.equals("null")) {
-            throw new JwtNullTokenException("유효하지 않은 token 입니다. (null string token)");
-        }
-
-        String subject = Jwts.parser()
-                .setSigningKey(env.getProperty("token.secret"))
-                .parseClaimsJws(replacedToken).getBody()
-                .getSubject();
-
-        return subject;
     }
 
     @GetMapping("/replies/{commentId}")
@@ -90,7 +63,6 @@ public class ReplyController {
         return ResponseEntity.ok(response);
     }
 
-
     @DeleteMapping("/delete")
     public ResponseEntity delete(HttpServletRequest httpServletRequest,
                                  @RequestBody @Valid RequestDelete requestDelete,
@@ -98,14 +70,6 @@ public class ReplyController {
 
         if(bindingResult.hasErrors()){
             return CheckBindingResult.induceSuccessInAjax(bindingResult);
-        }
-
-        String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
-
-        try {
-            getSubjectInJwt(token);
-        } catch (JwtNullTokenException | ExpiredJwtException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
         replyService.delete(requestDelete);
@@ -121,14 +85,6 @@ public class ReplyController {
 
         if(bindingResult.hasErrors()){
             return CheckBindingResult.induceSuccessInAjax(bindingResult);
-        }
-
-        String token = httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION);
-
-        try {
-            getSubjectInJwt(token);
-        } catch (JwtNullTokenException | ExpiredJwtException e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }
 
         replyService.update(requestUpdate);

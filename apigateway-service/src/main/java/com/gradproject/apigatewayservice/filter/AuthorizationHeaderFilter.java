@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-@Component
+//@Component
 @Slf4j
 public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<AuthorizationHeaderFilter.Config> {
 
@@ -34,15 +34,15 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
         return (exchange, chain) -> {
 
+            System.out.println("----------Auth Filter----------");
             //헤더에 로그인시 받았던 토큰틀 전달, 토큰이 잘 들어갔는가, 토큰이 잘 발급된건가 등등 확인
             ServerHttpRequest request = exchange.getRequest();
+
 
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 System.out.println("---------------No authorization header-------------");
                 return onError(exchange, "No authorization header", HttpStatus.UNAUTHORIZED);
             }
-
-
 
 //            String authorizationHeader = request.getHeaders().get()
             String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
@@ -77,6 +77,8 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
     private boolean isJwtValid(String jwt) {
 //        byte[] secretKeyBytes = Base64.getEncoder().encode(env.getProperty("token.secret").getBytes());
 //        SecretKey signingKey = new SecretKeySpec(secretKeyBytes, SignatureAlgorithm.HS512.getJcaName());
+
+        String expTime = env.getProperty("token.expiration_time");
 
         String subject = null;
         boolean returnValue = true;

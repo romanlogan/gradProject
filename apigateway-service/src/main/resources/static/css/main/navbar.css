@@ -1,10 +1,10 @@
 /* navbar */
 #navbar{
     position: fixed;
-    z-index: 100;
-    width: 600px;
+    z-index: 200;
+    width: 43vw;
     background-color: rgba(95, 56, 39);
-    left: 420px;
+    left: 28vw;
     height: 80px;
 }
 
@@ -20,14 +20,14 @@
     cursor: pointer;            /* 클릭 가능한 느낌 유지 */
     margin-left: 20px;
     margin-right: 20px;
-    width: 150px;
-    height: 50px;
+    width: 10vw;
+    height: 5vh;
 }
 
 
 .navbar-divider{
 
-    border-left: 4px solid white; /* 왼쪽 테두리만 설정 */
+    /*border-left: 4px solid white; !* 왼쪽 테두리만 설정 *!*/
 }
 .navbar-text{
     padding:0;

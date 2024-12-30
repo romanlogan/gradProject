@@ -153,7 +153,10 @@ public class UserController {
         }
 
         // 내가 플레이 한 게임중 최신의 게임을 가져오기
-        ResponseMyInfo response = userService.getResponseMyInfo(userEmail);
+//        ResponseMyInfo response = userService.getResponseMyInfo(userEmail);
+        ResponseMyInfo response = userService.getResponseMyInfoByKafka("getPlayedGameList-topic",userEmail);
+
+
 
         model.addAttribute("response", response);
         return "myInfo";

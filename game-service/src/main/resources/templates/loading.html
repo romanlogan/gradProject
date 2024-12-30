@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading Screen</title>
+  <link rel="stylesheet" href="/game-service/css/loadingStyle.css">
+</head>
+<body>
+
+  <input type="hidden" id="playType">
+
+  <!-- Logo at the top of the loading bar -->
+  <div class="logo-container">
+    <img src="/game-service/img/loadingLogo.png" alt="Asterion Battle Logo" class="logo">
+  </div>
+
+  <div class="loading-container">
+    <div class="loading-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    <div class="character" id="character"></div>
+    <p id="loading-text">Loading... 0%</p>
+  </div>
+
+<!--  <h1>Parameter Value: <span id="paramValue">{{param}}</span></h1>-->
+  
+  <script src="/game-service/js/loadingScript.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async function() {
+
+      let playType = document.getElementById("playType");
+      playType.value = `[[${type}]]`;
+
+      console.log( "type : " + `[[${type}]]`);
+    });
+  </script>
+</body>
+</html>

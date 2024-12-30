@@ -55,6 +55,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
+
+        String expTime = env.getProperty("token.expiration_time");
         try {
             //전달하려는 login 값은이 post 형태로 전달되며
             // post 형태는 requestParameter 로 받을수 없으므로 inputStream 형태로 받아야한다
@@ -92,6 +94,9 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authentication) throws IOException, ServletException {
+
+        String expTime = env.getProperty("token.expiration_time");
+        System.out.println("token exp time : " + expTime);
 
         String username = ((User) authentication.getPrincipal()).getUsername();
         UserDto userDetails = userService.getUserDetailsByEmail(username);

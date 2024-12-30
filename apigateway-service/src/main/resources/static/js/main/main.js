@@ -241,6 +241,10 @@ function playNewGame(){
 
     const token = localStorage.getItem('token');
 
+    //  ajax 를 안쓰자니 location.href = "/game-service/loading?type=new" 만 쓰면 token 을 Authorization 헤더에 넣기가 애매하고
+    //  ajax 를 쓰고 url 에 "/game-service/loading?type=new" 만 넣으면  어차피 success 에서 다시 location.href = "/game-service/loading?type=new" 를 넣어야 이동이 되므로 의미 없는 일이 된다
+    // 그러므로 여기서는 api gateway 의 로직을 쓰지말고 validatejwt 로 외부에서 인증 받기로 하자
+
     $.ajax({
         url      : "/user-service/validateJwt",
         type     : "GET",
@@ -252,8 +256,8 @@ function playNewGame(){
         success  : function(result, status, data){
 
             console.log("token is valid");
-            location.href = "/game-service/cardGame?token=" + token + "&playType=new";
-
+            // location.href = "/game-service/cardGame?token=" + token + "&playType=new";
+            location.href = "/game-service/loading?type=new"
         },
         error : function(jqXHR, status, error, result){
 
@@ -281,7 +285,8 @@ function playContinue(){
 
 
             console.log("token is valid");
-            location.href = "/game-service/cardGame?token=" + token + "&playType=continue";
+            // location.href = "/game-service/cardGame?token=" + token + "&playType=continue";
+            location.href = "/game-service/loading?type=continue"
 
         },
         error : function(jqXHR, status, error, result){

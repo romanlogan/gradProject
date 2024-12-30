@@ -1,412 +1,532 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="gamee.css">
+
+
+    <script src="./js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-    <script type="module" src="/Hero.js?v=1.2" async></script>
-    <script type="module" src="/Character.js?v=1.2" async></script>
-    <script type="module" src="/Enemy.js?v=1.2" async></script>
-    <script type="module" src="/CardSystem.js?v=1.2" async></script>
-    <script type="module" src="/Deck_Default.js?v=1.2" async></script>
-    <script type="module" src="/Card.js?v=1.2" async></script>
-    <script type="module" src="/BattleSystem.js?v=1.2" async></script>
-    <script type="module" src="/Menu.js?v=1.1" async></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 
+    <script type="module" src="Hero.js" async></script>
+    <script type="module" src="Character.js" async></script>
+    <script type="module" src="Enemy.js" async></script>
+    <script type="module" src="CardSystem.js" async></script>
+    <script type="module" src="Deck_Default.js" async></script>
+    <script type="module" src="Card.js" async></script>
+    <script type="module" src="BattleSystem.js" async></script>
+    <script type="module" src="Menu.js" async></script>
 
     <title>Playing Card</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
+        /*body {*/
+        /*    margin: 0;*/
+        /*    padding: 0;*/
+        /*}*/
 
-        .button {
+        /*.button {*/
+        /*    cursor: pointer;*/
+        /*    font-size: 2vh;*/
+        /*    padding: 1vh 2vh;*/
+        /*    border-radius: 20px;*/
+        /*    border: none;*/
+        /*    background-color: #4CAF50;*/
+        /*    color: white;*/
+        /*    transition: background-color 0.3s ease, transform 0.2s;*/
+        /*}*/
+
+        /*.button:hover {*/
+        /*    background-color: #45a049;*/
+        /*    transform: scale(1.05); !* 放大效果 *!*/
+        /*}*/
+
+        /*.button:active {*/
+        /*    transform: scale(0.95); !* 按下縮小效果 *!*/
+        /*}*/
+
+        /*#button-container {*/
+        /*    display: flex;*/
+        /*    justify-content: center;*/
+        /*    gap: 20px;*/
+        /*    padding: 10px 0;*/
+        /*    background-color: #f0f0f0;*/
+        /*    width: 100%;*/
+        /*    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);*/
+        /*    position: absolute;*/
+        /*    bottom: 0;*/
+        /*    left: 50%;*/
+        /*    transform: translateX(-50%);*/
+        /*    z-index: 20;*/
+        /*}*/
+
+        /*#battle-area {*/
+        /*    display: flex;*/
+        /*    justify-content: space-around;*/
+        /*    align-items: center;*/
+        /*    width: 80vw;*/
+        /*    height: 70vh;*/
+        /*    margin: 10vh auto;*/
+        /*    background-color: #f0f0f0;*/
+        /*    border: 2px solid #ccc;*/
+        /*    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);*/
+        /*}*/
+
+        /*#friendly-area, #enemy-area {*/
+        /*    display: grid;*/
+        /*    grid-template-columns: 1fr; !* 保持單列佈局 *!*/
+        /*    grid-auto-rows: minmax(10vh, 1fr); !* 自動調整每個角色的高度 *!*/
+        /*    gap: 5px; !* 控制角色之間的間距 *!*/
+        /*    background-color: #f5f5f5;*/
+        /*    border: 2px solid #ccc;*/
+        /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+        /*    text-align: center;*/
+        /*    width: 35vh;*/
+        /*    height: 60vh;*/
+        /*    padding: 2vh;*/
+        /*    margin: 0 3vh;*/
+        /*}*/
+
+
+        /*#all-cards, #drop-cards {*/
+        /*    position: absolute;*/
+        /*    width: 20vw;*/
+        /*    height: 30vh;*/
+        /*    overflow-y: auto;*/
+        /*    background-color: #f0f0f0;*/
+        /*}*/
+
+        /*#all-cards {*/
+        /*    left: 1vh;*/
+        /*    bottom: 10vh;*/
+        /*}*/
+
+        /*#drop-cards {*/
+        /*    right: 1vh;*/
+        /*    bottom: 10vh;*/
+        /*}*/
+
+        /*#friendly-status-bar,*/
+        /*#enemy-status-bar {*/
+        /*    width: 14vw; !* 調整寬度 *!*/
+        /*    padding: 1.5vh; !* 適當內邊距 *!*/
+        /*    position: absolute;*/
+        /*    top: 15vh; !* 讓狀態欄更居中 *!*/
+        /*    z-index: 20;*/
+        /*    background-color: rgba(0, 0, 0, 0.8); !* 更深的背景提升可讀性 *!*/
+        /*    color: white;*/
+        /*    border-radius: 10px;*/
+        /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); !* 增強陰影效果 *!*/
+        /*    text-align: left; !* 左對齊內容 *!*/
+        /*}*/
+
+        /*#friendly-status-bar {*/
+        /*    left: 2vw;*/
+        /*}*/
+
+        /*#enemy-status-bar {*/
+        /*    right: 2vw;*/
+        /*}*/
+
+        /*.status-content {*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    align-items: center;*/
+        /*    justify-content: center;*/
+        /*    background-color: transparent; !* 設為透明 *!*/
+        /*    border-radius: 8px;*/
+        /*    padding: 10px;*/
+        /*    width: 100%;*/
+        /*    gap: 10px;*/
+        /*}*/
+
+        /*.status-content h4 {*/
+        /*    margin: 0;*/
+        /*    font-size: 1.5rem;*/
+        /*    font-weight: bold;*/
+        /*    color: white;*/
+        /*}*/
+
+        /*.status-content .hp {*/
+        /*    font-size: 1.2rem;*/
+        /*    color: limegreen;*/
+        /*    font-weight: bold;*/
+        /*    text-shadow: 1px 1px 3px black; !* 增強可讀性 *!*/
+        /*}*/
+
+        /*.hp {*/
+        /*    color: lime;*/
+        /*    font-size: 1rem;*/
+        /*    margin-top: 5px;*/
+        /*}*/
+
+        /*.health-bar {*/
+        /*    width: 90%; !* 使用百分比，使其適應容器 *!*/
+        /*    height: 12px;*/
+        /*    background-color: limegreen;*/
+        /*    border-radius: 6px;*/
+        /*    position: relative;*/
+        /*    margin-top: 5px;*/
+        /*    transition: width 0.3s ease-in-out; !* 平滑動畫效果 *!*/
+        /*}*/
+
+        /*.health-bar-wrapper {*/
+        /*    width: 80%; !* 使血條容器與角色寬度相符 *!*/
+        /*    margin-top: 10px; !* 與圖片保持適當距離 *!*/
+        /*    margin-bottom: 5px; !* 與描述保持距離 *!*/
+        /*    display: flex;*/
+        /*    justify-content: center; !* 水平置中 *!*/
+        /*    align-items: center;*/
+        /*}*/
+
+
+        /*.hp-text {*/
+        /*    font-size: 1rem;*/
+        /*    color: white;*/
+        /*    margin-left: 10px;*/
+        /*    text-shadow: 1px 1px 2px black; !* Shadow for better readability *!*/
+        /*    z-index: 1;*/
+        /*}*/
+
+        /*.friendly-object, .enemy-object {*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    align-items: center; !* 水平居中 *!*/
+        /*    justify-content: center; !* 垂直居中 *!*/
+        /*    width: 100%; !* 填滿父容器 *!*/
+        /*    height: 100%; !* 填滿父容器 *!*/
+        /*    margin: 0 auto; !* 移除多餘的邊距 *!*/
+        /*    padding: 0; !* 移除多餘的內距 *!*/
+        /*    box-sizing: border-box; !* 包含內距和邊框 *!*/
+        /*    position: relative; !* 相對定位避免與其他元素衝突 *!*/
+        /*    overflow: hidden; !* 避免內容溢出 *!*/
+        /*}*/
+
+        /*.friendly-object img, .enemy-object img {*/
+        /*    width: auto;*/
+        /*    height: 6vh; !* 調整圖片高度 *!*/
+        /*    object-fit: contain;*/
+        /*    border-radius: 8px; !* 添加圓角 *!*/
+        /*}*/
+
+        /*.selected {*/
+        /*    border: 2px solid yellow; !* 或任何你想要的高亮樣式 *!*/
+        /*    opacity: 0.8; !* 使選擇的卡牌稍微透明 *!*/
+        /*}*/
+
+        /*#game-interface-title {*/
+        /*    width: 100%;*/
+        /*    background-color: #333;*/
+        /*    color: white;*/
+        /*    text-align: center;*/
+        /*    padding: 10px;*/
+        /*    font-size: 24px;*/
+        /*    position: fixed;*/
+        /*    top: 0;*/
+        /*    left: 0;*/
+        /*    z-index: 100;*/
+        /*}*/
+        /*#menuBox {*/
+        /*    display: none; !* 預設隱藏 *!*/
+        /*    position: fixed; !* 固定在視窗上，不受滾動影響 *!*/
+        /*    left: 50%; !* 水平居中 *!*/
+        /*    top: 50%; !* 垂直居中 *!*/
+        /*    transform: translate(-50%, -50%); !* 完全居中 *!*/
+        /*    width: 30vh; !* 設定浮窗寬度 *!*/
+        /*    height: 20vh; !* 設定浮窗高度 *!*/
+        /*    background-color: #f1f1f1; !* 背景顏色 *!*/
+        /*    border: 1px solid #ccc; !* 使用較淺的邊框顏色 *!*/
+        /*    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); !* 增加陰影深度 *!*/
+        /*    z-index: 500; !* 保證浮窗位於上層 *!*/
+        /*    padding: 20px; !* 內邊距 *!*/
+        /*    overflow: auto; !* 如果內容超出，允許滾動 *!*/
+        /*    border-radius: 8px; !* 添加圓角 *!*/
+        /*}*/
+        /*#menu {*/
+        /*    display: flex; !* 使用彈性盒模型 *!*/
+        /*    flex-direction: column; !* 垂直排列 *!*/
+        /*    justify-content: center; !* 垂直居中 *!*/
+        /*    align-items: center; !* 水平居中 *!*/
+        /*    gap: 10px; !* 按鈕之間留間距 *!*/
+        /*    background-color: beige;*/
+        /*    position: absolute; !* 相對於最近的定位祖先元素 #menuBox *!*/
+        /*    z-index: 500; !* 確保在 #menuBox 上層 *!*/
+        /*    left: 50%; !* 將 menu 放在水平中心 *!*/
+        /*    top: 20px; !* 使其距離 #menuBox 上方的 20px *!*/
+        /*    transform: translateX(-50%); !* 水平居中對齊 *!*/
+        /*}*/
+
+        /*#player-area {*/
+        /*    position: absolute;*/
+        /*    bottom: 10vh;*/
+        /*    height: 25vh;*/
+        /*    width: 50vw; !* 調整 player-area 寬度 *!*/
+        /*    left: 50%;*/
+        /*    transform: translateX(-50%); !* 將 player-area 居中 *!*/
+        /*    padding: 2vh 0;*/
+        /*    display: flex;*/
+        /*    flex-direction: column; !* 垂直排列 *!*/
+        /*    justify-content: center;*/
+        /*    align-items: center;*/
+        /*    background-color: transparent; !* 將背景顏色改為透明 *!*/
+        /*    overflow: auto;*/
+        /*}*/
+        /*#cost {*/
+        /*    font-size: 20px; !* 設定字體大小 *!*/
+        /*    color: #ccc; !* 設定字體顏色 *!*/
+        /*    padding: 10px; !* 內邊距 *!*/
+        /*    border: 1px solid #ccc; !* 邊框樣式 *!*/
+        /*    border-radius: 5px; !* 邊框圓角 *!*/
+        /*    background-color: rgba(0, 0, 0, 0.5);*/
+        /*    margin: 0; !* 移除所有邊距 *!*/
+        /*    align-self: flex-start; !* 使 cost 區域靠左對齊 *!*/
+        /*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); !* 陰影效果 *!*/
+        /*    z-index: 500;*/
+
+        /*}*/
+
+        /*#card {*/
+        /*    display: flex;*/
+        /*    flex-wrap: wrap; !* 使卡牌換行 *!*/
+        /*    justify-content: flex-start; !* 垂直方向上方對齊 *!*/
+        /*    align-items: center;*/
+        /*    gap: 5px;*/
+        /*    white-space: nowrap;*/
+        /*}*/
+        /*#card img, .cards img {*/
+        /*    max-width: 5vw; !* 設定最大寬度 *!*/
+        /*    max-height: 10vh; !* 設定最大高度 *!*/
+        /*    width:max-content;*/
+        /*    height:max-content;*/
+        /*}*/
+
+        /*.cards {*/
+        /*    display: grid;*/
+        /*    grid-template-columns: repeat(4,5vw);*/
+        /*    gap: 5px;*/
+        /*    align-items: flex-start;*/
+        /*    border: 1px solid #ccc;*/
+        /*    padding: 10px;*/
+        /*    overflow-y: auto;*/
+        /*}*/
+
+        /*#next-round {*/
+        /*    position: absolute;*/
+        /*    top: 25%;*/
+        /*    left: 50%;*/
+        /*    transform: translate(-50%, -50%);*/
+        /*    font-size: 15vh;*/
+        /*    font-weight: bold;*/
+        /*    color: #ff6347;*/
+        /*    opacity: 0;*/
+        /*    pointer-events: none;*/
+        /*    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;*/
+        /*    z-index: 100;*/
+        /*}*/
+
+
+        /*#next-round.show {*/
+        /*    opacity: 1;*/
+        /*    transform: translate(-50%, -50%) scale(1.2);*/
+        /*}*/
+
+        /*@keyframes flash {*/
+        /*    0%, 50%, 100% {*/
+        /*        opacity: 1;*/
+        /*    }*/
+        /*    25%, 75% {*/
+        /*        opacity: 0;*/
+        /*    }*/
+        /*}*/
+
+        /*#next-round.flash {*/
+        /*    animation: flash 1s ease-in-out infinite;*/
+        /*}*/
+
+        /*.hidden {*/
+        /*    display: none; !* 完全隱藏 *!*/
+        /*}*/
+
+        /*#currentStage{*/
+        /*    color: wheat;*/
+        /*    height: 50px;*/
+        /*}*/
+
+        /*#rewardOptions {*/
+        /*    display: grid;*/
+        /*    grid-template-columns: repeat(3, 1fr); !* 每行 3 個卡牌 *!*/
+        /*    gap: 15px; !* 卡牌間距 *!*/
+        /*    justify-items: center; !* 卡牌水平居中 *!*/
+        /*    align-items: center; !* 卡牌垂直居中 *!*/
+        /*    padding: 20px;*/
+        /*}*/
+
+        /*.reward-card {*/
+        /*    display: flex;*/
+        /*    flex-direction: column; !* 垂直排列 *!*/
+        /*    align-items: center;*/
+        /*    width: 120px;*/
+        /*    height: 180px;*/
+        /*    border: 2px solid #ccc;*/
+        /*    border-radius: 8px;*/
+        /*    background-color: #fff;*/
+        /*    transition: transform 0.3s, background-color 0.3s;*/
+        /*    cursor: pointer;*/
+        /*    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); !* 輕微陰影增加層次 *!*/
+        /*    overflow: hidden;*/
+        /*}*/
+
+        /*.reward-card:hover {*/
+        /*    transform: scale(1.1);*/
+        /*    background-color: #f1f1f1;*/
+        /*}*/
+
+        /*.reward-card img {*/
+        /*    width: 80%; !* 限制圖片大小為卡牌寬度的 80% *!*/
+        /*    height: auto; !* 保持比例 *!*/
+        /*    object-fit: contain; !* 圖片自適應但不變形 *!*/
+        /*    margin-bottom: 10px;*/
+        /*}*/
+
+        /*.modal-title{*/
+        /*    text-align: center;*/
+        /*}*/
+
+        /*#congratulations-container h1 {*/
+        /*    font-size: 3em;*/
+        /*    margin-bottom: 20px;*/
+        /*}*/
+
+        /*#congratulations-container p {*/
+        /*    font-size: 1.5em;*/
+        /*    margin-bottom: 30px;*/
+        /*}*/
+
+        /*#character-info{*/
+        /*    display: none;*/
+        /*    position: fixed;*/
+        /*    z-index: 1000;*/
+        /*    background: rgba(0, 0, 0, 0.8);*/
+        /*    color: white;*/
+        /*    padding: 10px;*/
+        /*    border-radius: 5px;*/
+        /*    font-size: 1em;*/
+        /*    user-select: none;  !* 禁止選取內容 *!*/
+        /*    pointer-events: none; !* 禁止滑鼠交互 *!*/
+        /*}*/
+
+        /*.message-box {*/
+        /*    padding: 10px;*/
+        /*    margin-top: 5px;*/
+        /*    background-color: #222;*/
+        /*    color: #fff;*/
+        /*    border-radius: 4px;*/
+        /*    font-size: 14px;*/
+        /*    animation: fadeInOut 5s ease-in-out;*/
+        /*}*/
+
+        /*@keyframes fadeInOut {*/
+        /*    0% { opacity: 0; }*/
+        /*    10% { opacity: 1; }*/
+        /*    90% { opacity: 1; }*/
+        /*    100% { opacity: 0; }*/
+        /*}*/
+
+        /*#log-container {*/
+        /*    position: fixed;*/
+        /*    top: 10vh;*/
+        /*    left: 50%;*/
+        /*    transform: translateX(-50%);*/
+        /*    width: 50%;*/
+        /*    z-index: 1000;*/
+        /*    background-color: rgba(0, 0, 0, 0); !* Transparent background *!*/
+        /*    color: white;*/
+        /*    padding: 10px;*/
+        /*    border-radius: 8px;*/
+        /*}*/
+
+
+
+
+
+
+
+
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 20px;
             cursor: pointer;
-            font-size: 2vh;
-            padding: 1vh 2vh;
-            border-radius: 20px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            transition: background-color 0.3s ease, transform 0.2s;
         }
 
-        .button:hover {
-            background-color: #45a049;
-            transform: scale(1.05); /* 放大效果 */
-        }
-
-        .button:active {
-            transform: scale(0.95); /* 按下縮小效果 */
-        }
-
-        #button-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 10px 0;
-            background-color: #f0f0f0;
-            width: 100%;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 20;
-        }
-
-        #battle-area {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 80vw;
-            height: 70vh;
-            margin: 10vh auto;
-            background-color: #f0f0f0;
-            border: 2px solid #ccc;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        #friendly-area, #enemy-area {
-            display: grid;
-            grid-template-columns: 1fr; /* 保持單列佈局 */
-            grid-auto-rows: minmax(10vh, 1fr); /* 自動調整每個角色的高度 */
-            gap: 5px; /* 控制角色之間的間距 */
-            background-color: #f5f5f5;
-            border: 2px solid #ccc;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 35vh;
-            height: 60vh;
-            padding: 2vh;
-            margin: 0 3vh;
-        }
-
-
-        #all-cards, #drop-cards {
-            position: absolute;
-            width: 20vw;
-            height: 30vh;
-            overflow-y: auto;
-            background-color: #f0f0f0;
-        }
-
-        #all-cards {
-            left: 1vh;
-            bottom: 10vh;
-        }
-
-        #drop-cards {
-            right: 1vh;
-            bottom: 10vh;
-        }
-
-        #friendly-status-bar,
-        #enemy-status-bar {
-            width: 14vw; /* 調整寬度 */
-            padding: 1.5vh; /* 適當內邊距 */
-            position: absolute;
-            top: 15vh; /* 讓狀態欄更居中 */
-            z-index: 20;
-            background-color: rgba(0, 0, 0, 0.8); /* 更深的背景提升可讀性 */
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* 增強陰影效果 */
-            text-align: left; /* 左對齊內容 */
-        }
-
-        #friendly-status-bar {
-            left: 2vw;
-        }
-
-        #enemy-status-bar {
-            right: 2vw;
-        }
-
-        .status-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: transparent; /* 設為透明 */
-            border-radius: 8px;
-            padding: 10px;
-            width: 100%;
-            gap: 10px;
-        }
-
-        .status-content h4 {
-            margin: 0;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-        }
-
-        .status-content .hp {
-            font-size: 1.2rem;
-            color: limegreen;
-            font-weight: bold;
-            text-shadow: 1px 1px 3px black; /* 增強可讀性 */
-        }
-
-        .hp {
-            color: lime;
-            font-size: 1rem;
-            margin-top: 5px;
-        }
-
-        .health-bar {
-            width: 90%; /* 使用百分比，使其適應容器 */
-            height: 12px;
-            background-color: limegreen;
-            border-radius: 6px;
-            position: relative;
-            margin-top: 5px;
-            transition: width 0.3s ease-in-out; /* 平滑動畫效果 */
-        }
-
-        .health-bar-wrapper {
-            width: 80%; /* 使血條容器與角色寬度相符 */
-            margin-top: 10px; /* 與圖片保持適當距離 */
-            margin-bottom: 5px; /* 與描述保持距離 */
-            display: flex;
-            justify-content: center; /* 水平置中 */
-            align-items: center;
-        }
-
-
-        .hp-text {
-            font-size: 1rem;
-            color: white;
-            margin-left: 10px;
-            text-shadow: 1px 1px 2px black; /* Shadow for better readability */
-            z-index: 1;
-        }
-
-        .friendly-object, .enemy-object {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* 水平居中 */
-            justify-content: center; /* 垂直居中 */
-            width: 100%; /* 填滿父容器 */
-            height: 100%; /* 填滿父容器 */
-            margin: 0 auto; /* 移除多餘的邊距 */
-            padding: 0; /* 移除多餘的內距 */
-            box-sizing: border-box; /* 包含內距和邊框 */
-            position: relative; /* 相對定位避免與其他元素衝突 */
-            overflow: hidden; /* 避免內容溢出 */
-        }
-
-        .friendly-object img, .enemy-object img {
-            width: auto;
-            height: 6vh; /* 調整圖片高度 */
-            object-fit: contain;
-            border-radius: 8px; /* 添加圓角 */
-        }
-
-        .selected {
-            border: 2px solid yellow; /* 或任何你想要的高亮樣式 */
-            opacity: 0.8; /* 使選擇的卡牌稍微透明 */
-        }
-
-        #game-interface-title {
-            width: 100%;
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            font-size: 24px;
+        /* Modal 기본 스타일 */
+        #startVideoModal {
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 100;
-        }
-        #menuBox {
-            display: none; /* 預設隱藏 */
-            position: fixed; /* 固定在視窗上，不受滾動影響 */
-            left: 50%; /* 水平居中 */
-            top: 50%; /* 垂直居中 */
-            transform: translate(-50%, -50%); /* 完全居中 */
-            width: 30vh; /* 設定浮窗寬度 */
-            height: 20vh; /* 設定浮窗高度 */
-            background-color: #f1f1f1; /* 背景顏色 */
-            border: 1px solid #ccc; /* 使用較淺的邊框顏色 */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* 增加陰影深度 */
-            z-index: 500; /* 保證浮窗位於上層 */
-            padding: 20px; /* 內邊距 */
-            overflow: auto; /* 如果內容超出，允許滾動 */
-            border-radius: 8px; /* 添加圓角 */
-        }
-        #menu {
-            display: flex; /* 使用彈性盒模型 */
-            flex-direction: column; /* 垂直排列 */
-            justify-content: center; /* 垂直居中 */
-            align-items: center; /* 水平居中 */
-            gap: 10px; /* 按鈕之間留間距 */
-            background-color: beige;
-            position: absolute; /* 相對於最近的定位祖先元素 #menuBox */
-            z-index: 500; /* 確保在 #menuBox 上層 */
-            left: 50%; /* 將 menu 放在水平中心 */
-            top: 20px; /* 使其距離 #menuBox 上方的 20px */
-            transform: translateX(-50%); /* 水平居中對齊 */
-        }
-
-        #player-area {
-            position: absolute;
-            bottom: 10vh;
-            height: 25vh;
-            width: 50vw; /* 調整 player-area 寬度 */
-            left: 50%;
-            transform: translateX(-50%); /* 將 player-area 居中 */
-            padding: 2vh 0;
-            display: flex;
-            flex-direction: column; /* 垂直排列 */
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
             justify-content: center;
             align-items: center;
-            background-color: transparent; /* 將背景顏色改為透明 */
-            overflow: auto;
-        }
-        #cost {
-            font-size: 20px; /* 設定字體大小 */
-            color: #ccc; /* 設定字體顏色 */
-            padding: 10px; /* 內邊距 */
-            border: 1px solid #ccc; /* 邊框樣式 */
-            border-radius: 5px; /* 邊框圓角 */
-            background-color: rgba(0, 0, 0, 0.5);
-            margin: 0; /* 移除所有邊距 */
-            align-self: flex-start; /* 使 cost 區域靠左對齊 */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
-            z-index: 500;
-
+            z-index: 1000;
         }
 
-        #card {
-            display: flex;
-            flex-wrap: wrap; /* 使卡牌換行 */
-            justify-content: flex-start; /* 垂直方向上方對齊 */
+        #startVideoModal video {
+            max-width: 90%;
+            max-height: 80%;
+        }
+
+        #openStartVideo{
+
+            display: none;
+        }
+
+
+
+
+        #endVideoModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
             align-items: center;
-            gap: 5px;
-            white-space: nowrap;
-        }
-        #card img, .cards img {
-            max-width: 5vw; /* 設定最大寬度 */
-            max-height: 10vh; /* 設定最大高度 */
-            width:max-content;
-            height:max-content;
+            z-index: 1001;
         }
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4,5vw);
-            gap: 5px;
-            align-items: flex-start;
-            border: 1px solid #ccc;
-            padding: 10px;
-            overflow-y: auto;
+        #endVideoModal video {
+            max-width: 90%;
+            max-height: 80%;
         }
 
-        #next-round {
-            position: absolute;
-            top: 25%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 15vh;
-            font-weight: bold;
-            color: #ff6347;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-            z-index: 100;
+        #openEndVideo{
+
+            display: none;
         }
 
-
-        #next-round.show {
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.2);
-        }
-
-        @keyframes flash {
-            0%, 50%, 100% {
-                opacity: 1;
-            }
-            25%, 75% {
-                opacity: 0;
-            }
-        }
-
-        #next-round.flash {
-            animation: flash 1s ease-in-out infinite;
-        }
-
-        .hidden {
-            display: none; /* 完全隱藏 */
-        }
-
-        #currentStage{
-            color: wheat;
-            height: 50px;
-        }
-
-        #rewardOptions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 每行 3 個卡牌 */
-            gap: 15px; /* 卡牌間距 */
-            justify-items: center; /* 卡牌水平居中 */
-            align-items: center; /* 卡牌垂直居中 */
-            padding: 20px;
-        }
-
-        .reward-card {
-            display: flex;
-            flex-direction: column; /* 垂直排列 */
-            align-items: center;
-            width: 120px;
-            height: 180px;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            background-color: #fff;
-            transition: transform 0.3s, background-color 0.3s;
-            cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 輕微陰影增加層次 */
-            overflow: hidden;
-        }
-
-        .reward-card:hover {
-            transform: scale(1.1);
-            background-color: #f1f1f1;
-        }
-
-        .reward-card img {
-            width: 80%; /* 限制圖片大小為卡牌寬度的 80% */
-            height: auto; /* 保持比例 */
-            object-fit: contain; /* 圖片自適應但不變形 */
-            margin-bottom: 10px;
-        }
-
-        .modal-title{
-            text-align: center;
-        }
 
     </style>
 
-    <script>
 
-        $(document).ready(function() {
-
-
-        });
-    </script>
 </head>
 <body>
 
 <div id="game-interface-title">
-    <span id="currentStage">Stage: 1</span>
+    <!--  -->
+    <span id="currentStage">Stage: </span>
     Game Interface
     <input type="hidden" id="gameId">
     <input type="hidden" id="savedUserEmail">
@@ -414,18 +534,20 @@
     <input type="hidden" id="savedCardIds">
     <input type="hidden" id="savedRoute">
 
-
     <button id="menuButton" class="button" onclick="Menu.menu()">Menu</button>
     <div id="menuBox">
         <div id="menu">
-            <button id="saveBtn" class="button btn btn-primary">Save</button>
-            <button id="exitBtn" class="button btn btn-primary">Exit</button>
+            <button id="saveBtn" class="button btn btn-primary" onclick="Menu.saveAndExit()">Save & Exit</button>
         </div>
     </div>
 </div>
 
+<div id="log-container"></div>
+
 <div id="next-round">下一回合</div>
 
+
+<div id="hover-image"></div>
 <div class="modal" id="rewardSelectionModal" tabindex="-1" aria-labelledby="rewardSelectionLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -458,6 +580,8 @@
 
     </div>
 </div>
+<div id="character-info"></div>
+
 
 <div id="friendly-status-bar">
     <div class="status-content" id="friendly-status-1"></div>
@@ -494,35 +618,41 @@
         </div>
     </div>
 </div>
+
+<!--<video id="myVideo" width="600" controls>-->
+<!--    <source src="/game-service/start.mp4" type="video/mp4">-->
+<!--    Your browser does not support the video tag.-->
+<!--</video>-->
+<div id="startVideoModal">
+    <span class="close-btn" id="startVideoCloseModal">X</span>
+    <video id="startVideoModalVideo" controls>
+        <source src="/game-service/start.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<div id="endVideoModal">
+    <span class="close-btn" id="endVideoCloseModal">X</span>
+    <video id="endVideoModalVideo" controls>
+        <source src="/game-service/end.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<button id="openStartVideo">Trigger Event to Open Start Video</button>
+<button id="openEndVideo">Trigger Event to Open End Video</button>
+
+
 <script type="module">
-    // import * as CardSystem from './CardSystem.js'; // 導入整個 CardSystem 模組
-    // import * as Deck_Default from "./Deck_Default.js";
-    // import Character from "./Character.js";
-    // import Card, { playCard } from "./Card.js";
-    // import * as Battle from "./BattleSystem.js";
-    // import * as Menu from "./Menu.js";
-    // import * as CostSystem from "./Cost.js";
-    // import * as initialization from "./Initialization.js";
-
-    // import * as CardSystem from 'http://192.168.0.33:8000/CardSystem.js'; // 導入整個 CardSystem 模組
-    // import * as Deck_Default from "http://192.168.0.33:8000/Deck_Default.js";
-    // import Character from "http://192.168.0.33:8000/Character.js";
-    // import Card, { playCard } from "http://192.168.0.33:8000/Card.js";
-    // import * as Battle from "http://192.168.0.33:8000/BattleSystem.js";
-    // import * as Menu from "http://192.168.0.33:8000/Menu.js";
-    // import * as CostSystem from "http://192.168.0.33:8000/Cost.js";
-    // import * as initialization from "http://192.168.0.33:8000/Initialization.js";
-
-    import * as CardSystem from 'http://127.0.0.1:8000/CardSystem.js'; // 導入整個 CardSystem 模組
-    import * as Deck_Default from "http://127.0.0.1:8000/Deck_Default.js";
-    import Character from "http://127.0.0.1:8000/Character.js";
-    import * as Card from "http://127.0.0.1:8000/Card.js"
-    // import Card, { playCard } from "http://127.0.0.1:8000/Card.js";
-    import * as Battle from "http://127.0.0.1:8000/BattleSystem.js";
-    import * as Menu from "http://127.0.0.1:8000/Menu.js";
-    import * as CostSystem from "http://127.0.0.1:8000/Cost.js";
-    import * as Initialization from "http://127.0.0.1:8000/Initialization.js";
-    import * as Stage from "http://127.0.0.1:8000/stage.js"
+    import * as CardSystem from './CardSystem.js'; // 導入整個 CardSystem 模組
+    import * as Deck_Default from "./Deck_Default.js";
+    import Character from "./Character.js";
+    import * as Card from "./Card.js"
+    import * as Battle from "./BattleSystem.js";
+    import * as Menu from "./Menu.js";
+    import * as CostSystem from "./Cost.js";
+    import * as Initialization from "./Initialization.js";
+    import * as Stage from "./stage.js"
 
     let playerOne = [];
     let dropCards = [];
@@ -532,9 +662,10 @@
     let friendlyCharacter,enemyCharacter;
     friendlyCharacter = [];
     enemyCharacter = [];
-    let characters=[friendlyCharacter,enemyCharacter,];
+    let characters=[friendlyCharacter,enemyCharacter];
 
     //全域範圍
+    window.Deck=Deck_Default;
     window.Card=Card;
     window.Stage=Stage;
     window.Initialization=Initialization;
@@ -555,63 +686,159 @@
     // 開始時運作
     document.addEventListener("DOMContentLoaded", async function() {
 
-        const token = localStorage.getItem('token');
+        // const video = document.getElementById('myVideo');
+        // video.play().catch(error => {
+        //     console.log("Autoplay blocked:", error.message);
+        // });
 
-        let historyErrorMessage = `[[${lastSavedHistory.getErrorMessage()}]]`;
+        console.log("external file");
 
-        if(historyErrorMessage === "최근 플레이한 기록이 없습니다."){
+        let cards;
+        let heroHp;
 
-            alert('최근 플레이한 기록이 없습니다.')
-            location.href = "/game-service/cardGame?token=" + token + "&playType=new";
-        }
 
-        // let deck = [[${basicDeck}]];
-        // 여기와 battle system의 userEmail 부분을 오픈하면 select Reward 가 안됨
+        // token 에서 이메일 값 빼기
+        let token = localStorage.getItem('token');
+        const payloadBase64 = token.split('.')[1]; // JWT의 payload 부분
+        const decodedPayload = JSON.parse(atob(payloadBase64)); // Base64 디코딩 후 JSON 파싱
+        const email = decodedPayload.sub; // JWT payload의 `subject`
+        console.log('Subject:', email);
+
         let userEmail = document.getElementById('savedUserEmail');
-        userEmail.value = `[[${lastSavedHistory.getUserEmail()}]]`;
-
-        let heroHp = document.getElementById('savedHeroHp');
-        heroHp.value = `[[${lastSavedHistory.getHp()}]]`;
-
-        let cardIDs = document.getElementById('savedCardIds');
-        cardIDs.value = `[[${lastSavedHistory.getCards()}]]`;
-
-        let route = document.getElementById('savedRoute');
-        route.value = `[[${lastSavedHistory.getRoute()}]]`;
-        //
-        // console.log(document.getElementById('userEmail').value);
-
-        // 오른쪽이 string 이 아니므로 에러가 발생
-        // let history = [[${lastSavedHistory}]];
-
-        // if (deck !== null || deck !== "null") {
-        //     console.log("basicDeck : " + deck);
-        //     console.log("basicDeck : " + deck[0]);
-        // }
-        // else if (history !== null || history !== "null") {
-        //     // console.log("lastSavedHistory"+history);
-        //     console.log("lastSavedHistory.getUserEmail()"+[[${lastSavedHistory.getUserEmail()}]]);
-        //     console.log("lastSavedHistory.getGameId()"+[[${lastSavedHistory.getGameId()}]]);
-        //     console.log("lastSavedHistory.getEndTime()"+[[${lastSavedHistory.getEndTime()}]]);
+        userEmail.value = email;
 
 
-        await Initialization.Initialization();
-        await Battle.nextRound();
+        //url 에서 playType 을 추출
+        const urlParams = new URLSearchParams(window.location.search);
+        const playtype = urlParams.get('playType');
+        console.log('playTpye = ' + playtype);
+
+
+        if (playtype === "new") {
+            console.log("new start");
+            // DOM 요소 가져오기
+            const modal = document.getElementById('startVideoModal');
+            const modalVideo = document.getElementById('startVideoModalVideo');
+            const closeModal = document.getElementById('startVideoCloseModal');
+            // const openModalBtn = document.getElementById('openStartVideo');
+
+            // 모달 열기 함수
+            function openModal() {
+                modal.style.display = 'flex';
+                modalVideo.play(); // 동영상 재생
+            }
+
+            // 모달 닫기 함수
+            function closeModalHandler() {
+                modal.style.display = 'none';
+                modalVideo.pause(); // 동영상 정지
+                modalVideo.currentTime = 0; // 동영상 시간 초기화
+            }
+
+            // 동영상 끝날 때 모달 닫기
+            modalVideo.addEventListener('ended', closeModalHandler);
+
+            // 모달 닫기 버튼 클릭 시
+            closeModal.addEventListener('click', closeModalHandler);
+
+            // 특정 이벤트로 모달 열기
+            // openModalBtn.addEventListener('click', openModal);
+
+            // 페이지 로드 시 모달 열기
+            window.addEventListener('load', openModal);
+
+
+
+            await Initialization.Initialization();
+            await Battle.nextRound();
+
+        } else if (playtype === "continue") {
+            console.log("continue start");
+
+            function fetchGameData() {
+                return new Promise((resolve, reject) => {
+                    $.ajax({
+                        url: "/history-service/lastSavedHistory?gameId=1&email=" + email,
+                        type: "GET",
+                        success: function (result) {
+                            console.log("result.id : " + result.id);
+
+                            let cardIDs = document.getElementById('savedCardIds');
+
+                            // Set Hero Hp
+                            // for (let character of window.friendlyCharacter) {
+                            //     if (character.name === "Hero") {
+                            //         character.setHp(result.hp);
+                            //     }
+                            // }
+
+                            //continue 를 눌렀지만 저장된 정보가 없으면 new 로 보낸다
+                            if(result.id === null){
+
+                                Swal.fire({
+                                    title: 'Oops...',
+                                    text: 'does not exist played history',
+                                    icon: 'error',
+                                    background: 'rgb(249, 238, 222)', // 배경색
+                                    color: 'rgba(95, 56, 39)',       // 글자색
+                                    confirmButtonText: 'OK'
+                                });
+
+                                setTimeout(() => {
+                                    location.href = "/game-service/cardGame?token=" + token + "&playType=new";
+                                }, 1500);
+
+
+                            }
+
+                            heroHp = result.hp;
+
+                            // Set stage
+                            Stage.setStage(result.route);
+
+                            // Set cardIds
+                            cards = result.cards;
+
+                            resolve(); // 성공 시 resolve
+                        },
+                        error: function (error) {
+                            console.error("Failed to fetch data", error);
+                            reject(error); // 실패 시 reject
+                        }
+                    });
+                });
+            }
+
+            console.log("vscode before call init- cards : "+ cards + " and type is " + typeof cards);
+            console.log("vscode before call init- hp : "+ heroHp + " and type is " + typeof heroHp);
+            fetchGameData()
+                .then(() => Initialization.Initialization(cards,heroHp)) // AJAX 호출 후 초기화
+                .then(() => Battle.nextRound())
+                .catch((error) => {
+                    console.error("Initialization failed", error);
+                });
+        }
     });
 
-    function cardEmploy(card,Character) {
+    function cardEmploy(card, Character) {
+        // Replace alert with the displayMessage function
+        const displayMessage = (message) => {
+            const logContainer = document.getElementById("log-container");
+            const messageBox = document.createElement("div");
+            messageBox.className = "message-box";
+            messageBox.textContent = message;
+            logContainer.appendChild(messageBox);
+            setTimeout(() => {
+                messageBox.remove();
+            }, 5000); // Remove the message after 5 seconds
+        };
 
-        // 顯示卡牌名稱和目標描述
-        console.log("window.selectedCard",card);
-        console.log("window.selectedCharacter",Character);
-        alert("這張卡是 " + card.CardName + "，作用於 " + Character.name);
-
-        Card.playCard(card,Character);
-
+        displayMessage(`This is ${card.CardName}，effect on ${Character.name || "NULL"}`);
+        Card.playCard(card, Character);
         Battle.updateCharacterStatus(Character);
     }
+
 
 </script>
 </body>
 </html>
-

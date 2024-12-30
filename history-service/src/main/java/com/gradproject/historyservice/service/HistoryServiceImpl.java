@@ -9,8 +9,15 @@ import com.gradproject.historyservice.entity.History;
 import com.gradproject.historyservice.exception.LastSaveHistoryNotExistException;
 import com.gradproject.historyservice.repository.HistoryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -21,6 +28,7 @@ import java.util.Map;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class HistoryServiceImpl implements HistoryService{
 
     private final HistoryRepository historyRepository;
@@ -34,6 +42,29 @@ public class HistoryServiceImpl implements HistoryService{
     }
 
     @Override
+//    @KafkaListener(topics = "saveGameHistory-topic")
+    public Long saveCardGameByKafka(SaveCardGameRequest request,String kafkaMessage) {
+
+        log.info("Kafka Message: ->" + kafkaMessage);
+
+        Map<Object, Object> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+
+
+
+        CardGameHistory history = CardGameHistory.create(request);
+        CardGameHistory savedHistory = historyRepository.save(history);
+        return savedHistory.getId();
+    }
+
+
+//    by feign
+    @Override
     public ResponseHistory getPlayedGameList(String email){
 
         List<History> histories = getHistories(email);
@@ -42,6 +73,27 @@ public class HistoryServiceImpl implements HistoryService{
 
         return ResponseHistory.create(playedGameInfoMap);
     }
+
+
+    @Override
+//    @KafkaListener(topics = "getPlayedGameList-topic")
+    public ResponseHistory getPlayedGameListByKafka(String email,String kafkaMessage){
+
+        log.info("Kafka Message: ->" + kafkaMessage);
+
+        Map<Object, Object> map = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+
+
+        Map<Integer, PlayedGameInfo> playedGameInfoMap = getPlayedGameInfoMap(getHistories(email));
+        return ResponseHistory.create(playedGameInfoMap);
+    }
+
 
     private static Map<Integer, PlayedGameInfo> getPlayedGameInfoMap(List<History> histories) {
 
