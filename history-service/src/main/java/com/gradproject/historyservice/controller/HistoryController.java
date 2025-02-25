@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-//@CrossOrigin
 public class HistoryController {
 
     private final HistoryService historyService;

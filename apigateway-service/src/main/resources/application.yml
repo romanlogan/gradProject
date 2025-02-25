@@ -1,5 +1,5 @@
 server:
-  port: 8000
+  port: 80
 
 eureka:
   client:
@@ -38,6 +38,20 @@ spring:
             preLogger: true
             postLogger: true
       routes:
+        - id: platform-service
+          uri: lb://PLATFORM-SERVICE
+          predicates:
+            - Path=/
+            - Method=GET
+          filters:
+#            - RewritePath=/reply-service/(?<segment>.*), /$\{segment}
+        - id: platform-service
+          uri: lb://PLATFORM-SERVICE
+          predicates:
+            - Path=/platform-service/**
+            - Method=GET
+          filters:
+            - RewritePath=/platform-service/(?<segment>.*), /$\{segment}
         - id: reply-service
           uri: lb://REPLY-SERVICE
           predicates:

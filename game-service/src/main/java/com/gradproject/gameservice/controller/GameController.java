@@ -59,9 +59,7 @@ public class GameController {
     @ResponseBody
     public String loadExternalHtml() throws Exception {
         // 외부 파일 경로 설정 (예: /Users/username/external_folder/loading.html)
-
         // 파일 내용을 읽어서 반환
-
         String filePath = env.getProperty("asterion.path");
         return new String(Files.readAllBytes(Paths.get(filePath)));
     }

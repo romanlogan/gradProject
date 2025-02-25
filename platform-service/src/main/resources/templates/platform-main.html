@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<!--    <link rel="stylesheet" href="/css/main/footer.css">-->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- font-awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- slick-carousel -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <script src="/js/main/main.js"></script>
+
+    <style>
+
+        #container{
+            padding-left: 10rem;
+            padding-right: 10rem;
+            width: 100%;
+            height: 2000px;
+            background: linear-gradient(to bottom, rgba(4,11,30,255), rgba(6,32,59,255));
+        }
+
+        select{
+            margin-right:10px;
+        }
+
+        .left-half {
+            float: left;
+            width: 50%;
+        }
+
+        /* 오른쪽 절반 스타일 */
+        .right-half {
+            float: right;
+            width: 50%;
+        }
+
+
+        .locationBoxImg{
+            float : left;
+            width : 90px;
+            height : 90px;
+        }
+
+        .locationTextBox{
+            float: right;
+            width: 550px; /* 텍스트를 표시할 요소의 너비를 지정합니다. */
+            height: 90px;
+            white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 합니다. */
+            overflow: hidden; /* 넘치는 부분은 숨김 처리합니다. */
+            text-overflow: ellipsis; /* 넘치는 텍스트에 '...'을 추가하여 표시합니다. */
+
+        }
+
+
+        .clear{
+            both: clear;
+        }
+
+        #search-box{
+            width: 100%;
+            height: 10vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #fastSearchForm{
+            margin-top: 15px;
+            width: 90vw;
+            height: 10vh;
+
+            border: none;
+            border-radius: 10px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            display: flex;
+            flex-direction: column;
+            /*justify-content: center;*/
+            align-items: center;
+
+        }
+
+
+        #fastSearchCity{
+            margin-left: 30px;
+            width: 70px;
+            height: 40px;
+        }
+
+        #quickSearchQuery {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            width: 250px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border: none;
+            border-radius: 10px;
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        #searchBtn{
+            background-color: white;
+            border: 1px solid lightgray ;
+            border-radius: 50%;
+
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        #orderTypeBox{
+
+        }
+
+        .orderFilterBtn{
+            height: 50px;
+            width: 120px;
+            /* background-color: #011126; */
+            background-color: white;
+            color: #011126;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        #game-container{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #changeGameBox{
+            /*height: 700px;*/
+            /*overflow: scroll;*/
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*align-items: center;*/
+            width: 90vw;
+        }
+
+
+        .form-group{
+
+            height: 6vh;
+            /*width: 5rem;*/
+            display: inline-block;
+            background-color: #07364A; /* 배경색 */
+            gap: 10px; /* label과 select 사이 간격 */
+            border-radius: 5px; /* 모서리 둥글게 */
+        }
+
+        .form-group-flex{
+            display: flex;
+            justify-content: center;
+            align-items: center; /* 세로로 중앙 정렬 */
+        }
+
+        .cityTownLabel{
+            margin-top: 0.3rem;
+            background-color: #07364A; /* 배경색 */
+            color: white; /* 글자 색 */
+            padding: 5px 10px; /* 여백 */
+            border-radius: 5px; /* 모서리 둥글게 */
+            cursor: pointer; /* 클릭 가능한 커서 표시 */
+        }
+
+        .cityTownSelect{
+            border: 2px solid #07364A; /* 테두리 색상 */
+            border-radius: 5px; /* 모서리 둥글게 */
+            padding: 5px; /* 내부 여백 */
+        }
+
+        #optionConditionTitle{
+            /*margin-top: 0.3rem;*/
+            background-color: #07364A; /* 배경색 */
+            color: white; /* 글자 색 */
+            padding: 5px 10px; /* 여백 */
+            border-radius: 5px 0 0 5px; /* 모서리 둥글게 */
+            cursor: pointer; /* 클릭 가능한 커서 표시 */
+            height: 3vh;
+        }
+
+        #optionConditionBox{
+            /*border: 2px solid #07364A;*/
+            height: 3vh;
+        }
+
+        .InvitedHangOutBox{
+            /*margin: 20px;*/
+            /*padding: 10px;*/
+            /*width: 680px;*/
+            /*height: 110px;*/
+            /*background-color: #fff; !* 배경색 지정 *!*/
+            /*border-radius: 8px; !* 테두리를 둥글게 만듭니다. *!*/
+            /*box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); !* 그림자 효과 추가 *!*/
+
+            /*width: 20rem;*/
+            /*height: 30rem;*/
+            background-color: rgb(0,0,0,0.0);
+        }
+
+        .card-container{
+            display: inline-block;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 15px;
+            background-color: rgb(0,0,0,0.0);
+        }
+
+        .card-item{
+            width: 15rem;
+            height: 30rem;
+            border-radius: 10px 10px 10px 10px;
+            background-color: rgb(0,0,0,0.0);
+        }
+
+        .recommandCard-body{
+            height: 10rem;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .center-img {
+            display: block;
+            margin: 0 auto; /* 중앙 정렬 */
+            width: 15rem;   /* 원하는 너비 */
+            height: 20rem;  /* 원하는 높이 */
+            object-fit: cover; /* 이미지 비율 유지하며 크기 조정 */
+            border-radius: 10px; /* 모서리 둥글게 */
+        }
+
+        .condition{
+            margin-left: 1rem;
+        }
+
+        .card-title{
+            color: #f9d781;
+        }
+
+        .card-text{
+            color: #f9d781;
+        }
+    </style>
+</head>
+<body>
+
+<div id="header">
+    <div>
+
+    </div>
+</div>
+
+<div id="container">
+    <div id="search-box">
+        <div id="fastSearchForm">
+            <div>
+<!--                <div class="form-group">-->
+<!--                    <div class="form-group-flex">-->
+<!--                        <label class="cityTownLabel" for="quickSearchCity">City:</label>-->
+<!--                        <select id="quickSearchCity" class="cityTownSelect" name="quickSearchCity"></select>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <div class="form-group-flex">-->
+<!--                        <label class="cityTownLabel" for="quickSearchTown">Town:</label>-->
+<!--                        &lt;!&ndash;                만약 검색후 온 페이지라면 이 select 를 자바스크립트로 &ndash;&gt;-->
+<!--                        <select id="quickSearchTown" class="cityTownSelect" name="quickSearchTown"></select>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <input id="quickSearchQuery" th:value="${request.getSearchQuery()}" type="search" name="search" />-->
+                <input id="quickSearchQuery" type="search" name="search" />
+                <button id="searchBtn" class="search-btn" type="submit">
+                    <i class="fa-solid fa-magnifying-glass fa-xl" style="color: #d9d9d9;"></i>
+                </button>
+
+                <!--        <select id="orderType" name="orderType">-->
+                <!--            <option value="name">이름순</option>   -->
+                <!--            <option value="comment">댓글순</option>-->
+                <!--            <option value="favorite">즐겨찾기 개수순</option>-->
+                <!--            <option value="recommend">추천순</option>-->
+                <!--        </select>-->
+            </div>
+
+<!--            <div id="searchOptionBox">-->
+
+<!--                <div>-->
+<!--                    <span id="optionConditionTitle">condition</span>-->
+<!--                    <span id="optionConditionBox">-->
+<!--                        <span class="condition">-->
+<!--                            <label for="openTimeCond">개방 시간</label>-->
+<!--                            <input type="checkbox" id="openTimeCond" name="openTimeCond">-->
+<!--                        </span>-->
+<!--                        <span class="condition">-->
+<!--                            <label for="feeCond">가격 정보</label>-->
+<!--                            <input type="checkbox" id="feeCond" name="feeCond">-->
+<!--                        </span>-->
+<!--                        <span class="condition">-->
+<!--                            <label for="picCond">사진</label>-->
+<!--                            <input type="checkbox" id="picCond" name="picCond">-->
+<!--                        </span>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <!--        <div id="orderTypeBox">-->
+            <!--            &lt;!&ndash;        <select id="orderType" name="orderType">&ndash;&gt;-->
+            <!--            &lt;!&ndash;            <option value="name">이름순</option>&ndash;&gt;-->
+            <!--            &lt;!&ndash;            <option value="comment">댓글순</option>&ndash;&gt;-->
+            <!--            &lt;!&ndash;            <option value="favorite">즐겨찾기 개수순</option>&ndash;&gt;-->
+            <!--            &lt;!&ndash;            <option value="recommend">추천순</option>&ndash;&gt;-->
+            <!--            &lt;!&ndash;        </select>&ndash;&gt;-->
+            <!--            <button id="orderByName" class="orderFilterBtn" onclick="orderFilter('name')">이름순</button>-->
+            <!--            <button id="orderByComment" class="orderFilterBtn" onclick="orderFilter('comment')">댓글순</button>-->
+            <!--            <button id="orderByFavorite" class="orderFilterBtn" onclick="orderFilter('favorite')">즐겨찾기개수순</button>-->
+            <!--        </div>-->
+        </div>
+    </div>
+
+    <div id="searchedInfoBox"></div>
+
+    <div id="game-container">
+        <div id="changeGameBox">
+            <div class="card-container" th:each="game, status: ${response.getPlatformGameDtoList()}">
+                <div class="InvitedHangOutBox">
+                    <div class="card card-item">
+                        <a th:href="'/location/' +${game.id}" class="text-dark">
+                            <img th:src="${game.imgUrl}" class="card-img-top center-img" >
+                            <div class="recommandCard-body">
+                                <h4 class="card-title">[[${game.title}]]</h4>
+                                <p class="card-text"> desc : [[${game.description}]]</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>
