@@ -487,7 +487,7 @@ export async function saveData(saveType) {
         const result = await new Promise((resolve, reject) => {
 
             $.ajax({
-                url: "/history-service/save",
+                url: "/game-service/save",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({

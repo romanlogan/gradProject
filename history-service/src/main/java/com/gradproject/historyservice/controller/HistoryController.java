@@ -35,19 +35,7 @@ public class HistoryController {
     @GetMapping("/getPlayedGameList/{email}")
     public ResponseEntity<ResponseHistory> getPlayedGameList(@PathVariable String email) throws Exception {
 
-        log.info("before retrieve history data");
-
         ResponseHistory response = historyService.getPlayedGameList(email);
-
-//        try {
-//            Thread.sleep(1000);
-//            throw new Exception("장애 발생");
-//        } catch (InterruptedException e) {
-//            log.error(e.getMessage());
-//
-//        }
-
-        log.info("add retrieve history data");
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

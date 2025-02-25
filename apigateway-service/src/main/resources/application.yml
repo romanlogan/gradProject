@@ -133,39 +133,56 @@ spring:
             - RewritePath=/comment-service/(?<segment>.*), /$\{segment}
 
 #              history service
-        - id: history-service
-          uri: lb://HISTORY-SERVICE
-          predicates:
-            - Path=/history-service/lastSavedHistory
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
-        - id: history-service
-          uri: lb://HISTORY-SERVICE
-          predicates:
-            - Path=/history-service/getPlayedGameList/**
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
-        - id: history-service
-          uri: lb://HISTORY-SERVICE
-          predicates:
-            - Path=/history-service/save
-            - Method=POST
-          filters:
-            #            - RemoveRequestHeader=Cookie
-            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
-        - id: history-service
-          uri: lb://HISTORY-SERVICE
-          predicates:
-            - Path=/history-service/actuator/**
-            - Method=GET,POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
+#        - id: history-service
+#          uri: lb://HISTORY-SERVICE
+#          predicates:
+#            - Path=/history-service/lastSavedHistory
+#            - Method=GET
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
+#        - id: history-service
+#          uri: lb://HISTORY-SERVICE
+#          predicates:
+#            - Path=/history-service/getPlayedGameList/**
+#            - Method=GET
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
+#        - id: history-service
+#          uri: lb://HISTORY-SERVICE
+#          predicates:
+#            - Path=/history-service/save
+#            - Method=POST
+#          filters:
+#            #            - RemoveRequestHeader=Cookie
+#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
+#        - id: history-service
+#          uri: lb://HISTORY-SERVICE
+#          predicates:
+#            - Path=/history-service/actuator/**
+#            - Method=GET,POST
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
+
 #---------game service----------
+        - id: history-service
+          uri: lb://HISTORY-SERVICE
+          predicates:
+            - Path=/game-service/lastSavedHistory
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/game-service/(?<segment>.*), /$\{segment}
+        - id: history-service
+          uri: lb://HISTORY-SERVICE
+          predicates:
+            - Path=/game-service/getPlayedGameList/**
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
           predicates:
@@ -246,6 +263,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
+#          user-service
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:

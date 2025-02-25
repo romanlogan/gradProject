@@ -758,7 +758,7 @@
             function fetchGameData() {
                 return new Promise((resolve, reject) => {
                     $.ajax({
-                        url: "/history-service/lastSavedHistory?gameId=1&email=" + email,
+                        url: "/game-service/lastSavedHistory?gameId=1&email=" + email,
                         type: "GET",
                         success: function (result) {
                             console.log("result.id : " + result.id);
