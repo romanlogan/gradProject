@@ -11,7 +11,7 @@ Each stage features a random number of monsters, and after progressing through a
 
 
 ## 🛠️ Tech Stack
-**Frontend:** HTML, CSS, JavaScript 
+**Frontend:** HTML, CSS, JavaScript
 **Backend:** Java, Springboot, JPA, Spring Cloud(Eureka, Spring Cloud Gateway, Spring Cloud Config)
 **Database:** Mysql  
 **Authentication:** JSON Web Tokens (JWT)
