@@ -19,6 +19,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class CommentServiceImpl implements CommentService {
     public Long save(RequestSaveComment request, String email) {
 
         // A member can post only one comment.
-        Comment existedComment = commentRepository.findByUserEmailAndGameId(email, Long.valueOf(request.getGameId()));
+        Comment existedComment = commentRepository.findByUserEmailAndGameId(email, (request.getGameId()));
 
         if (existedComment != null) {
 
@@ -57,47 +58,42 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.save(comment).getId();
     }
 
-//    @KafkaListener(topics = "saveComment-topic")
-//    public void saveByKafka(String email, String kafkaMessage) {
-//
-//        log.info("Kafka Message: ->" + kafkaMessage);
-//
-//        Map<Object, Object> map = new HashMap<>();
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//
-////        string to json
-//        try {
-//            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
-//        } catch (JsonProcessingException ex) {
-//            ex.printStackTrace();
-//        }
-//
-//        Integer gameId = (Integer) map.get("gameId");
-//        String content = (String) map.get("content");
-//
-//        System.out.println("gameId = " + gameId);
-//        System.out.println("content = " + content);
-//
-////        RequestSaveComment request = RequestSaveComment.create();
-//
-//
-//        // A member can post only one comment.
-////        Comment existedComment = commentRepository.findByUserEmailAndGameId(email, Long.valueOf(request.getGameId()));
-////
-////        if (existedComment != null) {
-////
-////            throw new UserCommentAlreadyExistException("A comment has already been posted.");
-////        }
-////
-////        Comment comment = Comment.create(request, email);
-////
-////        return commentRepository.save(comment).getId();
-//    }
+    @KafkaListener(topics = "saveComment-topic")
+    public void saveByKafka(String kafkaMessage) throws InterruptedException {
+
+        log.info("Kafka Message: ->" + kafkaMessage);
+
+        Map<Object, Object> map = new HashMap<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+//        string to json
+        try {
+            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
+        } catch (JsonProcessingException ex) {
+            ex.printStackTrace();
+        }
+
+        Integer gameId = (Integer) map.get("gameId");
+        String content = (String) map.get("content");
+        String userEmail = (String) map.get("userEmail");
+
+
+//         A member can post only one comment.
+        Comment existedComment = commentRepository.findByUserEmailAndGameId(userEmail, gameId);
+
+        if (existedComment != null) {
+
+            throw new UserCommentAlreadyExistException("A comment has already been posted.");
+        }
+
+        Comment comment = Comment.create(content,userEmail,gameId, LocalDateTime.now());
+        commentRepository.save(comment);
+    }
 
 
     @Override
-    public ResponseCommentList getCommentList(Long gameId) {
+    public ResponseCommentList getCommentList(Integer gameId) {
 
         List<CommentDto> commentDtoList = commentRepository.getCommentDtoListBy(gameId);
         CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");

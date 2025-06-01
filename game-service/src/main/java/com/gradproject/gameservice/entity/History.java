@@ -23,7 +23,6 @@ public class History {
 
     private LocalDateTime endTime;
 
-//    게임을 완료한 적이 있는지 확인
     @Enumerated(EnumType.STRING)
     private ExitType exitType;
 
@@ -31,7 +30,6 @@ public class History {
 
     private String userEmail;
 
-//    게임내 정보들
 
     public History() {
     }

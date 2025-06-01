@@ -26,17 +26,17 @@ class CommentRepositoryCustomImplTest {
 
     @BeforeEach
     void createComment() {
-        commentRepository.save(new Comment("content1", "asdf@asdf.com", 1L, LocalDateTime.of(2024, 7, 20, 5, 0, 0)));
-        commentRepository.save(new Comment("content2", "asdf@asdf.com", 1L, LocalDateTime.of(2024, 7, 20, 5, 0, 30)));
-        commentRepository.save(new Comment("content3", "asdf@asdf.com", 1L, LocalDateTime.of(2024, 7, 20, 5, 30, 30)));
-        commentRepository.save(new Comment("content4", "test@test.com", 1L, LocalDateTime.of(2024, 8, 20, 5, 30, 30)));
-        commentRepository.save(new Comment("content5", "qwer@qwer.com", 1L, LocalDateTime.of(2024, 9, 20, 5, 30, 30)));
+        commentRepository.save(new Comment("content1", "asdf@asdf.com", 1, LocalDateTime.of(2024, 7, 20, 5, 0, 0)));
+        commentRepository.save(new Comment("content2", "asdf@asdf.com", 1, LocalDateTime.of(2024, 7, 20, 5, 0, 30)));
+        commentRepository.save(new Comment("content3", "asdf@asdf.com", 1, LocalDateTime.of(2024, 7, 20, 5, 30, 30)));
+        commentRepository.save(new Comment("content4", "test@test.com", 1, LocalDateTime.of(2024, 8, 20, 5, 30, 30)));
+        commentRepository.save(new Comment("content5", "qwer@qwer.com", 1, LocalDateTime.of(2024, 9, 20, 5, 30, 30)));
     }
 
     @Test
     void getCommentDtoListBy() {
 
-        List<CommentDto> commentDtoList = commentRepository.getCommentDtoListBy(1L);
+        List<CommentDto> commentDtoList = commentRepository.getCommentDtoListBy(1);
 
         assertThat(commentDtoList.get(0).getContent()).isEqualTo("content5");
         assertThat(commentDtoList.get(1).getContent()).isEqualTo("content4");

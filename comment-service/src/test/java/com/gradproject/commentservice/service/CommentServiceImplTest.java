@@ -93,14 +93,14 @@ class CommentServiceImplTest {
     @DisplayName("The most recent comment is at the top, when retrieve the comment list")
     void getCommentList() {
 
-        commentRepository.save(Comment.create("test content1", "test@test.com", 999L,
+        commentRepository.save(Comment.create("test content1", "test@test.com", 999,
                 LocalDateTime.of(2024, 7, 20, 5, 30, 30)));
-        commentRepository.save(Comment.create("test content2", "test2@test2.com", 999L,
+        commentRepository.save(Comment.create("test content2", "test2@test2.com", 999,
                 LocalDateTime.of(2024, 7, 21, 7, 30, 30)));
-        commentRepository.save(Comment.create("test content3", "test3@test3.com", 999L,
+        commentRepository.save(Comment.create("test content3", "test3@test3.com", 999,
                 LocalDateTime.of(2024, 7, 22, 7, 30, 31)));
 
-        ResponseCommentList commentList = commentService.getCommentList(999L);
+        ResponseCommentList commentList = commentService.getCommentList(999);
         List<CommentDto> commentDtoList = commentList.getCommentDtoList();
 
         assertThat(commentDtoList.get(0).getContent()).isEqualTo("test content3");
@@ -115,7 +115,7 @@ class CommentServiceImplTest {
     @DisplayName("update comment")
     void update() {
 
-        Comment comment = commentRepository.save(Comment.create("test content1", "test@test.com", 999L,
+        Comment comment = commentRepository.save(Comment.create("test content1", "test@test.com", 999,
                 LocalDateTime.of(2024, 7, 20, 5, 30, 30)));
 
         RequestUpdate requestUpdate = RequestUpdate.create(Math.toIntExact(comment.getId()), "modified test content");

@@ -83,7 +83,6 @@
             background-color: white;
         }
 
-        /* sns 속에 img */
         .counter {
             font-size: 14px;
             color: white;
@@ -126,10 +125,7 @@
 
         <nav id="navbar" class="navbar navbar-expand-lg py-3 shadow-lg sticky-top">
             <div class="container">
-                <!--(반응형) lg 보다 작은 화면에서 동작-->
-                <!--부트스트랩에서는 드롭다운을 컬랩스라고 함-->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <!--세줄아이콘 나옴-->
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -331,8 +327,6 @@
             </div>
         </div>
 
-
-        <!--      부트스트랩 모달     -->
         <!--    <div class="modal fade" id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">-->
         <!--        <div class="modal-dialog">-->
         <!--            <div class="modal-content">-->
@@ -367,7 +361,7 @@
 <!--            </div>-->
 <!--        </div>-->
 
-        <!--    댓글 수정 모달-->
+        <!--    update comment modal -->
         <div class="modal fade" id="updateCommentModal" tabindex="-1" role="dialog" aria-labelledby="commentModalLabel">
 
             <div class="modal-dialog">
@@ -376,7 +370,6 @@
                         <h4 class="modal-title" id="updateCommentModalLabel"></h4>
                     </div>
                     <div class="modal-body">
-                        <!-- 모달 창 내의 데이터 입력 폼 -->
                         <div class="form-group">
 
                             <label for="updateCommentContentRequest"></label>
@@ -385,13 +378,13 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="sendUpdateRequestCommentBtn" type="button" onclick="updateComment()">수정</button>
+                        <button id="sendUpdateRequestCommentBtn" type="button" onclick="updateComment()">update</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 대댓글 수정 모달-->
+        <!-- update reply modal -->
         <div class="modal fade" id="updateReplyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -399,7 +392,6 @@
                         <h4 class="modal-title" id="updateReplyModalLabel">update reply</h4>
                     </div>
                     <div class="modal-body">
-                        <!-- 모달 창 내의 데이터 입력 폼 -->
                         <div class="form-group">
 
                             <label for="updateCommentContentRequest"></label>

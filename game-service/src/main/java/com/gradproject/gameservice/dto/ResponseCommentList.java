@@ -34,7 +34,7 @@ public class ResponseCommentList {
     public static ResponseCommentList error() {
 
         return ResponseCommentList.builder()
-                .errorMessage("에러 발생 ")
+                .errorMessage("there has some problem")
                 .build();
     }
 

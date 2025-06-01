@@ -52,11 +52,8 @@ public class GameServiceImpl implements GameService {
         CardGame game = CardGame.create(request);
         Long id = gameRepository.save(game).getId();
 
-
         // feign client
         historyServiceClient.save(id, request);
-
-//        게임을 하고 저장하는데 히스토리 서비스에 문제가 생겨 저장이 안될경우 ?
 
         return id;
     }
@@ -75,8 +72,6 @@ public class GameServiceImpl implements GameService {
         log.info("before call comment service");
 
         CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
-
-//        ResponseEntity<ResponseCommentList> response = commentServiceClient.getCommentList(Math.toIntExact(gameId));
 
         ResponseEntity<ResponseCommentList> response =
                 circuitbreaker.run(() -> commentServiceClient.getCommentList(Math.toIntExact(gameId)),

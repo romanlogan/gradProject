@@ -25,7 +25,7 @@ public class Comment {
 
     private String userEmail;
 
-    private Long gameId;
+    private Integer gameId;
 
     private LocalDateTime createdAt;
 
@@ -35,7 +35,7 @@ public class Comment {
     }
 
     @Builder
-    public Comment(String content, String userEmail, Long gameId, LocalDateTime createdAt) {
+    public Comment(String content, String userEmail, Integer gameId, LocalDateTime createdAt) {
         this.content = content;
         this.userEmail = userEmail;
         this.gameId = gameId;
@@ -46,12 +46,12 @@ public class Comment {
         return Comment.builder()
                 .content(request.getContent())
                 .userEmail(userEmail)
-                .gameId(Long.valueOf(request.getGameId()))
+                .gameId(request.getGameId())
                 .createdAt(LocalDateTime.now())
                 .build();
     }
 
-    public static Comment create(String content, String userEmail, Long gameId, LocalDateTime createdAt) {
+    public static Comment create(String content, String userEmail, Integer gameId, LocalDateTime createdAt) {
 
         return Comment.builder()
                 .content(content)

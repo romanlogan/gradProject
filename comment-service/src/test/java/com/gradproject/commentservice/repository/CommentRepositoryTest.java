@@ -41,7 +41,7 @@ class CommentRepositoryTest {
     @DisplayName("delete comment when gives commentId")
     void delete() {
 
-        Comment comment = commentRepository.save(new Comment("content1", "asdf@asdf.com", 1L, LocalDateTime.of(2024, 7, 20, 5, 0, 0)));
+        Comment comment = commentRepository.save(new Comment("content1", "asdf@asdf.com", 1, LocalDateTime.of(2024, 7, 20, 5, 0, 0)));
         List<Comment> comments = commentRepository.findAll();
         assertThat(comments).hasSize(1);
 

@@ -67,8 +67,3 @@ management:
     web:
       exposure:
         include: refresh, health, beans, busrefresh, info, metrics, prometheus
-
-
-asterion:
-  path: /Users/lee/Desktop/gradFront/WebGame_CSIE/src/Testing/demo-Battle.html
-

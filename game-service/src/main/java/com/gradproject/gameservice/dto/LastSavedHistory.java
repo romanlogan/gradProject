@@ -70,7 +70,7 @@ public class LastSavedHistory {
 
     public static LastSavedHistory error(){
         return LastSavedHistory.builder()
-                .errorMessage("문제가 발생하였습니다.")
+                .errorMessage("there has some problem")
                 .build();
 
     }

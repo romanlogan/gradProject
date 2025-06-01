@@ -25,7 +25,7 @@ public class CardGameHistory extends History{
 
     private Integer hp;
     private String cards;
-    private String route;       //마지막 지점이 저장시에 플레이 했던 지점
+    private String route;       // 마지막 지점이 저장시에 플레이 했던 지점
 
     @ElementCollection
     @CollectionTable(

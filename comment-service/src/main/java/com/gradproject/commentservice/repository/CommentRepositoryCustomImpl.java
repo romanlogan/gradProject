@@ -19,7 +19,7 @@ public class CommentRepositoryCustomImpl implements CommentRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
 
-    public List<CommentDto> getCommentDtoListBy(Long gameId) {
+    public List<CommentDto> getCommentDtoListBy(Integer gameId) {
 
         return queryFactory
                 .select(

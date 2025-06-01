@@ -8,7 +8,7 @@ public interface CommentService {
 
     Long save(RequestSaveComment request, String email);
 
-    ResponseCommentList getCommentList(Long gameId);
+    ResponseCommentList getCommentList(Integer gameId);
 
     void delete(Long commentId);
 

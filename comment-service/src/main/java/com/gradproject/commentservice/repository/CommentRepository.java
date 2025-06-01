@@ -16,5 +16,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> ,
     @Query("delete from Comment c where c.id = :commentId")
     void deleteById(@Param("commentId") Long commentId);
 
-    Comment findByUserEmailAndGameId(String email ,Long gameId);
+    Comment findByUserEmailAndGameId(String email ,Integer gameId);
 }

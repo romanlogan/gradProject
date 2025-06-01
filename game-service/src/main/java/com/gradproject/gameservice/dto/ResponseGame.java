@@ -46,10 +46,6 @@ public class ResponseGame {
                 .enemyHp(game.getEnemyHp())
                 .money(game.getMoney())
                 .playerEmail(game.getPlayerEmail())
-//                history 에서 가져올 것
-//                .startTime(game.getStartTime())
-//                .endTime(game.getEndTime())
-//                .exitType(game.getExitType())
                 .build();
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CommentRepositoryCustom {
 
-    List<CommentDto> getCommentDtoListBy(Long gameId);
+    List<CommentDto> getCommentDtoListBy(Integer gameId);
 }

@@ -14,7 +14,7 @@ public class CommentDto {
     private Long id;
     private String content;
     private String userEmail;
-    private Long gameId;
+    private Integer gameId;
     private LocalDateTime createdAt;
 
     private List<ReplyDto> replyDtoList;
@@ -23,7 +23,7 @@ public class CommentDto {
     }
 
     @QueryProjection
-    public CommentDto(Long id, String content, String userEmail, Long gameId, LocalDateTime createdAt) {
+    public CommentDto(Long id, String content, String userEmail, Integer gameId, LocalDateTime createdAt) {
         this.id = id;
         this.content = content;
         this.userEmail = userEmail;

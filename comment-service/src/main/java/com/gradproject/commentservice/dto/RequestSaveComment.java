@@ -20,6 +20,8 @@ public class RequestSaveComment {
     @Size(max = 255, min = 1, message = "Please write your comment between 1 and 255 characters.")
     private String content;
 
+    private String userEmail;
+
     public RequestSaveComment() {
     }
 

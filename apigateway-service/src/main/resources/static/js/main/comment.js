@@ -59,7 +59,6 @@ function saveComment(){
         data     : param,
         dataType : "json",
         beforeSend: function(xhr) {
-            // 헤더에 토큰 추가
             xhr.setRequestHeader("Authorization", "Bearer"+token);
         },
         cache   : false,
@@ -93,7 +92,6 @@ function saveComment(){
                 showSuccessMessage('Comment has been successfully posted.');
 
             }
-            // alert("확인되었습니다.");
             // location.href = "http://127.0.0.1:8000/game-service/main"
 
         },
@@ -103,7 +101,6 @@ function saveComment(){
 
                 showErrorMessage('We apologize for the inconvenience. Please try again later.');
 
-                // alert("서비스 이용에 불편을 드려 죄송합니다. 현재 댓글 서비스에 문제가 발생하였습니다.")
                 // location.href = "http://127.0.0.1:8000/game-service/main"
             }else if(jqXHR.status == 401){
                 showLoginRequiredMessage();
@@ -118,10 +115,20 @@ function saveComment(){
                 // alert(jqXHR.responseText);
                 // location.href = "http://127.0.0.1:8000/game-service/main"
             }
+            else if(jqXHR.status == 200){
+
+                showSuccessMessage('Comment has been successfully posted.');
+
+
+                // alert(jqXHR.responseText);
+                // location.href = "http://127.0.0.1:8000/game-service/main"
+            }
             else{
 
                 alert(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
-                location.href = "http://127.0.0.1:8000/game-service/main"
+                //this route will make problem because gateway host is not 127.0.0.1
+                // location.href = "http://127.0.0.1:8000/game-service/main"
+                location.href='/game-service/main';
             }
 
             // location.href = "http://127.0.0.1:8000/user-service/loginForm"
@@ -150,7 +157,6 @@ function deleteComment(commentId) {
         contentType : "application/json",
         data     : param,
         beforeSend : function(xhr){
-            /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 */
             xhr.setRequestHeader("Authorization", "Bearer" + token);
         },
         dataType : "json",
@@ -196,7 +202,6 @@ function deleteComment(commentId) {
 
             console.log(jqXHR.status+"\n"+jqXHR.responseText+"\n"+error);
 
-            // 댓글 작성 실패시 일단 대기
             // location.href = "http://127.0.0.1:8000/game-service/main"
         }
     });

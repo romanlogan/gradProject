@@ -8,7 +8,7 @@ import com.gradproject.commentservice.dto.ResponseCommentList;
 import com.gradproject.commentservice.exception.JwtNullTokenException;
 import com.gradproject.commentservice.exception.UserCommentAlreadyExistException;
 import com.gradproject.commentservice.service.CommentService;
-//import com.gradproject.commentservice.service.KafkaProducer;
+import com.gradproject.commentservice.service.KafkaProducer;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -33,16 +33,16 @@ public class CommentController {
 
     private Environment env;
 
-//    private KafkaProducer kafkaProducer;
+    private KafkaProducer kafkaProducer;
 
     @Autowired
     public CommentController(CommentService commentService,
-                             Environment env
-//                             KafkaProducer kafkaProducer
+                             Environment env,
+                             KafkaProducer kafkaProducer
                              ) {
         this.commentService = commentService;
         this.env = env;
-//        this.kafkaProducer = kafkaProducer;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @PostMapping("/save")
@@ -55,16 +55,17 @@ public class CommentController {
         }
 
         String userEmail = httpServletRequest.getHeader("X-User-Email");
-
+        request.setUserEmail(userEmail);
         Long id = null;
 
         try {
 //            blocking I/O
-            id = commentService.save(request, userEmail);
+//            id = commentService.save(request, userEmail);
 
 
 //            non-blocking I/O
-//            kafkaProducer.send("saveComment-topic",request);
+//            check user email logic move to here
+            kafkaProducer.send("saveComment-topic",request);
 
         } catch (UserCommentAlreadyExistException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -79,7 +80,7 @@ public class CommentController {
 
         log.info("before retrieve comment data");
 
-        ResponseCommentList response = commentService.getCommentList(Long.valueOf(gameId));
+        ResponseCommentList response = commentService.getCommentList(gameId);
 
         log.info("added retrieve comment data");
 

@@ -24,8 +24,6 @@ public class CardGame extends Game{
 
     private Integer money;
 
-    // 컬럼을 더 추가할 수 있음
-
     public CardGame() {
     }
 
