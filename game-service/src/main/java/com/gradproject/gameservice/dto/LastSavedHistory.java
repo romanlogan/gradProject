@@ -1,6 +1,7 @@
 package com.gradproject.gameservice.dto;
 
 import com.gradproject.gameservice.constant.ExitType;
+import com.gradproject.gameservice.entity.CardGameHistory;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,38 @@ public class LastSavedHistory {
 
     public LastSavedHistory() {
     }
+
+    @Builder
+    public LastSavedHistory(Long id, LocalDateTime startTime, LocalDateTime endTime, ExitType exitType, Integer gameId, String userEmail, Integer hp, String cards, String route, Map<String, Integer> enemies, String errorMessage) {
+        this.id = id;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.exitType = exitType;
+        this.gameId = gameId;
+        this.userEmail = userEmail;
+        this.hp = hp;
+        this.cards = cards;
+        this.route = route;
+        this.enemies = enemies;
+        this.errorMessage = errorMessage;
+    }
+
+    public static LastSavedHistory create(CardGameHistory cardGameHistory) {
+
+        return LastSavedHistory.builder()
+                .id(cardGameHistory.getId())
+                .startTime(cardGameHistory.getStartTime())
+                .endTime(cardGameHistory.getEndTime())
+                .exitType(cardGameHistory.getExitType())
+                .gameId(cardGameHistory.getGameId())
+                .userEmail(cardGameHistory.getUserEmail())
+                .hp(cardGameHistory.getHp())
+                .cards(cardGameHistory.getCards())
+                .route(cardGameHistory.getRoute())
+                .enemies(cardGameHistory.getEnemies())
+                .build();
+    }
+
 
     @Builder
     public LastSavedHistory(String errorMessage) {

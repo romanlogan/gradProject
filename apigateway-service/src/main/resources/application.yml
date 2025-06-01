@@ -167,16 +167,24 @@ spring:
 #            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
 
 #---------game service----------
-        - id: history-service
-          uri: lb://HISTORY-SERVICE
+        - id: game-service
+          uri: lb://GAME-SERVICE
+          predicates:
+            - Path=/game-service/test
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/game-service/(?<segment>.*), /$\{segment}
+        - id: game-service
+          uri: lb://GAME-SERVICE
           predicates:
             - Path=/game-service/lastSavedHistory
             - Method=GET
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
-        - id: history-service
-          uri: lb://HISTORY-SERVICE
+        - id: game-service
+          uri: lb://GAME-SERVICE
           predicates:
             - Path=/game-service/getPlayedGameList/**
             - Method=GET

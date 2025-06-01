@@ -1,5 +1,8 @@
 package com.gradproject.commentservice.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gradproject.commentservice.client.ReplyServiceClient;
 import com.gradproject.commentservice.dto.*;
 import com.gradproject.commentservice.entity.Comment;
@@ -7,18 +10,23 @@ import com.gradproject.commentservice.exception.CommentNotExistException;
 import com.gradproject.commentservice.exception.UserCommentAlreadyExistException;
 import com.gradproject.commentservice.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 @Transactional
+@Slf4j
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
@@ -36,18 +44,57 @@ public class CommentServiceImpl implements CommentService {
 
     public Long save(RequestSaveComment request, String email) {
 
-        //1명의 회원은 1개의 댓글만 작성 가능하다
+        // A member can post only one comment.
         Comment existedComment = commentRepository.findByUserEmailAndGameId(email, Long.valueOf(request.getGameId()));
 
         if (existedComment != null) {
 
-            throw new UserCommentAlreadyExistException("댓글은 1번만 작성할 수 있습니다.");
+            throw new UserCommentAlreadyExistException("A comment has already been posted.");
         }
 
         Comment comment = Comment.create(request, email);
 
         return commentRepository.save(comment).getId();
     }
+
+//    @KafkaListener(topics = "saveComment-topic")
+//    public void saveByKafka(String email, String kafkaMessage) {
+//
+//        log.info("Kafka Message: ->" + kafkaMessage);
+//
+//        Map<Object, Object> map = new HashMap<>();
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//
+////        string to json
+//        try {
+//            map = mapper.readValue(kafkaMessage, new TypeReference<Map<Object, Object>>() {});
+//        } catch (JsonProcessingException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//        Integer gameId = (Integer) map.get("gameId");
+//        String content = (String) map.get("content");
+//
+//        System.out.println("gameId = " + gameId);
+//        System.out.println("content = " + content);
+//
+////        RequestSaveComment request = RequestSaveComment.create();
+//
+//
+//        // A member can post only one comment.
+////        Comment existedComment = commentRepository.findByUserEmailAndGameId(email, Long.valueOf(request.getGameId()));
+////
+////        if (existedComment != null) {
+////
+////            throw new UserCommentAlreadyExistException("A comment has already been posted.");
+////        }
+////
+////        Comment comment = Comment.create(request, email);
+////
+////        return commentRepository.save(comment).getId();
+//    }
+
 
     @Override
     public ResponseCommentList getCommentList(Long gameId) {
