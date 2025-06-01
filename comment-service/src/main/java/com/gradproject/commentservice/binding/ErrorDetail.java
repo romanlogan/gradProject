@@ -8,7 +8,6 @@ import lombok.Setter;
 @Setter
 public class ErrorDetail<T> {
 
-//    private String errorName;
     private T rejectedValue;
     private String message;
 

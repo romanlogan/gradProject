@@ -37,19 +37,19 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
             ServerHttpRequest request = exchange.getRequest();
             String token = extractJwtFromRequest(request);
 
-            //token 에서 userEmail 뽑기
             try {
-                // token에서 사용자 이메일 추출
+                //Extract userEmail from token
                 String userEmail = getSubjectInJwt(token);
 
-                // 헤더에 사용자 이메일 추가
+                // Add user email to header
                 ServerHttpRequest modifiedRequest = request.mutate()
                         .header("X-User-Email", userEmail)
                         .build();
 
                 return chain.filter(exchange.mutate().request(modifiedRequest).build());
             } catch (JwtNullTokenException | ExpiredJwtException e) {
-                // JWT 예외 발생 시 401 응답 반환
+
+                // Return 401 response when JWT exception occurs
                 return handleError(exchange, e.getMessage());
             }
         };
@@ -59,7 +59,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         exchange.getResponse().getHeaders().add("Content-Type", "application/json");
 
-//        생각해보니 401 UNAUTHORIZED 만 반환해주면 프론트에서 사용자가 볼 수 있는 에러 메세지를 생성하므로
+        //Returns a 401 UNAUTHORIZED error and the error message is rewritten on the front end.
         byte[] bytes = String.format("{\"error\": \"%s\"}", errorMessage).getBytes();
         return exchange.getResponse().writeWith(Mono.just(exchange.getResponse()
                 .bufferFactory()
@@ -69,13 +69,13 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
     private String getSubjectInJwt(String token) throws JwtNullTokenException {
 
         if (token == null) {
-            throw new JwtNullTokenException("유효하지 않은 token 입니다. (null)");
+            throw new JwtNullTokenException("Invalid token.");
         }
 
         String replacedToken = token.replace("Bearer", "");
 
         if (replacedToken.equals("null")) {
-            throw new JwtNullTokenException("유효하지 않은 token 입니다. (null string token)");
+            throw new JwtNullTokenException("Invalid token.");
         }
 
         String subject = Jwts.parser()
@@ -89,8 +89,7 @@ public class AuthorizationFilter extends AbstractGatewayFilterFactory<Authorizat
 
     private String extractJwtFromRequest(ServerHttpRequest request) {
 
-        String bearerToken = request.getHeaders().getFirst("Authorization");
-        return bearerToken;
+        return request.getHeaders().getFirst("Authorization");
     }
 
 

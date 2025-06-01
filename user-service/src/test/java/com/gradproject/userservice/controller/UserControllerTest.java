@@ -135,18 +135,11 @@ class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
-                //2개 중 한개가 랜덤으로 들어가나 ?
                 .andExpect(jsonPath("$.errorMap.pwd.message").value("Password must be equal or grater than 8 characters"))
 //                .andExpect(jsonPath("$.errorMap.pwd.message").value("Password must be equal or grater than 8 characters"))
                 .andExpect(jsonPath("$.errorMap.pwd.rejectedValue").value(" "));
     }
 
-
-
-
-//    로그인 관련 핸들링 다시 공부 할것
-
-//    401 에러가 뜨는 이유는 ?
     @Test
     @DisplayName("login will be successful, when send correct password")
     void login() throws Exception{

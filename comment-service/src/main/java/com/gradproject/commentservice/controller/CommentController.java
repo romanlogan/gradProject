@@ -62,9 +62,7 @@ public class CommentController {
 //            blocking I/O
 //            id = commentService.save(request, userEmail);
 
-
 //            non-blocking I/O
-//            check user email logic move to here
             kafkaProducer.send("saveComment-topic",request);
 
         } catch (UserCommentAlreadyExistException e) {

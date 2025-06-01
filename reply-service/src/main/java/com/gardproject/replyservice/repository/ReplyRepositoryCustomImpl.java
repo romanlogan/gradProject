@@ -15,11 +15,8 @@ public class ReplyRepositoryCustomImpl implements ReplyRepositoryCustom {
     private JPAQueryFactory queryFactory;
 
     public ReplyRepositoryCustomImpl(EntityManager entityManager) {
-
         this.queryFactory = new JPAQueryFactory(entityManager);
     }
-
-
 
     public List<ReplyDto> getReplyDtosByCommentId(Long commentId) {
 

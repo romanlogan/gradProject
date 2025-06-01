@@ -41,12 +41,12 @@ class CommentControllerTest {
 
         RequestSaveComment request = new RequestSaveComment(1, "content1");
 
-        // Mock Token 생성
+        // generate Mock Token
         String token = getToken();
 //        String token = "BearereyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.sjnGgorV5Yv12ymk_8fNkvxJmGmE-nHR0Cao87UdGBS9WYMrT91rqFWhXFD0NN2zPIWP3cPui04r1Ycn2R6maw";
 
         mockMvc.perform(MockMvcRequestBuilders.post("/save")
-                        .header(HttpHeaders.AUTHORIZATION, token)  // 토큰 헤더 추가
+                        .header(HttpHeaders.AUTHORIZATION, token)               // add token header
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                 )

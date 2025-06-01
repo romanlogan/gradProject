@@ -12,7 +12,6 @@ import java.util.Map;
 public class ResponseHistory {
 
     Map<Long, PlayedGameInfo> playedGameInfoMap = new HashMap<>();
-
     public ResponseHistory() {
     }
 
@@ -29,8 +28,6 @@ public class ResponseHistory {
     }
 
     public static ResponseHistory createEmpty() {
-
-//        this.playedGameInfoMap = new HashMap<>();
 
         return ResponseHistory.builder()
                 .playedGameInfoMap(new HashMap<>())

@@ -51,15 +51,12 @@ public class UserServiceImpl implements UserService {
                            RestTemplate restTemplate,
                            KafkaTemplate<String, String> kafkaTemplate){
 
-//                           OrderServiceClient orderServiceClient) {
-
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.env = environment;
         this.restTemplate = restTemplate;
         this.historyServiceClient = historyServiceClient;
         this.circuitBreakerFactory = circuitBreakerFactory;
-//        this.orderServiceClient = orderServiceClient;
         this.kafkaTemplate = kafkaTemplate;
     }
 
@@ -72,8 +69,6 @@ public class UserServiceImpl implements UserService {
 
         userDto.setUserId(UUID.randomUUID().toString());
         UserEntity userEntity = UserEntity.create(userDto, passwordEncoder);
-
-
         userRepository.save(userEntity);
 
         return userEntity.getId();
@@ -107,7 +102,7 @@ public class UserServiceImpl implements UserService {
                 true,
                 true,
                 true,
-                new ArrayList<>());  //로그인 된 후 할 수 있는 권한을 추가
+                new ArrayList<>());     //Add permissions that can be done after logging in
     }
 
     @Override
@@ -117,9 +112,6 @@ public class UserServiceImpl implements UserService {
 
         if (userEntity == null)
             throw new UsernameNotFoundException(email);
-
-//        ModelMapper mapper = new ModelMapper ();
-//        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
         return userDto;
@@ -150,15 +142,7 @@ public class UserServiceImpl implements UserService {
     public ResponseMyInfo getResponseMyInfoByKafka(String topic, String email) {
 
         UserEntity userEntity = userRepository.findByEmail(email);
-
         checkUserExist(email, userEntity);
-
-//        log.info("before call history service");
-//        CircuitBreaker circuitbreaker = circuitBreakerFactory.create("circuitbreaker");
-
-//        ResponseEntity<ResponseHistory> historyResponse =
-//                circuitbreaker.run(() -> historyServiceClient.getPlayedGameList(email),
-//                        throwable -> ResponseEntity.ok(ResponseHistory.createEmpty()));
 
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = "";
@@ -172,10 +156,6 @@ public class UserServiceImpl implements UserService {
 
         log.info("Kafka Producer sent data from the user microservice: " + email);
         log.info("result: " + result);
-
-
-//        log.info("after call history service");
-//        ResponseHistory history = historyResponse.getBody();
 
         return ResponseMyInfo.create(userEntity, null);
     }

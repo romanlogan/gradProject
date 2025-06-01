@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "userEntity")
 public class UserEntity {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -47,7 +46,6 @@ public class UserEntity {
                 .email(userDto.getEmail())
                 .name(userDto.getName())
                 .userId(userDto.getUserId())
-//                .encryptedPwd(userDto.getEncryptedPwd())
                 .encryptedPwd(passwordEncoder.encode(userDto.getPwd()))
                 .build();
     }

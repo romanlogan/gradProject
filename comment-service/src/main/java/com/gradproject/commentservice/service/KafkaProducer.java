@@ -26,7 +26,6 @@ public class KafkaProducer {
         ObjectMapper mapper = new ObjectMapper();
 
         String jsonInString = "";
-
         try{
             jsonInString = mapper.writeValueAsString(request);
         } catch (JsonProcessingException e) {
@@ -34,7 +33,6 @@ public class KafkaProducer {
         }
 
         kafkaTemplate.send(topic, jsonInString);
-
         log.info("successfully send data by kafka");
         return request;
     }

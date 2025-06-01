@@ -17,11 +17,7 @@ public class UserDto {
     private Date createdAt;
 
     private String decryptedPwd;
-
     private String encryptedPwd;
-
-//    private List<ResponseOrder> orders;
-
 
     public UserDto() {
     }

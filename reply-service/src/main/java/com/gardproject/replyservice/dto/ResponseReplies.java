@@ -35,7 +35,7 @@ public class ResponseReplies {
     public static ResponseReplies error() {
 
         return ResponseReplies.builder()
-                .errorMessage("에러 발생 ")
+                .errorMessage("error occur")
                 .build();
     }
 }

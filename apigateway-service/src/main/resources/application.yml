@@ -8,7 +8,6 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka
 
-
 spring:
   application:
     name: apigateway-service
@@ -43,8 +42,6 @@ spring:
           predicates:
             - Path=/
             - Method=GET
-          filters:
-#            - RewritePath=/reply-service/(?<segment>.*), /$\{segment}
         - id: platform-service
           uri: lb://PLATFORM-SERVICE
           predicates:
@@ -58,7 +55,6 @@ spring:
             - Path=/reply-service/delete
             - Method=DELETE
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/reply-service/(?<segment>.*), /$\{segment}
             - name: AuthorizationFilter
         - id: reply-service
@@ -67,7 +63,6 @@ spring:
             - Path=/reply-service/update
             - Method=PUT
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/reply-service/(?<segment>.*), /$\{segment}
             - name: AuthorizationFilter
         - id: reply-service
@@ -76,7 +71,6 @@ spring:
             - Path=/reply-service/replies
             - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/reply-service/(?<segment>.*), /$\{segment}
         - id: reply-service
           uri: lb://REPLY-SERVICE
@@ -84,9 +78,9 @@ spring:
             - Path=/reply-service/save
             - Method=POST
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/reply-service/(?<segment>.*), /$\{segment}
             - name: AuthorizationFilter
+
 #        comment-service
         - id: comment-service
           uri: lb://COMMENT-SERVICE
@@ -94,7 +88,6 @@ spring:
             - Path=/comment-service/update
             - Method=PUT
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/comment-service/(?<segment>.*), /$\{segment}
             - name: AuthorizationFilter
         - id: comment-service
@@ -103,7 +96,6 @@ spring:
             - Path=/comment-service/delete
             - Method=DELETE
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/comment-service/(?<segment>.*), /$\{segment}
             - name: AuthorizationFilter
         - id: comment-service
@@ -112,7 +104,6 @@ spring:
              - Path=/comment-service/getCommentList/**
              - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/comment-service/(?<segment>.*), /$\{segment}
         - id: comment-service
           uri: lb://COMMENT-SERVICE
@@ -120,7 +111,6 @@ spring:
             - Path=/comment-service/save
             - Method=POST
           filters:
-#            - RemoveRequestHeader=Cookie
             - RewritePath=/comment-service/(?<segment>.*), /$\{segment}
             - name: AuthorizationFilter
         - id: comment-service
@@ -129,59 +119,15 @@ spring:
             - Path=/comment-service/actuator/**
             - Method=GET,POST
           filters:
-#            - RemoveRequestHeader=Cookie
             - RewritePath=/comment-service/(?<segment>.*), /$\{segment}
 
-#              history service
-#        - id: history-service
-#          uri: lb://HISTORY-SERVICE
-#          predicates:
-#            - Path=/history-service/lastSavedHistory
-#            - Method=GET
-#          filters:
-#            - RemoveRequestHeader=Cookie
-#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
-#        - id: history-service
-#          uri: lb://HISTORY-SERVICE
-#          predicates:
-#            - Path=/history-service/getPlayedGameList/**
-#            - Method=GET
-#          filters:
-#            - RemoveRequestHeader=Cookie
-#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
-#        - id: history-service
-#          uri: lb://HISTORY-SERVICE
-#          predicates:
-#            - Path=/history-service/save
-#            - Method=POST
-#          filters:
-#            #            - RemoveRequestHeader=Cookie
-#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
-#        - id: history-service
-#          uri: lb://HISTORY-SERVICE
-#          predicates:
-#            - Path=/history-service/actuator/**
-#            - Method=GET,POST
-#          filters:
-#            - RemoveRequestHeader=Cookie
-#            - RewritePath=/history-service/(?<segment>.*), /$\{segment}
-
 #---------game service----------
-        - id: game-service
-          uri: lb://GAME-SERVICE
-          predicates:
-            - Path=/game-service/test
-            - Method=GET
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
           predicates:
             - Path=/game-service/lastSavedHistory
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -189,7 +135,6 @@ spring:
             - Path=/game-service/getPlayedGameList/**
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -197,7 +142,6 @@ spring:
             - Path=/game-service/loading
             - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -205,7 +149,6 @@ spring:
             - Path=/game-service/test
             - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -213,7 +156,6 @@ spring:
             - Path=/game-service/cardLibrary.json
             - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -221,7 +163,6 @@ spring:
             - Path=/game-service/main/**
             - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -229,7 +170,6 @@ spring:
             - Path=/game-service/main
             - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -237,7 +177,6 @@ spring:
             - Path=/game-service/getRecentlyPlayedGame/**
             - Method=GET
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -245,7 +184,6 @@ spring:
             - Path=/game-service/save
             - Method=POST
           filters:
-            #            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -253,7 +191,6 @@ spring:
             - Path=/game-service/cardGame
             - Method=GET
           filters:
-#            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -261,7 +198,6 @@ spring:
             - Path=/game-service/actuator/**
             - Method=GET,POST
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
         - id: game-service
           uri: lb://GAME-SERVICE
@@ -269,8 +205,8 @@ spring:
             - Path=/game-service/**
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/game-service/(?<segment>.*), /$\{segment}
+
 #          user-service
         - id: user-service
           uri: lb://USER-SERVICE
@@ -278,16 +214,13 @@ spring:
             - Path=/user-service/myInfo
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-#            - AuthorizationHeaderFilter
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/users
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -295,7 +228,6 @@ spring:
             - Path=/user-service/loginForm
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -303,7 +235,6 @@ spring:
             - Path=/user-service/registration
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -311,7 +242,6 @@ spring:
             - Path=/user-service/main
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -319,7 +249,6 @@ spring:
             - Path=/user-service/login
             - Method=POST
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -327,7 +256,6 @@ spring:
             - Path=/user-service/users
             - Method=POST
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -335,16 +263,13 @@ spring:
             - Path=/user-service/**
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-#            - AuthorizationHeaderFilter
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/validateJwt
             - Method=GET
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
         - id: user-service
           uri: lb://USER-SERVICE
@@ -352,16 +277,7 @@ spring:
             - Path=/user-service/actuator/**
             - Method=GET,POST
           filters:
-            - RemoveRequestHeader=Cookie
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
-
-
-
-
-#bootstrap.yml 을 써서 외부 구성 파일을 사용하면 실행 순서만 우선순위가 아니라 중복 작성시 외부 구성파일이 우선으로 작동되는것인가 ?
-#깜빡하고 여기 안지우고 돌렸지만 제대로 동작
-#token:
-#  secret: value1
 
 management:
   endpoints:

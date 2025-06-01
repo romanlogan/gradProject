@@ -36,20 +36,13 @@ class CommentServiceImplTest {
     @Autowired
     CommentRepository commentRepository;
 
-
     @BeforeEach
     void createMember() {
 
 //        userServiceClient.createUser(new RequestUser("test1@test1.com","test1","1234"));
 //        userServiceClient.createUser(new RequestUser("test2@test2.com","test2","1234"));
 //        userServiceClient.createUser(new RequestUser("test3@test3.com", "test3", "1234"));
-
-
-//        delete 메서드를 user-service 에 만들어서 지우기
-
-
     }
-
 
     @Test
     @DisplayName("save comment")
@@ -74,7 +67,7 @@ class CommentServiceImplTest {
 
         assertThatThrownBy(() -> commentService.save(RequestSaveComment.create(999, "test content2"), "test@test.com"))
                 .isInstanceOf(UserCommentAlreadyExistException.class)
-                .hasMessage("댓글은 1번만 작성할 수 있습니다.");
+                .hasMessage("A comment has already been posted.");
     }
 
     @Test
@@ -134,7 +127,7 @@ class CommentServiceImplTest {
 
         assertThatThrownBy(() -> commentService.update(requestUpdate))
                 .isInstanceOf(CommentNotExistException.class)
-                .hasMessage("존재하지 않는 댓글 입니다.");
+                .hasMessage("This comment does not exist.");
     }
 
 

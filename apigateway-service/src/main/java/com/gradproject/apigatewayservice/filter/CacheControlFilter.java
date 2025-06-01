@@ -14,10 +14,10 @@ public class CacheControlFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-//        System.out.println("----------Cache Control Filter----------");
         String path = exchange.getRequest().getURI().getPath();
 
-        // 특정 파일 형식에 대한 캐시 제어 적용
+//        When modifying js, prevents the js file from being stored in the cache
+//        and the changes not being reflected.
         if (path.endsWith(".js")) {
             exchange.getResponse()
                     .getHeaders()
@@ -31,6 +31,7 @@ public class CacheControlFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -1; // 우선순위를 낮게 설정하여 먼저 실행되도록 합니다.
+        // Set the priority to low so that it runs first.
+        return -1;
     }
 }

@@ -100,23 +100,13 @@ public class CommentServiceImpl implements CommentService {
 
         for (CommentDto commentDto : commentDtoList) {
 
-            //commentID 로 그 댓글의 reply 들을 가져오기
-
-//            ResponseEntity<ResponseReplies> response =
-//                    replyServiceClient.getReplies(Math.toIntExact(commentDto.getId()));
-
+            //Get the replies to that comment using commentID
             ResponseEntity<ResponseReplies> response =
                     circuitbreaker.run(() -> replyServiceClient.getReplies(Math.toIntExact(commentDto.getId())),
-//                            throwable -> ResponseEntity.ok(new ResponseReplies("에러 발생 ")));
                             throwable -> ResponseEntity.ok(ResponseReplies.error()));
 
-
-//            commentDto 에 붙이기'
-            List<ReplyDto> replyDtos = response.getBody().getReplyDtoList();
-            commentDto.setReplyDtoList(replyDtos);
-
+            commentDto.setReplyDtoList(response.getBody().getReplyDtoList());
         }
-
         return new ResponseCommentList(commentDtoList);
     }
 
@@ -133,9 +123,8 @@ public class CommentServiceImpl implements CommentService {
         Optional<Comment> optionalComment = commentRepository.findById(Long.valueOf(requestUpdate.getCommentId()));
 
         if (optionalComment.isEmpty()) {
-            throw new CommentNotExistException("존재하지 않는 댓글 입니다.");
+            throw new CommentNotExistException("This comment does not exist.");
         }
-
         Comment comment = optionalComment.get();
         comment.update(requestUpdate);
 

@@ -1,10 +1,4 @@
 
-/* 인트로  */
-/*#emptyBox{*/
-/*    background-color: rgba(95, 56, 39);*/
-
-/*}*/
-
 #intro{
     background-color: rgba(95, 56, 39);
 }
@@ -12,7 +6,6 @@
 #intro-container{
     margin-left: 200px;
     margin-right: 200px;
-    /*background-color: rgba(95, 56, 39);*/
 }
 
 #emptyBox{
@@ -22,7 +15,6 @@
 
 #game-info{
     background-color: rgba(245, 238, 225);
-    /* background-color: blue; */
     height: 600px;
 }
 
@@ -69,23 +61,20 @@
     background-color: rgba(245, 238, 225);
     width: 100%;
     height: 800px;
-    display: flex;               /* Flexbox를 사용합니다 */
-    justify-content: center;      /* 가로 중앙 정렬 */
-    align-items: center;          /* 세로 중앙 정렬 */
-    /* height: 100%; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #screenshot-title{
     background-color: rgba(245, 238, 225);
     margin-bottom: 0;
-    display: flex;               /* Flexbox를 사용합니다 */
-    justify-content: center;      /* 가로 중앙 정렬 */
-    align-items: center;          /* 세로 중앙 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #screenshot-box{
-    /* margin-left: 300px; */
-    /* margin-right: 100px; */
 }
 
 #intro-last-empty{
@@ -125,7 +114,6 @@
     top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.0);
-    /* color: rgba(95, 56, 39); */
     border: none;
     padding: 10px;
     cursor: pointer;

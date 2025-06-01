@@ -59,7 +59,6 @@ public class ReplyController {
 
         ResponseReplies response = replyService.getReplies(Long.valueOf(commentId));
 
-//        return new ResponseEntity(response, HttpStatus.OK);
         return ResponseEntity.ok(response);
     }
 

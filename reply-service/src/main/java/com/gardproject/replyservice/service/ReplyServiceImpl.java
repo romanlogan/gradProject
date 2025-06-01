@@ -25,7 +25,6 @@ public class ReplyServiceImpl implements ReplyService {
     public Long save(RequestSave requestSave, String email) {
 
         Reply reply = new Reply(requestSave.getContent(), Long.valueOf(requestSave.getCommentId()), email, requestSave.getCreatedAt());
-
         Reply savedReply = replyRepository.save(reply);
         return savedReply.getId();
     }
@@ -51,8 +50,7 @@ public class ReplyServiceImpl implements ReplyService {
         Optional<Reply> optionalReply = replyRepository.findById(Long.valueOf(requestUpdate.getReplyId()));
 
         if (optionalReply.isEmpty()) {
-//            throw new CommentNotExistException("존재하지 않는 댓글 입니다.");
-            throw new ReplyNotExistException("존재하지 않는 reply 입니다.");
+            throw new ReplyNotExistException("This reply does not exist.");
         }
 
         Reply reply = optionalReply.get();

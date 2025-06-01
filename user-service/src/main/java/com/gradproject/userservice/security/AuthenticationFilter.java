@@ -51,18 +51,16 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         this.env = env;
     }
 
-    //  로그인 로직
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
 
         String expTime = env.getProperty("token.expiration_time");
         try {
-            //전달하려는 login 값은이 post 형태로 전달되며
-            // post 형태는 requestParameter 로 받을수 없으므로 inputStream 형태로 받아야한다
+            //The login data is transmitted in the form of post.
+            // Since the post form cannot be received as a request parameter, it must be received in the form of inputStream.
             RequestLogin creds = new ObjectMapper().readValue(request.getInputStream(), RequestLogin.class);
 
-            // 비밀번호가 틀리면 에러를 발생
             String email = creds.getEmail();
             String pwd = creds.getPassword();
 
@@ -75,7 +73,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 throw new NoMatchPasswordException("No matching password found.");
             }
 
-            //
             return getAuthenticationManager().authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getEmail(),
@@ -83,12 +80,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                             new ArrayList<>()
                     )
             );
+
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    // 실제 로그인 성공시, 어떤 처리를 할지 (토큰 생성, 만료시간 설정, 로그인시 반환값)
+    //  If login is successful, return jwt
     @Override
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
@@ -96,7 +94,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authentication) throws IOException, ServletException {
 
         String expTime = env.getProperty("token.expiration_time");
-        System.out.println("token exp time : " + expTime);
 
         String username = ((User) authentication.getPrincipal()).getUsername();
         UserDto userDetails = userService.getUserDetailsByEmail(username);
@@ -108,7 +105,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .compact();
 
         response.addHeader("token", token);
-//        response.addHeader("userId", userDetails.getUserId());
     }
 }
 

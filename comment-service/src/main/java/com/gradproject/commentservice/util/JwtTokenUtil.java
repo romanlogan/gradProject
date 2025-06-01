@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class JwtTokenUtil {
 
-    private static final long EXPIRATION_TIME = 1000 * 60 * 60;  // 1시간 (ms)
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60;  // 1 hours
 
     public static String generateMockToken(String email) {
 

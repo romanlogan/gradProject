@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)      //사용자 조회 2번 영상 보기
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseUser {
 
     private String email;

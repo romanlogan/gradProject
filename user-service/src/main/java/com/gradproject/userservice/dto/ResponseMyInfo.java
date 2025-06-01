@@ -10,9 +10,7 @@ import lombok.Setter;
 public class ResponseMyInfo {
 
     private String email;
-
     private String name;
-
     private ResponseHistory history;
 
     public ResponseMyInfo() {

@@ -31,25 +31,9 @@
         }
         function getMyInfo(){
 
+            // Call validatejwt and if it is success, go to myInfo
             const token = localStorage.getItem('token');
             location.href = "/user-service/myInfo/" + token;
-
-
-            // fetch('http://127.0.0.1:8000/user-service/myInfo', {
-            //     method: 'GET', // 혹은 'POST', 'PUT' 등 필요한 HTTP 메서드 사용
-            //     headers: {
-            //         'Authorization': `Bearer` + token,
-            //         'Content-Type': 'application/json',
-            //     },
-            //     // body: JSON.stringify(data), // POST 또는 PUT 요청 시 필요
-            // })
-            //     // .then(response => response.json())
-            //     // .then(data => console.log(data))
-            //     .then(
-            //         // 비동기 방식으로 요청하니까 페이지 이동이 안되고 결과만 가져와 버리네
-            //         // location.href = "/user-service/myInfo"
-            //     )
-            //     .catch(error => console.error('Error:', error));
         }
     </script>
 
@@ -60,7 +44,6 @@
     </style>
 </head>
 <body>
-    Main 입니다
     <button id="registerFormBtn" class="btn" onclick="registerForm()">go to registerForm</button>
     <button id="loginFormBtn" class="btn" onclick="loginForm()">go to loginForm</button>
     <button id="getAllUsersBtn" class="btn" onclick="getAllUsers()">go to allUser</button>

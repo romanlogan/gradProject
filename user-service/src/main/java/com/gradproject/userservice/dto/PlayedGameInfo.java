@@ -11,13 +11,9 @@ import java.time.LocalDateTime;
 @Setter
 public class PlayedGameInfo {
 
-
     private Long gameId;
-
     private String gameName;
-
     private Long totalPlayedTimeByMin;
-
     private LocalDateTime lastPlayedDate;
 
     public PlayedGameInfo() {

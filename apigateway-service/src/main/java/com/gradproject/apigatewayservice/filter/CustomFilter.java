@@ -21,7 +21,6 @@ public class CustomFilter extends AbstractGatewayFilterFactory<CustomFilter.Conf
         //put the configuration properties
     }
 
-    // 작업할 내용
     @Override
     public GatewayFilter apply(Config config) {
 

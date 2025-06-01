@@ -7,14 +7,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//    공통 처리시 어떻게 다중 에러를 처리하면서 에러가 생긴 데이터를 다시 보낼까
 @Getter
 public class ApiResponse<T> {
 
-    private int code;   //status code 值
+    private int code;   //status code
     private HttpStatus status;
-//    private List<String> messageList;     //error message
-    private List<T> dataList;     // 성공시 반납할 데이터
+    private List<T> dataList;
     private Map<String, ErrorDetail> errorMap = new HashMap<>();
 
 
@@ -23,7 +21,6 @@ public class ApiResponse<T> {
         this.code = status.value();
         this.status = status;
         this.errorMap = errorMap;
-//        this.messageList = messageList;
         this.dataList = dataList;
     }
 

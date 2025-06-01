@@ -8,14 +8,6 @@
     position:relative;
 }
 
-/* #top .overlay{
-    position:absolute;
-    height: 100%;
-    width: 100%;
-    left: 0;
-    top: 300px;
-    background-color: rgba(0,0,0,0.65);
-} */
 
 #top .divider{
     width: 10%;
@@ -32,17 +24,13 @@
     height: 40vh;
     z-index: 100;
     display: flex;
-    justify-content: center;      /* 가로 중앙 정렬 */
-    align-items: center;          /* 세로 중앙 정렬 */
+    justify-content: center;
+    align-items: center;
 }
 
 
 #logo-icon{
     position: absolute;
-    /* background-image: url('../images/boss.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size:cover; */
     left: 26vw;
     top: 35vh;
     z-index: 101;
@@ -52,10 +40,6 @@
 
 #boss-icon-1{
     position: absolute;
-    /* background-image: url('../images/boss.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size:cover; */
     left: 39vw;
     top: 8vh;
     z-index: 3;
@@ -64,7 +48,6 @@
 }
 
 #boss-icon-2{
-    /*transform: rotate(45deg);*/
     position: absolute;
     left: 62vw;
     top: 60vh;
@@ -117,14 +100,13 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size:cover;
-    border: 12px solid rgba(95, 56, 39); /* 테두리 두께는 4px, 색상은 갈색 */
+    border: 12px solid rgba(95, 56, 39);
     width: 44vw;
     height: 55vh;
     z-index: 120;
 }
 
-
-/* 767px 이하의 범위에서 */
+/* Within the range of 767px or less */
 @media screen and (max-width: 767px){
     #top .welcome {
         padding-left: 1rem;
